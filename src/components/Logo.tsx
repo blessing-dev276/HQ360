@@ -12,7 +12,7 @@ type LogoProps = {
 };
 
 /**
- * House of Synergy flame mark: three interlocking flame strokes that read
+ * Synergy Pubs flame mark: three interlocking flame strokes that read
  * as an "S" when seen as a whole. Colors come from the theme tokens so the
  * mark can be re themed from src/styles.css.
  */
@@ -33,10 +33,10 @@ export function Logo({
         height={size}
         viewBox="0 0 48 48"
         role="img"
-        aria-label="House of Synergy flame mark"
+        aria-label="Synergy Pubs flame mark"
         className="shrink-0 overflow-visible"
       >
-        <title>House of Synergy</title>
+        <title>Synergy Pubs</title>
         <defs>
           <linearGradient id={gradId} x1="12" y1="46" x2="38" y2="2" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="var(--ember-deep)" />
@@ -82,7 +82,7 @@ export function Logo({
           className="font-serif text-[1.15rem] leading-none font-semibold tracking-tight"
           style={{ fontSize: size * 0.52 }}
         >
-          House of Synergy
+          Synergy Pubs
         </span>
       )}
     </span>

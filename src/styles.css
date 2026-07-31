@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * House of Synergy design system.
+ * Synergy Pubs design system.
  * All color values use oklch. Brand tokens map to the ember palette:
  * Ember Red #C0392B, Deep Ember #8B1E1E, Blazing Orange #E8681C,
  * Gold #D4A017, Charcoal #161311, Warm off white #FAF7F2.

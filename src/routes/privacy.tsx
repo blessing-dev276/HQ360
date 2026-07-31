@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/site/Primitives";
 import { BRAND } from "@/data/site";
 
-const title = "Privacy Policy | House of Synergy";
+const title = "Privacy Policy | Synergy Pubs";
 const description =
-  "How House of Synergy collects, uses and stores personal information from website visitors, subscribers and clients.";
+  "How Synergy Pubs collects, uses and stores personal information from website visitors, subscribers and clients.";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({

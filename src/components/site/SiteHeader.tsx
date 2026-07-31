@@ -10,7 +10,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-5 py-3 lg:px-8">
-        <Link to="/" aria-label="House of Synergy home" className="shrink-0">
+        <Link to="/" aria-label="Synergy Pubs home" className="shrink-0">
           <Logo size={34} />
         </Link>
 

@@ -5,7 +5,7 @@
  */
 
 export const BRAND = {
-  name: "House of Synergy",
+  name: "Synergy Pubs",
   tagline: "Where Your Story Meets Its Spark.",
   eyebrow: "Book marketing, brand building, and press for authors and creators",
   email: "hello@houseofsynergy.co",
@@ -533,7 +533,7 @@ export const TESTIMONIALS = [
 ];
 
 export const COMPARISON = {
-  columns: ["House of Synergy", "Typical agency", "Doing it yourself"],
+  columns: ["Synergy Pubs", "Typical agency", "Doing it yourself"],
   rows: [
     {
       label: "Transparency on spend",
@@ -734,20 +734,20 @@ export const RESOURCES = [
     title: "Free Brand and Book Audit",
     body: "A written review of your listing, presence and reviews, with three prioritized fixes. Returned within five working days.",
     cta: "Request the audit",
-    file: "/resources/house-of-synergy-brand-and-book-audit.pdf",
+    file: "/resources/synergy-pubs-brand-and-book-audit.pdf",
   },
   {
     slug: "positioning-report",
     title: "Free Positioning Report",
     body: "Answer nine questions and receive a one page position statement you can use across your site, profiles and pitches.",
     cta: "Get the report",
-    file: "/resources/house-of-synergy-positioning-report.pdf",
+    file: "/resources/synergy-pubs-positioning-report.pdf",
   },
   {
     slug: "launch-checklist",
     title: "Free Launch Checklist",
     body: "The ninety day sequence we run internally, condensed into a checklist you can work through on your own.",
     cta: "Download the checklist",
-    file: "/resources/house-of-synergy-launch-checklist.pdf",
+    file: "/resources/synergy-pubs-launch-checklist.pdf",
   },
 ];

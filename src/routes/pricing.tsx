@@ -135,6 +135,40 @@ export function PricingPage() {
         <PlaceholderNote>Placeholder pricing. Confirm rates before publishing.</PlaceholderNote>
       </Section>
 
+      <Section>
+        <SectionHeading
+          eyebrow="Bundle eligibility"
+          title="How services can be combined and what changes in timelines."
+          intro="The flagship bundle is the simplest path, but you can also build a smaller bundle from the services above."
+        />
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-serif text-lg">What can be bundled</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Any ongoing service can be combined with any other ongoing service. Launch campaigns
+              are treated as a single project and can sit alongside monthly retainers such as
+              press, review outreach or email marketing.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-serif text-lg">What cannot be bundled</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              One time work such as listing optimization, media kits and positioning reports are
+              scoped separately. If they are part of a launch, they are already included inside the
+              flagship bundle.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-serif text-lg">How timelines change</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Adding services usually shortens the overall timeline because work runs in parallel.
+              A single service may take six to eight weeks; the full launch runs twelve to sixteen
+              weeks because everything is coordinated around one date.
+            </p>
+          </div>
+        </div>
+      </Section>
+
       <Section tone="raised">
         <SectionHeading
           eyebrow="Pricing FAQs"

@@ -1,7 +1,7 @@
 import video1 from "@/assets/testimonial-video-1.mp4.asset.json";
 import video2 from "@/assets/testimonial-video-2.mp4.asset.json";
 import reviewSanman from "@/assets/review-sanman.png.asset.json";
-import reviewBeverley from "@/assets/review-beverley.jpeg.asset.json";
+
 import reviewBrandon from "@/assets/review-brandon.png.asset.json";
 import reviewHmarkos from "@/assets/review-hmarkos.png.asset.json";
 import reviewDashboard from "@/assets/review-dashboard.png.asset.json";
@@ -26,11 +26,6 @@ export const REVIEW_SHOTS = [
     src: reviewSanman.url,
     alt: "Five star review from sanman_thapa praising CRM workflow, email sequences and a lift in visibility and sales",
     caption: "sanman_thapa, five star review",
-  },
-  {
-    src: reviewBeverley.url,
-    alt: "Five star review from Beverley Watts describing a promotional calendar and a noticeable lift in visibility and sales",
-    caption: "Beverley Watts, five star review",
   },
   {
     src: reviewBrandon.url,

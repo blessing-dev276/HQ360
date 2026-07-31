@@ -18,6 +18,7 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
+import { ProofSection } from "@/components/site/ProofSection";
 import {
   BRAND,
   CASES,
@@ -57,6 +58,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <ProofSection />
       <SocialProof />
       <WhoWeAre />
       <ServicesGrid />

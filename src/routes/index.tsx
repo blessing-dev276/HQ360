@@ -19,6 +19,8 @@ import {
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
 import { ProofSection } from "@/components/site/ProofSection";
+import { TeamAvatar } from "@/components/site/TeamAvatar";
+
 import {
   BRAND,
   CASES,

@@ -6,6 +6,7 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
+import { TeamSocials } from "@/components/site/TeamSocials";
 import { DIFFERENTIATORS, PROCESS, TEAM } from "@/data/site";
 
 

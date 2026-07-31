@@ -402,7 +402,7 @@ function Team() {
         title="You will know exactly who is working on your name."
         intro="A small team, no rotating juniors. The strategist on your first call stays on your account."
       />
-      <ul className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {TEAM.map((m) => (
           <li key={m.name} className="rounded-2xl border border-border bg-card p-6 text-center">
             <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />

@@ -416,36 +416,35 @@ export const DIFFERENTIATORS = [
 
 export const TEAM = [
   {
-    name: "Imani Okafor",
+    name: "Blessing",
     role: "Founder and Strategy Director",
     bio: "Fifteen years in trade publicity before starting the studio. Leads positioning for every client.",
-    initials: "IO",
+    initials: "B",
+    photo: "blessing",
   },
   {
-    name: "Daniel Reyes",
+    name: "Zainab",
     role: "Head of Retail and Launch",
     bio: "Former marketplace category manager. Owns listing strategy, pricing and launch sequencing.",
-    initials: "DR",
+    initials: "Z",
+    photo: "zainab",
   },
   {
-    name: "Priya Nandakumar",
+    name: "Emmanuel",
     role: "Director of Press",
     bio: "Places clients on podcasts, in trade press and on stages. Writes every pitch by hand.",
-    initials: "PN",
+    initials: "E",
+    photo: "emmanuel",
   },
   {
-    name: "Grace Lindqvist",
+    name: "Richard",
     role: "Brand and Content Lead",
     bio: "Builds the visual and verbal identity that carries a name beyond a single book.",
-    initials: "GL",
-  },
-  {
-    name: "Marcus Bell",
-    role: "Analytics and Reporting",
-    bio: "Builds the dashboards. Kills the campaigns that are not earning their budget.",
-    initials: "MB",
+    initials: "R",
+    photo: "richard",
   },
 ];
+
 
 export const TESTIMONIALS = [
   {

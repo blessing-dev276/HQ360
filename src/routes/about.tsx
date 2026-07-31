@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  PlaceholderNote,
   PrimaryCta,
   Section,
   SectionHeading,
   StatRow,
 } from "@/components/site/Primitives";
+import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { DIFFERENTIATORS, PROCESS, TEAM } from "@/data/site";
+
 
 const title = "About and Team | House of Synergy";
 const description =
@@ -65,16 +66,11 @@ function AboutPage() {
       </Section>
 
       <Section>
-        <SectionHeading eyebrow="The team" title="Five people, named on your account." />
-        <ul className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
+        <SectionHeading eyebrow="The team" title="The people named on your account." />
+        <ul className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {TEAM.map((m) => (
             <li key={m.name} className="rounded-2xl border border-border bg-card p-6 text-center">
-              <span
-                aria-hidden="true"
-                className="bg-fire mx-auto flex size-20 items-center justify-center rounded-full font-serif text-2xl font-semibold text-white"
-              >
-                {m.initials}
-              </span>
+              <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />
               <h3 className="mt-5 font-serif text-lg">{m.name}</h3>
               <p className="mt-1 text-xs font-semibold tracking-wider text-primary uppercase">
                 {m.role}
@@ -83,8 +79,8 @@ function AboutPage() {
             </li>
           ))}
         </ul>
-        <PlaceholderNote>Placeholder profiles. Add real headshots with alt text.</PlaceholderNote>
       </Section>
+
 
       <Section tone="raised">
         <SectionHeading eyebrow="Our process" title="Six steps, in this order, every time." />

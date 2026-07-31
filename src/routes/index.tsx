@@ -362,17 +362,12 @@ function Team() {
       <SectionHeading
         eyebrow="The people"
         title="You will know exactly who is working on your name."
-        intro="Five people, no rotating juniors. The strategist on your first call stays on your account."
+        intro="A small team, no rotating juniors. The strategist on your first call stays on your account."
       />
-      <ul className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-5">
+      <ul className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {TEAM.map((m) => (
           <li key={m.name} className="rounded-2xl border border-border bg-card p-6 text-center">
-            <span
-              aria-hidden="true"
-              className="bg-fire mx-auto flex size-20 items-center justify-center rounded-full font-serif text-2xl font-semibold text-white"
-            >
-              {m.initials}
-            </span>
+            <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />
             <h3 className="mt-5 font-serif text-lg">{m.name}</h3>
             <p className="mt-1 text-xs font-semibold tracking-wider text-primary uppercase">
               {m.role}
@@ -381,9 +376,7 @@ function Team() {
           </li>
         ))}
       </ul>
-      <PlaceholderNote>
-        Placeholder team profiles. Swap initials for client supplied headshots.
-      </PlaceholderNote>
+
     </Section>
   );
 }

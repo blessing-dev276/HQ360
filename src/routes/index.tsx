@@ -19,6 +19,7 @@ import {
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
 import { AwardsSection } from "@/components/site/AwardsSection";
+import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { ProofSection } from "@/components/site/ProofSection";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { TeamSocials } from "@/components/site/TeamSocials";
@@ -64,6 +65,7 @@ function Home() {
     <>
       <Hero />
       <ProofSection />
+      <FeaturedAuthor />
       <LaunchPreview />
       <AwardsSection />
       <SocialProof />

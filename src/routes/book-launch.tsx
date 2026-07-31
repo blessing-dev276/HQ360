@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Eyebrow, PrimaryCta, Section, SectionHeading } from "@/components/site/Primitives";
+import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { LAUNCH, LAUNCH_COVERS, LAUNCH_GALLERY } from "@/data/launch";
 
 const title = "Sanman Thapa Book Launch | House of Synergy";
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/book-launch")({
 function BookLaunchPage() {
   return (
     <>
+      <FeaturedAuthor />
       <Section>
         <SectionHeading
           eyebrow="Book launch"

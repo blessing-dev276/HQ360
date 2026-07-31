@@ -142,6 +142,8 @@ function RootComponent() {
       </main>
       <SiteFooter />
       <CookieBanner />
+      <StickyCta />
+      <ExitIntentOffer />
     </QueryClientProvider>
   );
 }

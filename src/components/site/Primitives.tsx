@@ -29,7 +29,7 @@ export function Section({
   );
 }
 
-export function Eyebrow({ children, dark }: { children: ReactNode; dark?: boolean }) {
+export function Eyebrow({ children, dark }: { children: ReactNode; dark?: boolean | undefined }) {
   return (
     <p
       className={cn(
@@ -57,7 +57,7 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      {eyebrow && <Eyebrow dark={dark}>{eyebrow}</Eyebrow>}
+      {eyebrow && <Eyebrow dark={dark ?? false}>{eyebrow}</Eyebrow>}
       <h2 className="mt-3 text-3xl leading-tight text-balance sm:text-4xl lg:text-[2.75rem]">
         {title}
       </h2>

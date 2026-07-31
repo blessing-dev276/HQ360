@@ -79,4 +79,46 @@ export const LAUNCH_GALLERY = [
     alt: "Meet the author signage outside the cafe hosting the launch",
     caption: "Street level signage",
   },
+  {
+    src: signingDesk.url,
+    alt: "A reader photographing the display of copies at the signing desk",
+    caption: "At the signing desk",
+  },
+  {
+    src: trioTable.url,
+    alt: "Three guests holding copies of both titles behind the launch table",
+    caption: "Copies in hand",
+  },
+  {
+    src: familyFour.url,
+    alt: "Four guests holding the books beside the display table",
+    caption: "Family and friends",
+  },
+  {
+    src: readersThree.url,
+    alt: "Three readers holding A Fight for a Cup of Chai and From the Window",
+    caption: "Both titles on the table",
+  },
+  {
+    src: familyBanner.url,
+    alt: "The full group with books in front of the Arti Facts Publishing banner",
+    caption: "The full group",
+    wide: true,
+  },
+  {
+    src: groupWide.url,
+    alt: "Guests smiling with copies of the books at the launch venue",
+    caption: "A room of readers",
+    wide: true,
+  },
+  {
+    src: windowDisplay.url,
+    alt: "Cafe window display with book posters and the meet the author board",
+    caption: "Window display",
+  },
+  {
+    src: windowClose.url,
+    alt: "Close view of the cafe window with signed copy signage",
+    caption: "Signed copies inside",
+  },
 ];

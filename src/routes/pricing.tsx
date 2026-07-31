@@ -135,6 +135,26 @@ export function PricingPage() {
         <PlaceholderNote>Placeholder pricing. Confirm rates before publishing.</PlaceholderNote>
       </Section>
 
+      <Section tone="raised">
+        <SectionHeading
+          eyebrow="Pricing FAQs"
+          title="What is included, how long it takes, and how we measure success."
+          intro="Straight answers to the questions we hear most often before a client signs."
+        />
+        <Accordion type="single" collapsible className="mt-10">
+          {PRICING_FAQS.map((item, idx) => (
+            <AccordionItem key={item.q} value={`pricing-faq-${idx}`}>
+              <AccordionTrigger className="text-left font-sans text-base">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Section>
+
       <Section>
         <div className="flex flex-col items-start gap-6 rounded-3xl border border-border bg-card p-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">

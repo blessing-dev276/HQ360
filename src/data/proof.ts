@@ -1,7 +1,7 @@
 import video1 from "@/assets/testimonial-video-1.mp4.asset.json";
 import video2 from "@/assets/testimonial-video-2.mp4.asset.json";
 import reviewSanman from "@/assets/review-sanman.png.asset.json";
-import reviewBeverley from "@/assets/review-beverley.jpeg.asset.json";
+
 import reviewBrandon from "@/assets/review-brandon.png.asset.json";
 import reviewHmarkos from "@/assets/review-hmarkos.png.asset.json";
 import reviewDashboard from "@/assets/review-dashboard.png.asset.json";

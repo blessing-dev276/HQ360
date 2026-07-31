@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
@@ -10,8 +11,6 @@ type LogoProps = {
   size?: number;
 };
 
-let idCounter = 0;
-
 /**
  * House of Synergy flame mark: three interlocking flame strokes that read
  * as an "S" when seen as a whole. Colors come from the theme tokens so the
@@ -23,7 +22,7 @@ export function Logo({
   className,
   size = 36,
 }: LogoProps) {
-  const uid = `hos-${++idCounter}`;
+  const uid = useId().replace(/:/g, "");
   const gradId = `${uid}-fire`;
   const mono = variant === "mono";
 

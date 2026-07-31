@@ -120,6 +120,35 @@ function Hero() {
   );
 }
 
+function LaunchPreview() {
+  return (
+    <Section tone="raised">
+      <SectionHeading
+        eyebrow="Book launch"
+        title={`${LAUNCH.author} launch day`}
+        intro={LAUNCH.intro}
+      />
+      <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {LAUNCH_GALLERY.slice(0, 3).map((shot) => (
+          <li key={shot.src} className="overflow-hidden rounded-2xl border border-border bg-card">
+            <img
+              src={shot.src}
+              alt={shot.alt}
+              loading="lazy"
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <p className="px-5 py-4 text-sm text-muted-foreground">{shot.caption}</p>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-10">
+        <PrimaryCta to="/book-launch">See the Full Launch Gallery</PrimaryCta>
+      </div>
+    </Section>
+  );
+}
+
+
 function SocialProof() {
   return (
     <section className="border-y border-border bg-[oklch(0.955_0.011_82)] px-5 py-10 lg:px-8">

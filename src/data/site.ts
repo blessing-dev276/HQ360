@@ -485,6 +485,19 @@ export const TEAM = [
       email: "mailto:richard.houseofsynergy@gmail.com",
     },
   },
+  {
+    name: "Ebenezer",
+    quote: "Numbers tell you what happened. I sit with them until they tell you what to do next.",
+    initials: "E",
+    photo: "ebenezer",
+    socials: {
+      facebook: "https://www.facebook.com/houseofsynergy",
+      whatsapp: "https://wa.me/15551234567",
+      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      fiverr: "https://www.fiverr.com/houseofsynergy",
+      email: "mailto:ebenezer.houseofsynergy@gmail.com",
+    },
+  },
 ];
 
 

@@ -2,12 +2,14 @@ import blessing from "@/assets/team-blessing.jpg.asset.json";
 import zainab from "@/assets/team-zainab.jpg.asset.json";
 import emmanuel from "@/assets/team-emmanuel.jpg.asset.json";
 import richard from "@/assets/team-richard.jpg.asset.json";
+import ebenezer from "@/assets/team-ebenezer.jpg.asset.json";
 
 const PHOTOS: Record<string, string> = {
   blessing: blessing.url,
   zainab: zainab.url,
   emmanuel: emmanuel.url,
   richard: richard.url,
+  ebenezer: ebenezer.url,
 };
 
 export function TeamAvatar({

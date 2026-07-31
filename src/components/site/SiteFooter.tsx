@@ -107,7 +107,7 @@ export function SiteFooter() {
         </div>
 
         <p className="mt-10 text-xs text-[oklch(0.72_0.012_80)]">
-          Copyright {new Date().getFullYear()} House of Synergy. All rights reserved. Sample copy,
+          Copyright {new Date().getFullYear()} Synergy Pubs. All rights reserved. Sample copy,
           statistics and testimonials on this site are placeholder content for demonstration.
         </p>
       </div>

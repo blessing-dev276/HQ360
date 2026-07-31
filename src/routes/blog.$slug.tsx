@@ -12,12 +12,12 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!loaderData) {
       return {
         meta: [
-          { title: "Article not found | House of Synergy" },
+          { title: "Article not found | Synergy Pubs" },
           { name: "robots", content: "noindex" },
         ],
       };
     }
-    const title = `${loaderData.post.title} | House of Synergy`;
+    const title = `${loaderData.post.title} | Synergy Pubs`;
     return {
       meta: [
         { title },

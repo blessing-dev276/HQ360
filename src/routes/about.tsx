@@ -10,7 +10,7 @@ import { TeamSocials } from "@/components/site/TeamSocials";
 import { DIFFERENTIATORS, PROCESS, TEAM } from "@/data/site";
 
 
-const title = "About and Team | House of Synergy";
+const title = "About and Team | Synergy Pubs";
 const description =
   "A boutique studio of five people building visibility, credibility and press presence for authors, founders and experts. Meet the team and how we work.";
 
@@ -35,7 +35,7 @@ function AboutPage() {
         <SectionHeading
           eyebrow="About"
           title="We began with books. We stayed for the people behind them."
-          intro="House of Synergy opened in 2019 as a book marketing shop. Clients kept asking for the things around the book: the press, the profile, the speaking, the name. So we built those too."
+          intro="Synergy Pubs opened in 2019 as a book marketing shop. Clients kept asking for the things around the book: the press, the profile, the speaking, the name. So we built those too."
         />
         <div className="mt-10 grid max-w-4xl gap-6 text-lg leading-relaxed text-muted-foreground">
           <p>

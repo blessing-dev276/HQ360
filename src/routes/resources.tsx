@@ -4,7 +4,7 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { Section, SectionHeading } from "@/components/site/Primitives";
 import { RESOURCES } from "@/data/site";
 
-const title = "Free Resources for Authors and Founders | House of Synergy";
+const title = "Free Resources for Authors and Founders | Synergy Pubs";
 const description =
   "Three free tools: a written brand and book audit, a one page positioning report, and the ninety day launch checklist we run internally.";
 

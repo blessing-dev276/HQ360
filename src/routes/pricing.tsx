@@ -9,7 +9,7 @@ import {
 } from "@/components/site/Primitives";
 import { PRICING_ALACARTE, PRICING_FLAGSHIP } from "@/data/site";
 
-const title = "Pricing | House of Synergy";
+const title = "Pricing | Synergy Pubs";
 const description =
   "One flagship launch engagement at a flat campaign rate, plus every service priced on its own. Month to month, no long contracts, ad spend separate.";
 

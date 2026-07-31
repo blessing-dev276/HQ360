@@ -5,7 +5,7 @@
  */
 
 export const BRAND = {
-  name: "House of Synergy",
+  name: "Synergy Pubs",
   tagline: "Where Your Story Meets Its Spark.",
   eyebrow: "Book marketing, brand building, and press for authors and creators",
   email: "hello@houseofsynergy.co",
@@ -533,7 +533,7 @@ export const TESTIMONIALS = [
 ];
 
 export const COMPARISON = {
-  columns: ["House of Synergy", "Typical agency", "Doing it yourself"],
+  columns: ["Synergy Pubs", "Typical agency", "Doing it yourself"],
   rows: [
     {
       label: "Transparency on spend",

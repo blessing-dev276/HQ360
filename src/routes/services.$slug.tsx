@@ -17,10 +17,10 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Service not found | House of Synergy" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Service not found | Synergy Pubs" }, { name: "robots", content: "noindex" }],
       };
     }
-    const title = `${loaderData.service.title} | House of Synergy`;
+    const title = `${loaderData.service.title} | Synergy Pubs`;
     const description = loaderData.service.short;
     return {
       meta: [

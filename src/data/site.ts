@@ -585,16 +585,16 @@ export const PRICING_FLAGSHIP = {
 };
 
 export const PRICING_ALACARTE = [
-  { name: "Listing optimization", price: "$950", note: "One time" },
-  { name: "Goodreads and reader lists", price: "$780", note: "Per month" },
-  { name: "Bestseller launch campaign", price: "$3,200", note: "Per launch" },
-  { name: "Author branding and media kit", price: "$1,850", note: "One time" },
-  { name: "Press and PR placement", price: "$2,400", note: "Per month" },
-  { name: "Verified review campaign", price: "$1,400", note: "Per month" },
-  { name: "Email marketing and funnels", price: "$1,250", note: "Per month" },
-  { name: "Social and direct promotion", price: "$1,600", note: "Per month" },
-  { name: "Personal brand strategy", price: "$2,900", note: "Per quarter" },
-  { name: "Speaking placement", price: "$2,100", note: "Per month" },
+  { name: "Listing optimization", price: "$125", note: "One time" },
+  { name: "Goodreads and reader lists", price: "$100", note: "Per month" },
+  { name: "Bestseller launch campaign", price: "$430", note: "Per launch" },
+  { name: "Author branding and media kit", price: "$250", note: "One time" },
+  { name: "Press and PR placement", price: "$330", note: "Per month" },
+  { name: "Verified review campaign", price: "$190", note: "Per month" },
+  { name: "Email marketing and funnels", price: "$170", note: "Per month" },
+  { name: "Social and direct promotion", price: "$220", note: "Per month" },
+  { name: "Personal brand strategy", price: "$395", note: "Per quarter" },
+  { name: "Speaking placement", price: "$290", note: "Per month" },
 ];
 
 export type Faq = { q: string; a: string };

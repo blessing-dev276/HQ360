@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as BookLaunchRouteImport } from './routes/book-launch'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as GuaranteeRouteImport } from './routes/guarantee'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookLaunchRoute = BookLaunchRouteImport.update({
+  id: '/book-launch',
+  path: '/book-launch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -104,6 +110,7 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/book-launch': typeof BookLaunchRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/book-launch': typeof BookLaunchRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/book-launch': typeof BookLaunchRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/book-launch'
     | '/contact'
     | '/faqs'
     | '/guarantee'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/book-launch'
     | '/contact'
     | '/faqs'
     | '/guarantee'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/book-launch'
     | '/contact'
     | '/faqs'
     | '/guarantee'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BookLaunchRoute: typeof BookLaunchRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
   GuaranteeRoute: typeof GuaranteeRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-launch': {
+      id: '/book-launch'
+      path: '/book-launch'
+      fullPath: '/book-launch'
+      preLoaderRoute: typeof BookLaunchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BookLaunchRoute: BookLaunchRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
   GuaranteeRoute: GuaranteeRoute,
@@ -355,3 +376,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -63,6 +63,7 @@ function Home() {
     <>
       <Hero />
       <ProofSection />
+      <LaunchPreview />
       <SocialProof />
       <WhoWeAre />
       <ServicesGrid />

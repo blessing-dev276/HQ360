@@ -31,7 +31,7 @@ function VerifiedBadge({
   year: string;
   index: number;
 }) {
-  const theme = gradients[index % gradients.length];
+  const theme = gradients[index % gradients.length]!;
 
   return (
     <div className="group relative flex flex-col items-center text-center">
@@ -175,7 +175,7 @@ export function AwardsSection() {
         <SectionHeading
           eyebrow="Awards and Recognition"
           title="Trusted by platforms, readers and authors"
-          body="Independent recognition for the work we do across listing growth, launch campaigns and press placement."
+          intro="Independent recognition for the work we do across listing growth, launch campaigns and press placement."
           align="center"
         />
 

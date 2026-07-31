@@ -386,7 +386,7 @@ function Team() {
   );
 }
 
-export function Testimonials() {
+function Testimonials() {
   const [i, setI] = useState(0);
   const t = TESTIMONIALS[i]!;
 

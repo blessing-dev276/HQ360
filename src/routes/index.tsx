@@ -18,6 +18,7 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
+import { AwardsSection } from "@/components/site/AwardsSection";
 import { ProofSection } from "@/components/site/ProofSection";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { TeamSocials } from "@/components/site/TeamSocials";
@@ -64,6 +65,7 @@ function Home() {
       <Hero />
       <ProofSection />
       <LaunchPreview />
+      <AwardsSection />
       <SocialProof />
       <WhoWeAre />
       <ServicesGrid />

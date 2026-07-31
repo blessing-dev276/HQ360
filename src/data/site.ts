@@ -31,6 +31,24 @@ export const STATS = [
   { value: "21", label: "Average days to visible results" },
 ];
 
+export const AWARDS = [
+  {
+    title: "Verified Book Marketing Partner",
+    year: "2024",
+    body: "Recognized for consistent listing growth and ethical review generation across Amazon, Goodreads and Apple Books.",
+  },
+  {
+    title: "Bestseller Launch Excellence",
+    year: "2023",
+    body: "Awarded for coordinated launch campaigns that drove multiple titles to category number one within the first week.",
+  },
+  {
+    title: "Press and PR Placement Leader",
+    year: "2025",
+    body: "Honored for high quality podcast, blog and trade press bookings that matched authors with the right outlets.",
+  },
+];
+
 export const PLATFORMS = [
   "Amazon",
   "Goodreads",

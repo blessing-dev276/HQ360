@@ -88,7 +88,7 @@ export function PricingPage() {
               Book a Free Strategy Call
             </PrimaryCta>
           </article>
-            <RiskReversal className="mt-6" />
+
 
 
           <div>

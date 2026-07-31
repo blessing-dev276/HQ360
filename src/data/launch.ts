@@ -8,6 +8,14 @@ import venue from "@/assets/launch-venue.jpg.asset.json";
 import group from "@/assets/launch-group.jpg.asset.json";
 import guests from "@/assets/launch-guests.jpg.asset.json";
 import speech from "@/assets/launch-speech.jpg.asset.json";
+import signingDesk from "@/assets/launch-signing-desk.jpg.asset.json";
+import trioTable from "@/assets/launch-trio-table.jpg.asset.json";
+import familyBanner from "@/assets/launch-family-banner.jpg.asset.json";
+import readersThree from "@/assets/launch-readers-three.jpg.asset.json";
+import familyFour from "@/assets/launch-family-four.jpg.asset.json";
+import windowDisplay from "@/assets/launch-window-display.jpg.asset.json";
+import windowClose from "@/assets/launch-window-close.jpg.asset.json";
+import groupWide from "@/assets/launch-group-wide.jpg.asset.json";
 
 export const LAUNCH = {
   author: "Sanman Thapa",
@@ -70,5 +78,47 @@ export const LAUNCH_GALLERY = [
     src: venue.url,
     alt: "Meet the author signage outside the cafe hosting the launch",
     caption: "Street level signage",
+  },
+  {
+    src: signingDesk.url,
+    alt: "A reader photographing the display of copies at the signing desk",
+    caption: "At the signing desk",
+  },
+  {
+    src: trioTable.url,
+    alt: "Three guests holding copies of both titles behind the launch table",
+    caption: "Copies in hand",
+  },
+  {
+    src: familyFour.url,
+    alt: "Four guests holding the books beside the display table",
+    caption: "Family and friends",
+  },
+  {
+    src: readersThree.url,
+    alt: "Three readers holding A Fight for a Cup of Chai and From the Window",
+    caption: "Both titles on the table",
+  },
+  {
+    src: familyBanner.url,
+    alt: "The full group with books in front of the Arti Facts Publishing banner",
+    caption: "The full group",
+    wide: true,
+  },
+  {
+    src: groupWide.url,
+    alt: "Guests smiling with copies of the books at the launch venue",
+    caption: "A room of readers",
+    wide: true,
+  },
+  {
+    src: windowDisplay.url,
+    alt: "Cafe window display with book posters and the meet the author board",
+    caption: "Window display",
+  },
+  {
+    src: windowClose.url,
+    alt: "Close view of the cafe window with signed copy signage",
+    caption: "Signed copies inside",
   },
 ];

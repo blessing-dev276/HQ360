@@ -1,7 +1,7 @@
 import { Section, SectionHeading } from "@/components/site/Primitives";
 import { AWARDS } from "@/data/site";
 
-const gradients = [
+const gradients: { name: string; fill: string; stroke: string; ribbon: string }[] = [
   {
     name: "ember",
     fill: "url(#award-ember)",

@@ -1,5 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Eyebrow,
   PlaceholderNote,
   PrimaryCta,
@@ -7,7 +13,7 @@ import {
   Section,
   SectionHeading,
 } from "@/components/site/Primitives";
-import { PRICING_ALACARTE, PRICING_FLAGSHIP } from "@/data/site";
+import { PRICING_ALACARTE, PRICING_FAQS, PRICING_FLAGSHIP } from "@/data/site";
 
 const title = "Pricing | Synergy Pubs";
 const description =

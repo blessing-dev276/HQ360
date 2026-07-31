@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { CookieBanner } from "@/components/site/CookieBanner";
+import { StickyCta } from "@/components/site/StickyCta";
+import { ExitIntentOffer } from "@/components/site/ExitIntentOffer";
 
 function NotFoundComponent() {
   return (

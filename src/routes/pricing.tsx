@@ -1,5 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Eyebrow,
   PlaceholderNote,
   PrimaryCta,
@@ -7,7 +13,7 @@ import {
   Section,
   SectionHeading,
 } from "@/components/site/Primitives";
-import { PRICING_ALACARTE, PRICING_FLAGSHIP } from "@/data/site";
+import { PRICING_ALACARTE, PRICING_FAQS, PRICING_FLAGSHIP } from "@/data/site";
 
 const title = "Pricing | Synergy Pubs";
 const description =
@@ -127,6 +133,26 @@ export function PricingPage() {
           </div>
         </div>
         <PlaceholderNote>Placeholder pricing. Confirm rates before publishing.</PlaceholderNote>
+      </Section>
+
+      <Section tone="raised">
+        <SectionHeading
+          eyebrow="Pricing FAQs"
+          title="What is included, how long it takes, and how we measure success."
+          intro="Straight answers to the questions we hear most often before a client signs."
+        />
+        <Accordion type="single" collapsible className="mt-10">
+          {PRICING_FAQS.map((item, idx) => (
+            <AccordionItem key={item.q} value={`pricing-faq-${idx}`}>
+              <AccordionTrigger className="text-left font-sans text-base">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </Section>
 
       <Section>

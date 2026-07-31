@@ -670,6 +670,33 @@ export const FAQ_GROUPS: { group: string; items: Faq[] }[] = [
   },
 ];
 
+export const PRICING_FAQS: Faq[] = [
+  {
+    q: "What is included in the flagship bundle?",
+    a: "Everything needed for a coordinated launch: listing and metadata optimization, a dated bestseller campaign, verified review outreach, press and podcast pitching to twelve target outlets, a full media kit, email funnel build, weekly reporting and a named strategist on every call.",
+  },
+  {
+    q: "What is the typical timeline?",
+    a: "Most launches run twelve to sixteen weeks from kickoff. Listing work starts first, review and press outreach follow, and the final four weeks are focused on launch week velocity. Services bought alone usually show initial movement within three to four weeks.",
+  },
+  {
+    q: "How are results measured?",
+    a: "We track ranking movement, review velocity and rating, shelf and list growth, press and podcast bookings, email list growth, and sales where we have dashboard access. Every metric is reported weekly with a link to its source.",
+  },
+  {
+    q: "Can I buy services one at a time?",
+    a: "Yes. Every service has its own price and cadence. The bundle is the most efficient way to run a full launch, but you can start with one service and expand as you see results.",
+  },
+  {
+    q: "Are there any hidden fees?",
+    a: "No. The prices shown are our service fees. Advertising budget, printing, distribution, cover design and third party review platform fees are separate and paid by you directly to those providers.",
+  },
+  {
+    q: "What happens if I want to stop?",
+    a: "Give thirty days written notice and we finish any work in flight, hand over assets and remove ourselves cleanly. There are no termination penalties.",
+  },
+];
+
 export type Post = {
   slug: string;
   title: string;

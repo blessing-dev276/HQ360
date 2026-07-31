@@ -568,10 +568,10 @@ export const COMPARISON = {
 
 export const PRICING_FLAGSHIP = {
   name: "The Full Launch",
-  price: "$6,400",
-  cadence: "per campaign, month to month",
+  price: "$1,400",
+  cadence: "all services, one flat fee",
   summary:
-    "Our flagship engagement for a book or a name that needs everything moving at once. Built for a fixed launch window.",
+    "Every service below, activated together for a single launch or brand push. The fastest way to move from invisible to unforgettable.",
   features: [
     "Complete listing and metadata rebuild",
     "Bestseller launch calendar and launch team",

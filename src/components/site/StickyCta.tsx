@@ -7,9 +7,14 @@ export function StickyCta() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(true);
+  const [cookieDone, setCookieDone] = useState(false);
 
   useEffect(() => {
     setDismissed(sessionStorage.getItem("sp_sticky_cta_dismissed") === "1");
+    const check = () => setCookieDone(Boolean(localStorage.getItem("hos-cookie-consent")));
+    check();
+    const id = window.setInterval(check, 1000);
+    return () => window.clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -19,7 +24,8 @@ export function StickyCta() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (dismissed || !visible || HIDDEN_ON.includes(pathname)) return null;
+  if (dismissed || !visible || !cookieDone || HIDDEN_ON.includes(pathname)) return null;
+
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur">

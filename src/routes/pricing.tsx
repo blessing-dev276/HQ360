@@ -167,7 +167,24 @@ export function PricingPage() {
             </p>
           </div>
         </div>
+        <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="font-serif text-lg">Pricing one pager</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              A single page PDF with bundle rules, everything included, service rates and how
+              timelines shift.
+            </p>
+          </div>
+          <a
+            href="/resources/synergy-pubs-pricing-one-pager.pdf"
+            download
+            className="shrink-0 rounded-full bg-fire px-6 py-3 text-sm font-medium text-primary-foreground"
+          >
+            Download the PDF
+          </a>
+        </div>
       </Section>
+
 
       <Section tone="raised">
         <SectionHeading

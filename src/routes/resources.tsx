@@ -46,7 +46,7 @@ function ResourceForm({
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = file.split("/").pop() ?? "house-of-synergy.pdf";
+      a.download = file.split("/").pop() ?? "synergy-pubs.pdf";
       document.body.appendChild(a);
       a.click();
       a.remove();

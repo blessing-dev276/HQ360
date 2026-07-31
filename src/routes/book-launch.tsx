@@ -25,6 +25,7 @@ export const Route = createFileRoute("/book-launch")({
 function BookLaunchPage() {
   return (
     <>
+      <FeaturedAuthor />
       <Section>
         <SectionHeading
           eyebrow="Book launch"

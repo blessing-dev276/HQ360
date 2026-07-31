@@ -36,15 +36,41 @@ function ResourceForm({
   title: string;
 }) {
   const [sent, setSent] = useState(false);
+  const [count, setCount] = useState(3);
   const [email, setEmail] = useState("");
+
+  async function startDownload() {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = file.split("/").pop() ?? "house-of-synergy.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    } catch {
+      window.open(file, "_blank", "noopener");
+    }
+  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!email) return;
     setSent(true);
 
-    // Open the guide straight away so the reader has it in hand.
-    window.open(file, "_blank", "noopener");
+    // Count down, then start the download on its own.
+    let left = 3;
+    const timer = window.setInterval(() => {
+      left -= 1;
+      setCount(left);
+      if (left <= 0) {
+        window.clearInterval(timer);
+        void startDownload();
+      }
+    }, 1000);
 
     try {
       await fetch("/api/public/resource-request", {
@@ -53,17 +79,32 @@ function ResourceForm({
         body: JSON.stringify({ email, slug, title }),
       });
     } catch {
-      // The download already happened, so a delivery hiccup is not blocking.
+      // The download still runs, so a delivery hiccup is not blocking.
     }
   }
 
   if (sent) {
     return (
-      <p role="status" className="mt-6 text-sm font-medium text-primary">
-        On its way. Your copy is opening now and a copy is going to {email}.
-      </p>
+      <div role="status" className="mt-6 text-sm">
+        <p className="font-medium text-primary">
+          {count > 0
+            ? `Your download starts in ${count} second${count === 1 ? "" : "s"}.`
+            : "Your download has started."}
+        </p>
+        <p className="mt-2 text-muted-foreground">
+          A copy is also going to {email}.{" "}
+          <button
+            type="button"
+            onClick={() => void startDownload()}
+            className="text-primary underline underline-offset-4"
+          >
+            Download now
+          </button>
+        </p>
+      </div>
     );
   }
+
 
   return (
     <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-3">

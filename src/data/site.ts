@@ -460,7 +460,7 @@ export const TEAM = [
     },
   },
   {
-    name: "Ebenezer",
+    name: "Emmanuel",
     quote: "Press is not luck. It is one honest pitch, written by hand, sent to the one editor who cares.",
     initials: "E",
     photo: "emmanuel",
@@ -469,7 +469,7 @@ export const TEAM = [
       whatsapp: "https://wa.me/15551234567",
       linkedin: "https://www.linkedin.com/in/emmanuel-durosinmi-50b147325/",
       fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:ebenezer.houseofsynergy@gmail.com",
+      email: "mailto:emmanuel.houseofsynergy@gmail.com",
     },
   },
   {

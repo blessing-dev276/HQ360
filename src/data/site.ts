@@ -651,6 +651,23 @@ export const FAQ_GROUPS: { group: string; items: Faq[] }[] = [
       },
     ],
   },
+  {
+    group: "Ethics",
+    items: [
+      {
+        q: "Do you buy reviews?",
+        a: "Never. Reviews come from real readers who received and read the book. Anything else risks your account and your reputation.",
+      },
+      {
+        q: "Can you guarantee a bestseller list?",
+        a: "No, and neither can anyone else honestly. We publish exactly what we do and do not guarantee on our guarantee page.",
+      },
+      {
+        q: "Do you work with competing titles?",
+        a: "Not in the same category during an active launch window. We will tell you if a conflict exists before we sign.",
+      },
+    ],
+  },
 ];
 
 export const PRICING_FAQS: Faq[] = [
@@ -677,24 +694,6 @@ export const PRICING_FAQS: Faq[] = [
   {
     q: "What happens if I want to stop?",
     a: "Give thirty days written notice and we finish any work in flight, hand over assets and remove ourselves cleanly. There are no termination penalties.",
-  },
-];
-  {
-    group: "Ethics",
-    items: [
-      {
-        q: "Do you buy reviews?",
-        a: "Never. Reviews come from real readers who received and read the book. Anything else risks your account and your reputation.",
-      },
-      {
-        q: "Can you guarantee a bestseller list?",
-        a: "No, and neither can anyone else honestly. We publish exactly what we do and do not guarantee on our guarantee page.",
-      },
-      {
-        q: "Do you work with competing titles?",
-        a: "Not in the same category during an active launch window. We will tell you if a conflict exists before we sign.",
-      },
-    ],
   },
 ];
 

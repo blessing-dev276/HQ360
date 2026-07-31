@@ -38,6 +38,7 @@ import {
   TEAM,
   TESTIMONIALS,
 } from "@/data/site";
+import { LAUNCH, LAUNCH_GALLERY } from "@/data/launch";
 
 const title = "House of Synergy | Book Marketing and Personal Brand Agency";
 const description =

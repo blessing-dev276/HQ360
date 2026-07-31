@@ -28,11 +28,6 @@ export const REVIEW_SHOTS = [
     caption: "sanman_thapa, five star review",
   },
   {
-    src: reviewBeverley.url,
-    alt: "Five star review from Beverley Watts describing a promotional calendar and a noticeable lift in visibility and sales",
-    caption: "Beverley Watts, five star review",
-  },
-  {
     src: reviewBrandon.url,
     alt: "Five star review from Brandon reporting a Best Seller list placement and twenty copies a day",
     caption: "Brandon, five star review",

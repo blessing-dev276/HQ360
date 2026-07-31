@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  PlaceholderNote,
   PrimaryCta,
   Section,
   SectionHeading,
   StatRow,
 } from "@/components/site/Primitives";
+import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { DIFFERENTIATORS, PROCESS, TEAM } from "@/data/site";
+
 
 const title = "About and Team | House of Synergy";
 const description =

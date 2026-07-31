@@ -22,20 +22,45 @@ export const Route = createFileRoute("/resources")({
   component: ResourcesPage,
 });
 
-function ResourceForm({ id, cta }: { id: string; cta: string }) {
+function ResourceForm({
+  id,
+  cta,
+  slug,
+  file,
+  title,
+}: {
+  id: string;
+  cta: string;
+  slug: string;
+  file: string;
+  title: string;
+}) {
   const [sent, setSent] = useState(false);
   const [email, setEmail] = useState("");
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!email) return;
     setSent(true);
+
+    // Open the guide straight away so the reader has it in hand.
+    window.open(file, "_blank", "noopener");
+
+    try {
+      await fetch("/api/public/resource-request", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, slug, title }),
+      });
+    } catch {
+      // The download already happened, so a delivery hiccup is not blocking.
+    }
   }
 
   if (sent) {
     return (
       <p role="status" className="mt-6 text-sm font-medium text-primary">
-        Request received. Check your inbox within five working days.
+        On its way. Your copy is opening now and a copy is going to {email}.
       </p>
     );
   }
@@ -71,14 +96,20 @@ function ResourcesPage() {
         <SectionHeading
           eyebrow="Free resources"
           title="Useful before you ever pay us anything."
-          intro="Each of these is genuinely free. We do not put you into a pitch sequence for requesting one."
+          intro="Each of these is genuinely free. Enter your email and the guide arrives in your inbox straight away."
         />
         <ul className="mt-14 grid gap-6 lg:grid-cols-3">
           {RESOURCES.map((r, i) => (
             <li key={r.title} className="flex flex-col rounded-2xl border border-border bg-card p-8">
               <h2 className="font-serif text-2xl leading-snug">{r.title}</h2>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{r.body}</p>
-              <ResourceForm id={`resource-${i}`} cta={r.cta} />
+              <ResourceForm
+                id={`resource-${i}`}
+                cta={r.cta}
+                slug={r.slug}
+                file={r.file}
+                title={r.title}
+              />
             </li>
           ))}
         </ul>

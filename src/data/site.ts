@@ -25,10 +25,10 @@ export const NAV = [
 ] as const;
 
 export const STATS = [
-  { value: "480+", label: "Books and brands elevated" },
-  { value: "12,400+", label: "Verified five star reviews generated" },
-  { value: "310", label: "Clients served since 2019" },
-  { value: "21", label: "Average days to visible results" },
+  { value: "75+", label: "Books and brands elevated" },
+  { value: "260+", label: "Verified reviews generated" },
+  { value: "58", label: "Clients served since 2019" },
+  { value: "28", label: "Average days to visible results" },
 ];
 
 export const AWARDS = [

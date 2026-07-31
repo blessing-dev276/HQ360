@@ -21,6 +21,7 @@ import { Logo } from "@/components/Logo";
 import { AwardsSection } from "@/components/site/AwardsSection";
 import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { ProofSection } from "@/components/site/ProofSection";
+import { RiskReversal } from "@/components/site/RiskReversal";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { TeamSocials } from "@/components/site/TeamSocials";
 
@@ -589,6 +590,7 @@ function PricingPreview() {
           </p>
         </div>
       </div>
+      <RiskReversal className="mt-8" />
       <PlaceholderNote>Placeholder prices. Confirm final rates before publishing.</PlaceholderNote>
     </Section>
   );

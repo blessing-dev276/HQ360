@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
+import { RiskReversal } from "@/components/site/RiskReversal";
 import { BRAND, SERVICES } from "@/data/site";
 
 const title = "Book a Free Strategy Call | Synergy Pubs";
@@ -113,6 +114,7 @@ function ContactPage() {
                 </p>
               </form>
             )}
+            <RiskReversal className="mt-8" />
           </div>
         </div>
       </Section>

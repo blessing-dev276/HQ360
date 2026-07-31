@@ -13,6 +13,7 @@ import {
   Section,
   SectionHeading,
 } from "@/components/site/Primitives";
+import { RiskReversal } from "@/components/site/RiskReversal";
 import { PRICING_ALACARTE, PRICING_FAQS, PRICING_FLAGSHIP } from "@/data/site";
 
 const title = "Pricing | Synergy Pubs";
@@ -60,6 +61,7 @@ export function PricingPage() {
 
       <Section tone="raised" className="pt-0 lg:pt-0">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-start">
+          <div>
           <article className="rounded-3xl border-2 border-primary bg-card p-9 shadow-lift">
             <Eyebrow>Flagship bundle</Eyebrow>
             <h2 className="mt-3 font-serif text-3xl">{PRICING_FLAGSHIP.name}</h2>
@@ -88,6 +90,10 @@ export function PricingPage() {
               Book a Free Strategy Call
             </PrimaryCta>
           </article>
+          <RiskReversal className="mt-6" />
+          </div>
+
+
 
           <div>
             <h2 className="font-serif text-2xl">Services on their own</h2>

@@ -449,7 +449,7 @@ export const TEAM = [
     socials: {
       facebook: "https://www.facebook.com/houseofsynergy",
       whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      linkedin: "https://www.linkedin.com/in/emmanuel-durosinmi-50b147325/",
       fiverr: "https://www.fiverr.com/houseofsynergy",
       email: "mailto:emmanuel.houseofsynergy@gmail.com",
     },

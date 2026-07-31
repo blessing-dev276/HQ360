@@ -6,10 +6,10 @@ import {
   SecondaryCta,
   Section,
 } from "@/components/site/Primitives";
-import { SERVICES } from "@/data/site";
+import { SERVICES, type Service } from "@/data/site";
 
 export const Route = createFileRoute("/services/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { service: Service } => {
     const service = SERVICES.find((s) => s.slug === params.slug);
     if (!service) throw notFound();
     return { service };

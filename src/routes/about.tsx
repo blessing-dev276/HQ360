@@ -6,6 +6,7 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
+import { TeamSocials } from "@/components/site/TeamSocials";
 import { DIFFERENTIATORS, PROCESS, TEAM } from "@/data/site";
 
 
@@ -72,10 +73,10 @@ function AboutPage() {
             <li key={m.name} className="rounded-2xl border border-border bg-card p-6 text-center">
               <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />
               <h3 className="mt-5 font-serif text-lg">{m.name}</h3>
-              <p className="mt-1 text-xs font-semibold tracking-wider text-primary uppercase">
-                {m.role}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{m.bio}</p>
+              <blockquote className="mt-3 text-sm leading-relaxed text-muted-foreground italic">
+                “{m.quote}”
+              </blockquote>
+              <TeamSocials name={m.name} socials={m.socials} />
             </li>
           ))}
         </ul>

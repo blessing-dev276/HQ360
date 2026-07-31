@@ -417,31 +417,55 @@ export const DIFFERENTIATORS = [
 export const TEAM = [
   {
     name: "Blessing",
-    role: "Founder and Strategy Director",
-    bio: "Fifteen years in trade publicity before starting the studio. Leads positioning for every client.",
+    quote: "A book is a promise. My job is to make sure the right people hear it and believe it.",
     initials: "B",
     photo: "blessing",
+    socials: {
+      facebook: "https://www.facebook.com/houseofsynergy",
+      whatsapp: "https://wa.me/15551234567",
+      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      fiverr: "https://www.fiverr.com/houseofsynergy",
+      email: "mailto:blessing.houseofsynergy@gmail.com",
+    },
   },
   {
     name: "Zainab",
-    role: "Head of Retail and Launch",
-    bio: "Former marketplace category manager. Owns listing strategy, pricing and launch sequencing.",
+    quote: "Every listing is a shop window. I keep polishing it until the browsing stops and the buying starts.",
     initials: "Z",
     photo: "zainab",
+    socials: {
+      facebook: "https://www.facebook.com/houseofsynergy",
+      whatsapp: "https://wa.me/15551234567",
+      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      fiverr: "https://www.fiverr.com/houseofsynergy",
+      email: "mailto:zainab.houseofsynergy@gmail.com",
+    },
   },
   {
     name: "Emmanuel",
-    role: "Director of Press",
-    bio: "Places clients on podcasts, in trade press and on stages. Writes every pitch by hand.",
+    quote: "Press is not luck. It is one honest pitch, written by hand, sent to the one editor who cares.",
     initials: "E",
     photo: "emmanuel",
+    socials: {
+      facebook: "https://www.facebook.com/houseofsynergy",
+      whatsapp: "https://wa.me/15551234567",
+      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      fiverr: "https://www.fiverr.com/houseofsynergy",
+      email: "mailto:emmanuel.houseofsynergy@gmail.com",
+    },
   },
   {
     name: "Richard",
-    role: "Brand and Content Lead",
-    bio: "Builds the visual and verbal identity that carries a name beyond a single book.",
+    quote: "A name outlives a launch. I build the look and the language that carry it there.",
     initials: "R",
     photo: "richard",
+    socials: {
+      facebook: "https://www.facebook.com/houseofsynergy",
+      whatsapp: "https://wa.me/15551234567",
+      linkedin: "https://www.linkedin.com/company/houseofsynergy",
+      fiverr: "https://www.fiverr.com/houseofsynergy",
+      email: "mailto:richard.houseofsynergy@gmail.com",
+    },
   },
 ];
 

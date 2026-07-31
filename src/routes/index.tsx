@@ -20,6 +20,7 @@ import {
 import { Logo } from "@/components/Logo";
 import { ProofSection } from "@/components/site/ProofSection";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
+import { TeamSocials } from "@/components/site/TeamSocials";
 
 import {
   BRAND,

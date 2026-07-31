@@ -589,6 +589,7 @@ function PricingPreview() {
           </p>
         </div>
       </div>
+      <RiskReversal className="mt-8" />
       <PlaceholderNote>Placeholder prices. Confirm final rates before publishing.</PlaceholderNote>
     </Section>
   );

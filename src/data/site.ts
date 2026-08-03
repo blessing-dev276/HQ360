@@ -428,12 +428,14 @@ export const DIFFERENTIATORS = [
 ];
 
 export const TEAM = [
-  { name: "Blessing", role: "Launch Campaign Director", initials: "B", photo: "blessing" },
-  { name: "Zainab", role: "Listing Optimization Lead", initials: "Z", photo: "zainab" },
-  { name: "Emmanuel", role: "Press and Media Placement Lead", initials: "E", photo: "emmanuel" },
   { name: "Richard", role: "Personal Brand and Design Lead", initials: "R", photo: "richard" },
   { name: "Ebenezer", role: "Review Campaigns and Reporting Lead", initials: "E", photo: "ebenezer" },
+  { name: "Zainab", role: "Listing Optimization Lead", initials: "Z", photo: "zainab" },
+  { name: "Racheal", role: "Client Success and Coordination Lead", initials: "R", photo: "racheal" },
+  { name: "Emmanuel", role: "Press and Media Placement Lead", initials: "E", photo: "emmanuel" },
+  { name: "Blessing", role: "Launch Campaign Director", initials: "B", photo: "blessing" },
 ];
+
 
 export const TESTIMONIALS = [
   {

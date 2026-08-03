@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PrimaryCta, Section, SectionHeading } from "@/components/site/Primitives";
 
-const title = "What We Guarantee | Synergy Pubs";
+const title = "What We Guarantee | HQ360";
 const description =
   "The promises we put in writing, the ones we refuse to make, and what happens if we miss. Clear terms on reviews, rankings, press and refunds.";
 

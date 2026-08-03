@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const KEY = "sp_exit_offer_seen";
 const SLUG = "brand-and-book-audit";
 const TITLE = "The Brand and Book Audit";
-const FILE = "/resources/synergy-pubs-brand-and-book-audit.pdf";
+const FILE = "/resources/hq360-brand-and-book-audit.pdf";
 
 export function ExitIntentOffer() {
   const [open, setOpen] = useState(false);

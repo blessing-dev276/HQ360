@@ -3,9 +3,9 @@ import { PrimaryCta, Section, SectionHeading } from "@/components/site/Primitive
 import { REVIEW_SHOTS, VIDEO_TESTIMONIALS } from "@/data/proof";
 import { TESTIMONIALS } from "@/data/site";
 
-const title = "Client Reviews and Proof of Work | Synergy Pubs";
+const title = "Client Reviews and Proof of Work | HQ360";
 const description =
-  "Video testimonials, five star client reviews and campaign dashboards from authors and founders who worked with Synergy Pubs.";
+  "Video testimonials, five star client reviews and campaign dashboards from authors and founders who worked with HQ360.";
 
 export const Route = createFileRoute("/reviews")({
   head: () => ({

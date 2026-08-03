@@ -82,14 +82,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Synergy Pubs" },
+      { title: "HQ360" },
       {
         name: "description",
         content:
           "A full service studio for authors and personal brands: visibility, credibility, sales and press.",
       },
-      { name: "author", content: "Synergy Pubs" },
-      { property: "og:site_name", content: "Synergy Pubs" },
+      { name: "author", content: "HQ360" },
+      { property: "og:site_name", content: "HQ360" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
 import { POSTS } from "@/data/site";
 
-const title = "Insights on Publishing and Personal Brand | Synergy Pubs";
+const title = "Insights on Publishing and Personal Brand | HQ360";
 const description =
   "Practical writing on book marketing, retail ranking, reviews, press and building a professional name that lasts beyond one launch.";
 

@@ -4,7 +4,7 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { Section, SectionHeading } from "@/components/site/Primitives";
 import { RESOURCES } from "@/data/site";
 
-const title = "Free Resources for Authors and Founders | Synergy Pubs";
+const title = "Free Resources for Authors and Founders | HQ360";
 const description =
   "Three free tools: a written brand and book audit, a one page positioning report, and the ninety day launch checklist we run internally.";
 
@@ -46,7 +46,7 @@ function ResourceForm({
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = file.split("/").pop() ?? "synergy-pubs.pdf";
+      a.download = file.split("/").pop() ?? "hq360.pdf";
       document.body.appendChild(a);
       a.click();
       a.remove();

@@ -43,7 +43,7 @@ import {
 } from "@/data/site";
 import { LAUNCH, LAUNCH_GALLERY } from "@/data/launch";
 
-const title = "Synergy Pubs | Book Marketing and Personal Brand Agency";
+const title = "HQ360 | Book Marketing and Personal Brand Agency";
 const description =
   "A full service studio for authors and founders. Listing optimization, launch campaigns, press placement and personal brand strategy, with weekly reporting.";
 
@@ -183,7 +183,7 @@ function WhoWeAre() {
         <SectionHeading
           eyebrow="Who we are"
           title="A studio built for people whose name is the product."
-          intro="Synergy Pubs started as a book marketing shop and grew into something wider. Publishing a book, launching a company and building a reputation all run on the same engine: be found, be believed, be remembered. We run that engine for a small number of clients at a time."
+          intro="HQ360 started as a book marketing shop and grew into something wider. Publishing a book, launching a company and building a reputation all run on the same engine: be found, be believed, be remembered. We run that engine for a small number of clients at a time."
         />
         <ul className="grid gap-5">
           {DIFFERENTIATORS.map((d) => (
@@ -471,14 +471,14 @@ function Comparison() {
   return (
     <Section tone="raised">
       <SectionHeading
-        eyebrow="Why Synergy Pubs"
+        eyebrow="Why HQ360"
         title="The honest comparison."
         intro="Three ways to get this work done. Here is where we differ from a typical agency and from handling it alone."
       />
       <div className="mt-12 overflow-x-auto">
         <table className="w-full min-w-[46rem] border-collapse overflow-hidden rounded-2xl border border-border bg-card text-left">
           <caption className="sr-only">
-            Comparison of Synergy Pubs, a typical agency and doing it yourself
+            Comparison of HQ360, a typical agency and doing it yourself
           </caption>
           <thead>
             <tr>

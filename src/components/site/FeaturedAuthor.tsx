@@ -28,7 +28,7 @@ export function FeaturedAuthor() {
           <p className="mt-6 text-base leading-relaxed text-[oklch(0.83_0.012_80)] sm:text-lg">
             Two titles, a full signing room and a launch day that sold through the table. From the
             Window: The City of What Ifs and A Fight for a Cup of Chai were carried from manuscript
-            to shelf with Arti Facts Publishing and a launch campaign built by Synergy Pubs.
+            to shelf with Arti Facts Publishing and a launch campaign built by HQ360.
           </p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">
             {[

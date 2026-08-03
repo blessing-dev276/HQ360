@@ -10,7 +10,7 @@ import {
 } from "@/components/site/Primitives";
 import { CASES } from "@/data/site";
 
-const title = "Results and Case Studies | Synergy Pubs";
+const title = "Results and Case Studies | HQ360";
 const description =
   "Sample campaigns across thriller, self help, business, memoir and personal brand clients, with before and after movement on the metrics that mattered.";
 

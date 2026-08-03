@@ -154,7 +154,7 @@ function AboutPage() {
 
       <Section>
         <SectionHeading eyebrow="The team" title="The people named on your account." />
-        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {TEAM.map((m) => (
             <li key={m.name} className="rounded-2xl border border-border bg-card p-6 text-center">
               <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />

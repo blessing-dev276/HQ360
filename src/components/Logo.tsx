@@ -68,20 +68,21 @@ export function Logo({
 
         {/* Quill stroke: the Q tail rising out of the ring */}
         <path
-          d="M17.2 31.6 33.6 15.1"
+          d="M22.6 29.4 32.4 19.6"
           fill="none"
           stroke={paint}
           strokeWidth="4.2"
           strokeLinecap="round"
         />
         <path
-          d="M28.8 33.4 40.9 45.5"
+          d="M30.2 31.4 41 42.2"
           fill="none"
           stroke={paint}
           strokeWidth="4.2"
           strokeLinecap="round"
           opacity={mono ? 0.72 : 1}
         />
+
 
         {/* Inner orbit arc, the quiet 360 motion */}
         <g className="hq-orbit">

@@ -40,6 +40,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <ConnectedPlatforms />
       <ProofSection />
       <WhoWeAre />
       <ServicesGrid />

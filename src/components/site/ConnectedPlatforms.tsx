@@ -1,28 +1,35 @@
 import { Link } from "@tanstack/react-router";
+import {
+  AmazonLogo,
+  AppleBooksLogo,
+  BarnesNobleLogo,
+  BookBubLogo,
+  GooglePlayLogo,
+  GoodreadsLogo,
+  IngramSparkLogo,
+  KoboLogo,
+  NetGalleyLogo,
+  StoryOriginLogo,
+} from "./PlatformLogos";
 
 const PLATFORMS = [
-  { name: "Amazon", abbr: "AM" },
-  { name: "Goodreads", abbr: "GR" },
-  { name: "BookBub", abbr: "BB" },
-  { name: "Apple Books", abbr: "AB" },
-  { name: "Google Play", abbr: "GP" },
-  { name: "IngramSpark", abbr: "IS" },
-  { name: "Barnes & Noble", abbr: "BN" },
-  { name: "Kobo", abbr: "KO" },
-  { name: "NetGalley", abbr: "NG" },
-  { name: "StoryOrigin", abbr: "SO" },
+  { name: "Amazon", Logo: AmazonLogo },
+  { name: "Goodreads", Logo: GoodreadsLogo },
+  { name: "BookBub", Logo: BookBubLogo },
+  { name: "Apple Books", Logo: AppleBooksLogo },
+  { name: "Google Play", Logo: GooglePlayLogo },
+  { name: "IngramSpark", Logo: IngramSparkLogo },
+  { name: "Barnes & Noble", Logo: BarnesNobleLogo },
+  { name: "Kobo", Logo: KoboLogo },
+  { name: "NetGalley", Logo: NetGalleyLogo },
+  { name: "StoryOrigin", Logo: StoryOriginLogo },
 ];
 
-function PlatformBadge({ name, abbr }: { name: string; abbr: string }) {
+function PlatformBadge({ name, Logo }: { name: string; Logo: React.FC<{ className?: string }> }) {
   return (
     <div className="inline-flex shrink-0 items-center gap-3 rounded-2xl border border-border bg-card px-5 py-3 shadow-editorial">
-      <span
-        aria-hidden="true"
-        className="flex h-9 w-9 items-center justify-center rounded-lg bg-charcoal font-sans text-xs font-bold text-[oklch(0.97_0.008_85)]"
-      >
-        {abbr}
-      </span>
-      <span className="whitespace-nowrap font-serif text-base font-medium">{name}</span>
+      <span className="sr-only">{name}</span>
+      <Logo className="h-6 w-auto text-foreground/90" />
     </div>
   );
 }

@@ -13,10 +13,10 @@ export const BRAND = {
 
 export const NAV = [
   { label: "Home", to: "/" },
-  { label: "Services", to: "/services" },
-  { label: "About", to: "/about" },
-  { label: "Pricing", to: "/pricing" },
+  { label: "Service", to: "/services" },
   { label: "Reviews", to: "/reviews" },
+  { label: "Pricing", to: "/pricing" },
+  { label: "About Us", to: "/about" },
 ] as const;
 
 export const STATS = [

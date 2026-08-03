@@ -42,6 +42,7 @@ function Home() {
       <WhoWeAre />
       <ServicesGrid />
       <CaseCarousel />
+      <LaunchPreview />
       <FinalCta />
     </>
   );
@@ -49,55 +50,116 @@ function Home() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden px-5 pt-20 pb-16 lg:px-8 lg:pt-28">
+    <section className="relative overflow-hidden px-5 pt-10 pb-14 sm:pt-16 lg:px-8 lg:pt-24 lg:pb-20">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[26rem] bg-[radial-gradient(70%_60%_at_50%_0%,oklch(0.93_0.03_95/0.7),transparent_70%)]"
+      />
       <div className="relative mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center">
-          <div>
-            <span className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              <Logo markOnly size={18} />
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
+          <div className="order-2 lg:order-1">
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-3.5 py-2 text-[0.65rem] font-semibold tracking-[0.14em] text-muted-foreground uppercase sm:gap-3 sm:px-4 sm:text-xs">
+              <Logo markOnly size={16} />
               Featured Author of the Year
             </span>
-            <h1 className="mt-8 text-4xl leading-[1.05] text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 text-[2rem] leading-[1.08] text-balance sm:mt-7 sm:text-5xl lg:text-6xl">
               Sanman Thapa, our Featured Author of the Year.
             </h1>
             <div className="rule-fire mt-5" />
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Two titles, a full signing room and a launch day that sold through the table. From the
-              Window: The City of What Ifs and A Fight for a Cup of Chai were carried from
-              manuscript to shelf with Arti Facts Publishing and a launch campaign built by HQ360.
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg">
+              Two titles, a full signing room and a launch day that sold through the table. We
+              carried the books from manuscript to shelf with Arti Facts Publishing and a launch
+              campaign built by HQ360. Your book can be next.
             </p>
-            <ul className="mt-8 grid gap-4 sm:grid-cols-3">
+            <ul className="mt-7 grid grid-cols-3 gap-2.5 sm:gap-4">
               {[
                 { value: "2", label: "Titles in print" },
                 { value: "1 day", label: "Sold out signing" },
                 { value: "5 star", label: "Reader reviews" },
               ].map((item) => (
-                <li key={item.label} className="rounded-xl border border-border bg-card px-5 py-4">
-                  <span className="block font-serif text-2xl font-semibold text-primary">
+                <li
+                  key={item.label}
+                  className="rounded-xl border border-border bg-card px-3 py-3.5 sm:px-5 sm:py-4"
+                >
+                  <span className="block font-serif text-xl font-semibold text-primary sm:text-2xl">
                     {item.value}
                   </span>
-                  <span className="mt-1 block text-sm text-muted-foreground">{item.label}</span>
+                  <span className="mt-1 block text-xs leading-snug text-muted-foreground sm:text-sm">
+                    {item.label}
+                  </span>
                 </li>
               ))}
             </ul>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <PrimaryCta to="/contact">Get Your Book Featured</PrimaryCta>
-              <SecondaryCta to="/book-launch">See the Launch Story</SecondaryCta>
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+              <PrimaryCta to="/contact" className="w-full sm:w-auto">
+                Get Your Book Featured
+              </PrimaryCta>
+              <SecondaryCta to="/book-launch" className="w-full sm:w-auto">
+                See the Launch Story
+              </SecondaryCta>
             </div>
+            <p className="mt-5 text-sm text-muted-foreground">
+              Free thirty minute strategy call. No pitch deck, no contract.
+            </p>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-border shadow-editorial">
-            <img
-              src={heroAuthor.url}
-              alt="Sanman Thapa holding From the Window: The City of What Ifs at his signing table"
-              className="aspect-[4/5] w-full object-cover"
-            />
+          <div className="relative order-1 lg:order-2">
+            <div className="overflow-hidden rounded-3xl border border-border shadow-lift">
+              <img
+                src={heroAuthor.url}
+                alt="Sanman Thapa holding From the Window: The City of What Ifs at his signing table"
+                fetchPriority="high"
+                className="aspect-[4/5] w-full object-cover sm:aspect-[5/6] lg:aspect-[4/5]"
+              />
+            </div>
+            <div className="absolute right-4 bottom-4 left-4 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-editorial backdrop-blur sm:right-6 sm:bottom-6 sm:left-6 sm:px-5 sm:py-4">
+              <p className="font-serif text-base leading-snug sm:text-lg">
+                From the Window: The City of What Ifs
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+                Published with Arti Facts Publishing, launched with HQ360
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+function LaunchPreview() {
+  return (
+    <Section tone="raised">
+      <SectionHeading
+        eyebrow="Book launch"
+        title={`${LAUNCH.author} launch day, in pictures.`}
+        intro={LAUNCH.intro}
+      />
+      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+        {LAUNCH_GALLERY.slice(0, 3).map((shot) => (
+          <li key={shot.src} className="overflow-hidden rounded-2xl border border-border bg-card">
+            <img
+              src={shot.src}
+              alt={shot.alt}
+              loading="lazy"
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <p className="px-5 py-4 text-sm text-muted-foreground">{shot.caption}</p>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+        <PrimaryCta to="/book-launch" className="w-full sm:w-auto">
+          See the Full Launch Gallery
+        </PrimaryCta>
+        <SecondaryCta to="/contact" className="w-full sm:w-auto">
+          Plan Your Own Launch
+        </SecondaryCta>
+      </div>
+    </Section>
+  );
+}
+
 
 
 

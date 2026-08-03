@@ -18,7 +18,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "px-5 py-20 lg:px-8 lg:py-28",
+        "px-5 py-14 sm:py-20 lg:px-8 lg:py-28",
         tone === "raised" && "bg-[oklch(0.955_0.011_82)]",
         tone === "dark" && "bg-charcoal text-[oklch(0.95_0.008_85)]",
         className,
@@ -87,11 +87,11 @@ export function StatRow({ dark }: { dark?: boolean }) {
       {STATS.map((stat) => (
         <div
           key={stat.label}
-          className={cn("px-6 py-8 text-center", dark ? "bg-charcoal" : "bg-card")}
+          className={cn("px-4 py-6 text-center sm:px-6 sm:py-8", dark ? "bg-charcoal" : "bg-card")}
         >
           <dt className="sr-only">{stat.label}</dt>
           <dd>
-            <span className="text-fire font-serif text-4xl font-semibold sm:text-5xl">
+            <span className="text-fire font-serif text-3xl font-semibold sm:text-5xl">
               {stat.value}
             </span>
             <span

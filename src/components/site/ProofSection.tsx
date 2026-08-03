@@ -11,7 +11,7 @@ export function ProofSection({ showAllLink = true }: { showAllLink?: boolean }) 
   return (
     <section
       id="proof"
-      className="border-y border-border bg-[oklch(0.955_0.011_82)] px-5 py-16 lg:px-8 lg:py-20"
+      className="border-y border-border bg-[oklch(0.955_0.011_82)] px-5 py-12 sm:py-16 lg:px-8 lg:py-20"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -25,7 +25,7 @@ export function ProofSection({ showAllLink = true }: { showAllLink?: boolean }) 
           {showAllLink && (
             <Link
               to="/reviews"
-              className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="inline-flex w-full shrink-0 items-center justify-center rounded-full bg-primary px-7 py-3.5 sm:w-auto text-sm font-semibold text-primary-foreground shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               See All Reviews
             </Link>

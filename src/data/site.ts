@@ -14,14 +14,9 @@ export const BRAND = {
 export const NAV = [
   { label: "Home", to: "/" },
   { label: "Services", to: "/services" },
-  { label: "Results", to: "/results" },
-  { label: "Reviews", to: "/reviews" },
-  { label: "Book Launch", to: "/book-launch" },
   { label: "About", to: "/about" },
   { label: "Pricing", to: "/pricing" },
-  { label: "Resources", to: "/resources" },
-  { label: "Blog", to: "/blog" },
-  { label: "FAQs", to: "/faqs" },
+  { label: "Reviews", to: "/reviews" },
 ] as const;
 
 export const STATS = [

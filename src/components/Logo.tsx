@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type LogoProps = {
   /** "gradient" for light surfaces and hero, "mono" for footer and dark sections */
   variant?: "gradient" | "mono";
-  /** hide the wordmark and render only the mark */
+  /** hide the wordmark and render only the flame mark */
   markOnly?: boolean;
   className?: string;
   /** height of the mark in pixels */
@@ -12,9 +12,8 @@ type LogoProps = {
 };
 
 /**
- * HQ360 mark: a full 360 degree orbit ring cut by a rising quill stroke.
- * The ring reads as the 360, the inner stroke reads as a Q tail and as the
- * upward lift we deliver for authors. Colors come from theme tokens so the
+ * HQ360 flame mark: three interlocking flame strokes that read
+ * as an "S" when seen as a whole. Colors come from the theme tokens so the
  * mark can be re themed from src/styles.css.
  */
 export function Logo({
@@ -24,9 +23,8 @@ export function Logo({
   size = 36,
 }: LogoProps) {
   const uid = useId().replace(/:/g, "");
-  const gradId = `${uid}-brass`;
+  const gradId = `${uid}-fire`;
   const mono = variant === "mono";
-  const paint = mono ? "currentColor" : `url(#${gradId})`;
 
   return (
     <span className={cn("inline-flex items-center gap-3", className)}>
@@ -35,67 +33,48 @@ export function Logo({
         height={size}
         viewBox="0 0 48 48"
         role="img"
-        aria-label="HQ360 mark"
+        aria-label="HQ360 flame mark"
         className="shrink-0 overflow-visible"
       >
         <title>HQ360</title>
         <defs>
-          <linearGradient id={gradId} x1="6" y1="42" x2="42" y2="6" gradientUnits="userSpaceOnUse">
+          <linearGradient id={gradId} x1="12" y1="46" x2="38" y2="2" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="var(--ember-deep)" />
-            <stop offset="48%" stopColor="var(--blaze)" />
-            <stop offset="82%" stopColor="var(--ember)" />
+            <stop offset="45%" stopColor="var(--ember)" />
+            <stop offset="78%" stopColor="var(--blaze)" />
             <stop offset="100%" stopColor="var(--gold)" />
           </linearGradient>
           <style>{`
-            @keyframes hqOrbit { to { transform: rotate(360deg); } }
-            @keyframes hqPulse { 0%,100% { opacity: .9; } 50% { opacity: .45; } }
-            .hq-orbit { transform-origin: 24px 24px; animation: hqOrbit 9s linear infinite; }
-            .hq-spark { animation: hqPulse 3.2s ease-in-out infinite; }
+            @keyframes hosFlameCore { 0%,100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(1.05) translateY(-0.6px); } }
+            @keyframes hosFlameTip { 0%,100% { opacity: .95; transform: translateY(0) scale(1); } 50% { opacity: .7; transform: translateY(-1.2px) scale(1.07); } }
+            .hos-core { transform-origin: 24px 44px; animation: hosFlameCore 2.6s ease-in-out infinite; }
+            .hos-tip { transform-origin: 26px 12px; animation: hosFlameTip 2.1s ease-in-out infinite; }
             @media (prefers-reduced-motion: reduce) {
-              .hq-orbit, .hq-spark { animation: none; }
+              .hos-core, .hos-tip { animation: none; }
             }
           `}</style>
         </defs>
 
-        {/* Outer orbit ring, open at the lower right where the quill exits */}
+        {/* Outer flame stroke, curving as the upper bowl of the S */}
         <path
-          d="M35.4 39.9A19 19 0 1 1 41.6 30"
-          fill="none"
-          stroke={paint}
-          strokeWidth="4.2"
-          strokeLinecap="round"
+          className="hos-core"
+          d="M31.6 3.2c1.4 5.6-.7 9.2-4.9 12.2-5 3.6-8.9 6.2-8.9 11.1 0 3 1.7 5.4 4.3 6.6-4.6.5-8.6-2.1-10.4-6.1-2.2-4.9-.6-10.6 3.7-14.8C19 8.6 27.3 5.9 31.6 3.2Z"
+          fill={mono ? "currentColor" : `url(#${gradId})`}
         />
-
-        {/* Quill stroke: the Q tail rising out of the ring */}
+        {/* Lower counter stroke, closing the S and reading as the ember base */}
         <path
-          d="M22.6 29.4 32.4 19.6"
-          fill="none"
-          stroke={paint}
-          strokeWidth="4.2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M30.2 31.4 41 42.2"
-          fill="none"
-          stroke={paint}
-          strokeWidth="4.2"
-          strokeLinecap="round"
+          className="hos-core"
+          d="M16.4 44.9c-1.6-5.1.6-8.6 4.7-11.4 5-3.4 9.6-5.5 10.5-10.2.5-2.6-.3-5-2-6.8 4.7.9 8 4.5 8.8 9 1 5.6-2.1 11.2-7.4 14.5-4 2.5-9.8 4-14.6 4.9Z"
+          fill={mono ? "currentColor" : `url(#${gradId})`}
           opacity={mono ? 0.72 : 1}
         />
-
-
-        {/* Inner orbit arc, the quiet 360 motion */}
-        <g className="hq-orbit">
-          <path
-            d="M24 12.4a11.6 11.6 0 0 1 10.4 6.5"
-            fill="none"
-            stroke={mono ? "currentColor" : "var(--gold)"}
-            strokeWidth="2.6"
-            strokeLinecap="round"
-            opacity={mono ? 0.45 : 0.85}
-            className="hq-spark"
-          />
-        </g>
+        {/* Inner tip spark */}
+        <path
+          className="hos-tip"
+          d="M26.9 9.4c1.9 2.5 1.6 5.3-.6 7.6-1.7 1.8-2.4 3.4-1.6 5.3-2.6-1-3.9-3.4-3.2-6 .6-2.4 3-4.7 5.4-6.9Z"
+          fill={mono ? "currentColor" : "var(--gold)"}
+          opacity={mono ? 0.5 : 0.9}
+        />
       </svg>
 
       {!markOnly && (

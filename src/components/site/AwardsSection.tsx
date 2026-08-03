@@ -5,7 +5,7 @@ const gradients: { name: string; fill: string; stroke: string; ribbon: string }[
   {
     name: "ember",
     fill: "url(#award-ember)",
-    stroke: "#80876A",
+    stroke: "#C8A253",
     ribbon: "url(#ribbon-ember)",
   },
   {
@@ -51,31 +51,31 @@ function VerifiedBadge({
           <defs>
             <linearGradient id="award-ember" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#9BA383" />
-              <stop offset="50%" stopColor="#80876A" />
-              <stop offset="100%" stopColor="#000F08" />
+              <stop offset="50%" stopColor="#C8A253" />
+              <stop offset="100%" stopColor="#0B0F0E" />
             </linearGradient>
             <linearGradient id="award-gold" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#A79C99" />
-              <stop offset="40%" stopColor="#776B69" />
+              <stop offset="40%" stopColor="#8A7A55" />
               <stop offset="100%" stopColor="#4A423F" />
             </linearGradient>
             <linearGradient id="award-blaze" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#B3BA9C" />
               <stop offset="50%" stopColor="#9BA383" />
-              <stop offset="100%" stopColor="#80876A" />
+              <stop offset="100%" stopColor="#C8A253" />
             </linearGradient>
 
             <linearGradient id="ribbon-ember" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#80876A" />
-              <stop offset="100%" stopColor="#000F08" />
+              <stop offset="0%" stopColor="#C8A253" />
+              <stop offset="100%" stopColor="#0B0F0E" />
             </linearGradient>
             <linearGradient id="ribbon-gold" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#776B69" />
+              <stop offset="0%" stopColor="#8A7A55" />
               <stop offset="100%" stopColor="#4A423F" />
             </linearGradient>
             <linearGradient id="ribbon-blaze" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#9BA383" />
-              <stop offset="100%" stopColor="#80876A" />
+              <stop offset="100%" stopColor="#C8A253" />
             </linearGradient>
 
             <filter id="badge-bevel" x="-20%" y="-20%" width="140%" height="140%">
@@ -128,12 +128,12 @@ function VerifiedBadge({
           {/* top star / crown */}
           <path
             d="M100 38 L104 50 L117 50 L107 58 L111 71 L100 63 L89 71 L93 58 L83 50 L96 50 Z"
-            fill="#FFFECB"
+            fill="#F6F2E9"
             opacity="0.95"
           />
 
           {/* verified check circle */}
-          <circle cx="100" cy="110" r="28" fill="#FFFECB" opacity="0.95" />
+          <circle cx="100" cy="110" r="28" fill="#F6F2E9" opacity="0.95" />
           <circle cx="100" cy="110" r="24" fill="none" stroke={theme.stroke} strokeWidth="2" />
           <path
             d="M88 110 L96 118 L112 102"
@@ -145,12 +145,12 @@ function VerifiedBadge({
           />
 
           {/* year banner */}
-          <rect x="55" y="150" width="90" height="22" rx="11" fill="#000F08" opacity="0.9" />
+          <rect x="55" y="150" width="90" height="22" rx="11" fill="#0B0F0E" opacity="0.9" />
           <text
             x="100"
             y="166"
             textAnchor="middle"
-            fill="#FFFECB"
+            fill="#F6F2E9"
             fontSize="12"
             fontWeight="700"
             letterSpacing="0.08em"

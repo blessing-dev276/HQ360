@@ -18,8 +18,8 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
+import heroAuthor from "@/assets/featured-author-sanman.jpg.asset.json";
 import { AwardsSection } from "@/components/site/AwardsSection";
-import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { ProofSection } from "@/components/site/ProofSection";
 import { RiskReversal } from "@/components/site/RiskReversal";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
@@ -66,7 +66,6 @@ function Home() {
     <>
       <Hero />
       <ProofSection />
-      <FeaturedAuthor />
       <LaunchPreview />
       <AwardsSection />
       <SocialProof />

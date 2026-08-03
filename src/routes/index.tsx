@@ -12,6 +12,7 @@ import {
 import { Logo } from "@/components/Logo";
 import heroAuthor from "@/assets/featured-author-sanman.jpg.asset.json";
 import { ProofSection } from "@/components/site/ProofSection";
+import { ConnectedPlatforms } from "@/components/site/ConnectedPlatforms";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 import { CASES, DIFFERENTIATORS, SERVICES } from "@/data/site";
@@ -39,6 +40,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <ConnectedPlatforms />
       <ProofSection />
       <WhoWeAre />
       <ServicesGrid />

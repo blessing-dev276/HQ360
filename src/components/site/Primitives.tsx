@@ -122,7 +122,7 @@ export function PrimaryCta({
     <Link
       to={to}
       className={cn(
-        "inline-flex items-center justify-center rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
+        "inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
         className,
       )}
     >

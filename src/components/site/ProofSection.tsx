@@ -25,7 +25,7 @@ export function ProofSection({ showAllLink = true }: { showAllLink?: boolean }) 
           {showAllLink && (
             <Link
               to="/reviews"
-              className="inline-flex shrink-0 items-center justify-center rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               See All Reviews
             </Link>

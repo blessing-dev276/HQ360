@@ -75,7 +75,7 @@ export function ExitIntentOffer() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="mt-6 w-full rounded-full bg-fire px-6 py-3 text-sm font-medium text-primary-foreground"
+              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
             >
               Keep reading the site
             </button>
@@ -106,7 +106,7 @@ export function ExitIntentOffer() {
               <button
                 type="submit"
                 disabled={busy}
-                className="w-full rounded-full bg-fire px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-70"
+                className="w-full rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-70"
               >
                 {busy ? "Sending" : "Send me the audit guide"}
               </button>

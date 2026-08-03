@@ -184,7 +184,7 @@ export function PricingPage() {
           <a
             href="/resources/hq360-pricing-one-pager.pdf"
             download
-            className="shrink-0 rounded-full bg-fire px-6 py-3 text-sm font-medium text-primary-foreground"
+            className="shrink-0 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
             Download the PDF
           </a>

@@ -104,7 +104,7 @@ function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  className="mt-2 rounded-full bg-fire px-7 py-3.5 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+                  className="mt-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                 >
                   Book Your Free Strategy Call
                 </button>

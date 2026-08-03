@@ -15,6 +15,7 @@ import { ProofSection } from "@/components/site/ProofSection";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 import { CASES, DIFFERENTIATORS, SERVICES } from "@/data/site";
+import { LAUNCH, LAUNCH_GALLERY } from "@/data/launch";
 
 const title = "HQ360 | Book Marketing and Personal Brand Agency";
 const description =
@@ -167,7 +168,7 @@ function LaunchPreview() {
 function WhoWeAre() {
   return (
     <Section>
-      <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+      <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">
         <SectionHeading
           eyebrow="Who we are"
           title="A studio built for people whose name is the product."
@@ -177,7 +178,7 @@ function WhoWeAre() {
           {DIFFERENTIATORS.map((d) => (
             <li
               key={d.title}
-              className="rounded-2xl border border-border bg-card p-7 shadow-editorial hover:border-primary/50"
+              className="rounded-2xl border border-border bg-card p-6 shadow-editorial sm:p-7 hover:border-primary/50"
             >
               <h3 className="font-serif text-xl">{d.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d.body}</p>
@@ -200,13 +201,13 @@ function ServicesGrid() {
         title="Ten services, one coordinated engine."
         intro="Take the whole engagement or a single piece. Every service below has its own detail page with deliverables and typical timelines."
       />
-      <ul className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <ul className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-14 xl:grid-cols-3">
         {SERVICES.map((s) => (
           <li key={s.slug}>
             <Link
               to="/services/$slug"
               params={{ slug: s.slug }}
-              className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-editorial hover:border-primary/60 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-editorial sm:p-7 hover:border-primary/60 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
               <span className="text-fire font-serif text-3xl font-semibold">{s.number}</span>
               <h3 className="mt-4 font-serif text-xl leading-snug">{s.title}</h3>
@@ -273,8 +274,8 @@ function CaseCarousel() {
 
       <ul className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
         {shown.map((c) => (
-          <li key={c.slug} className="w-[19rem] shrink-0 snap-start sm:w-[23rem]">
-            <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-editorial">
+          <li key={c.slug} className="w-[85vw] max-w-[23rem] shrink-0 snap-start sm:w-[23rem]">
+            <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-editorial sm:p-7">
               <Eyebrow>{c.category}</Eyebrow>
               <h3 className="mt-3 font-serif text-xl leading-snug">{c.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{c.client}</p>
@@ -325,7 +326,7 @@ function CaseCarousel() {
 function FinalCta() {
   return (
     <Section>
-      <div className="grid gap-12 rounded-3xl border border-border bg-card p-10 shadow-lift lg:grid-cols-2 lg:items-center lg:p-14">
+      <div className="grid gap-10 rounded-3xl border border-border bg-card p-6 shadow-lift sm:p-10 lg:grid-cols-2 lg:items-center lg:gap-12 lg:p-14">
         <div>
           <Eyebrow>Next step</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">Book your free strategy call.</h2>
@@ -339,11 +340,11 @@ function FinalCta() {
             <li>No long term contracts, thirty days notice at any point</li>
             <li>Written audit within five working days of the call</li>
           </ul>
-          <PrimaryCta to="/contact" className="mt-9">
+          <PrimaryCta to="/contact" className="mt-9 w-full sm:w-auto">
             Book Your Free Strategy Call
           </PrimaryCta>
         </div>
-        <div className="rounded-2xl border border-dashed border-border bg-background p-8 text-center">
+        <div className="rounded-2xl border border-dashed border-border bg-background p-6 text-center sm:p-8">
           <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
             Calendar booking widget
           </p>

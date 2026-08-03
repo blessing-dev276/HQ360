@@ -10,6 +10,8 @@ const columns = [
     links: [
       { label: "Services", to: "/services" },
       { label: "Results", to: "/results" },
+      { label: "Reviews", to: "/reviews" },
+      { label: "Book Launch", to: "/book-launch" },
       { label: "About", to: "/about" },
       { label: "Pricing", to: "/pricing" },
       { label: "Blog", to: "/blog" },
@@ -22,6 +24,7 @@ const columns = [
       { label: "Brand and Book Audit", to: "/resources" },
       { label: "Positioning Report", to: "/resources" },
       { label: "Launch Checklist", to: "/resources" },
+      { label: "Resources", to: "/resources" },
       { label: "FAQs", to: "/faqs" },
     ],
   },

@@ -27,7 +27,7 @@ export function TeamAvatar({
     return (
       <span
         aria-hidden="true"
-        className="bg-fire mx-auto flex size-24 items-center justify-center rounded-full font-serif text-2xl font-semibold text-white"
+        className="bg-fire mx-auto flex aspect-square w-full max-w-[15rem] items-center justify-center rounded-3xl font-serif text-4xl font-semibold text-white"
       >
         {initials}
       </span>
@@ -35,14 +35,14 @@ export function TeamAvatar({
   }
 
   return (
-    <span className="bg-fire mx-auto block size-24 rounded-full p-[3px]">
+    <span className="bg-fire mx-auto block aspect-square w-full max-w-[15rem] rounded-3xl p-[3px]">
       <img
         src={src}
         alt={`Portrait of ${name}`}
         width={800}
         height={800}
         loading="lazy"
-        className="bg-background size-full rounded-full object-cover object-top"
+        className="bg-background size-full rounded-[1.35rem] object-cover object-top"
       />
     </span>
   );

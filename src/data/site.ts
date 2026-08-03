@@ -14,14 +14,9 @@ export const BRAND = {
 export const NAV = [
   { label: "Home", to: "/" },
   { label: "Services", to: "/services" },
-  { label: "Results", to: "/results" },
-  { label: "Reviews", to: "/reviews" },
-  { label: "Book Launch", to: "/book-launch" },
   { label: "About", to: "/about" },
   { label: "Pricing", to: "/pricing" },
-  { label: "Resources", to: "/resources" },
-  { label: "Blog", to: "/blog" },
-  { label: "FAQs", to: "/faqs" },
+  { label: "Reviews", to: "/reviews" },
 ] as const;
 
 export const STATS = [
@@ -433,73 +428,12 @@ export const DIFFERENTIATORS = [
 ];
 
 export const TEAM = [
-  {
-    name: "Blessing",
-    quote: "A book is a promise. My job is to make sure the right people hear it and believe it.",
-    initials: "B",
-    photo: "blessing",
-    socials: {
-      facebook: "https://www.facebook.com/houseofsynergy",
-      whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/company/houseofsynergy",
-      fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:blessing.houseofsynergy@gmail.com",
-    },
-  },
-  {
-    name: "Zainab",
-    quote: "Every listing is a shop window. I keep polishing it until the browsing stops and the buying starts.",
-    initials: "Z",
-    photo: "zainab",
-    socials: {
-      facebook: "https://www.facebook.com/houseofsynergy",
-      whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/company/houseofsynergy",
-      fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:zainab.houseofsynergy@gmail.com",
-    },
-  },
-  {
-    name: "Emmanuel",
-    quote: "Press is not luck. It is one honest pitch, written by hand, sent to the one editor who cares.",
-    initials: "E",
-    photo: "emmanuel",
-    socials: {
-      facebook: "https://www.facebook.com/houseofsynergy",
-      whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/in/emmanuel-durosinmi-50b147325/",
-      fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:emmanuel.houseofsynergy@gmail.com",
-    },
-  },
-  {
-    name: "Richard",
-    quote: "A name outlives a launch. I build the look and the language that carry it there.",
-    initials: "R",
-    photo: "richard",
-    socials: {
-      facebook: "https://www.facebook.com/houseofsynergy",
-      whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/company/houseofsynergy",
-      fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:richard.houseofsynergy@gmail.com",
-    },
-  },
-  {
-    name: "Ebenezer",
-    quote: "Numbers tell you what happened. I sit with them until they tell you what to do next.",
-    initials: "E",
-    photo: "ebenezer",
-    socials: {
-      facebook: "https://www.facebook.com/houseofsynergy",
-      whatsapp: "https://wa.me/15551234567",
-      linkedin: "https://www.linkedin.com/company/houseofsynergy",
-      fiverr: "https://www.fiverr.com/houseofsynergy",
-      email: "mailto:ebenezer.houseofsynergy@gmail.com",
-    },
-  },
+  { name: "Blessing", role: "Launch Campaign Director", initials: "B", photo: "blessing" },
+  { name: "Zainab", role: "Listing Optimization Lead", initials: "Z", photo: "zainab" },
+  { name: "Emmanuel", role: "Press and Media Placement Lead", initials: "E", photo: "emmanuel" },
+  { name: "Richard", role: "Personal Brand and Design Lead", initials: "R", photo: "richard" },
+  { name: "Ebenezer", role: "Review Campaigns and Reporting Lead", initials: "E", photo: "ebenezer" },
 ];
-
 
 export const TESTIMONIALS = [
   {

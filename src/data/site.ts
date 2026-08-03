@@ -22,7 +22,7 @@ export const NAV = [
 export const STATS = [
   { value: "75+", label: "Books and brands elevated" },
   { value: "260+", label: "Verified reviews generated" },
-  { value: "58", label: "Clients served since 2019" },
+  { value: "58", label: "Clients served since 2024" },
   { value: "28", label: "Average days to visible results" },
 ];
 

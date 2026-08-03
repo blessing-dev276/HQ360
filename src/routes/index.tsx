@@ -172,7 +172,7 @@ function WhoWeAre() {
         <SectionHeading
           eyebrow="Who we are"
           title="A studio built for people whose name is the product."
-          intro="HQ360 started as a book marketing shop and grew into something wider. Publishing a book, launching a company and building a reputation all run on the same engine: be found, be believed, be remembered. We run that engine for a small number of clients at a time."
+          intro="We are five specialists who used to do this work separately: launches, listings, press, design and reporting. We shared the idea of putting it under one roof in 2020, kept testing it on real clients, and opened HQ360 properly in 2024. We build names, not just book pages, for people whose reputation is the product."
         />
         <ul className="grid gap-5">
           {DIFFERENTIATORS.map((d) => (

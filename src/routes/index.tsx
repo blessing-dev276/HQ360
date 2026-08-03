@@ -1,14 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { CompareSlider } from "@/components/site/CompareSlider";
-import { NewsletterSignup } from "@/components/site/NewsletterSignup";
-import {
   Eyebrow,
   PlaceholderNote,
   PrimaryCta,
@@ -19,28 +11,9 @@ import {
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
 import heroAuthor from "@/assets/featured-author-sanman.jpg.asset.json";
-import { AwardsSection } from "@/components/site/AwardsSection";
 import { ProofSection } from "@/components/site/ProofSection";
-import { RiskReversal } from "@/components/site/RiskReversal";
-import { TeamAvatar } from "@/components/site/TeamAvatar";
-import { TeamSocials } from "@/components/site/TeamSocials";
 
-import {
-  CASES,
-  COMPARISON,
-  DIFFERENTIATORS,
-  FAQ_GROUPS,
-  PLATFORMS,
-  POSTS,
-  PRICING_ALACARTE,
-  PRICING_FLAGSHIP,
-  PROCESS,
-  RESOURCES,
-  SERVICES,
-  TEAM,
-  TESTIMONIALS,
-} from "@/data/site";
-import { LAUNCH, LAUNCH_GALLERY } from "@/data/launch";
+import { CASES, DIFFERENTIATORS, SERVICES } from "@/data/site";
 
 const title = "HQ360 | Book Marketing and Personal Brand Agency";
 const description =

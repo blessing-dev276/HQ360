@@ -18,15 +18,14 @@ import {
   StatRow,
 } from "@/components/site/Primitives";
 import { Logo } from "@/components/Logo";
+import heroAuthor from "@/assets/featured-author-sanman.jpg.asset.json";
 import { AwardsSection } from "@/components/site/AwardsSection";
-import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { ProofSection } from "@/components/site/ProofSection";
 import { RiskReversal } from "@/components/site/RiskReversal";
 import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { TeamSocials } from "@/components/site/TeamSocials";
 
 import {
-  BRAND,
   CASES,
   COMPARISON,
   DIFFERENTIATORS,
@@ -66,7 +65,6 @@ function Home() {
     <>
       <Hero />
       <ProofSection />
-      <FeaturedAuthor />
       <LaunchPreview />
       <AwardsSection />
       <SocialProof />
@@ -91,29 +89,48 @@ function Home() {
 function Hero() {
   return (
     <section className="relative overflow-hidden px-5 pt-20 pb-16 lg:px-8 lg:pt-28">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -right-24 size-[38rem] rounded-full opacity-[0.16]"
-        style={{ background: "var(--gradient-fire)", filter: "blur(90px)" }}
-      />
       <div className="relative mx-auto max-w-7xl">
-        <div className="max-w-4xl">
-          <span className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            <Logo markOnly size={18} />
-            {BRAND.eyebrow}
-          </span>
-          <h1 className="mt-8 text-4xl leading-[1.05] text-balance sm:text-6xl lg:text-7xl">
-            Your work deserves more than just being{" "}
-            <span className="text-fire">published</span>.
-          </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            {BRAND.tagline} We are a boutique studio for authors, founders and experts. We build the
-            visibility, credibility and press presence that turns a finished manuscript or a good
-            reputation into a name people seek out.
-          </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <PrimaryCta to="/contact">Book a Free Strategy Call</PrimaryCta>
-            <SecondaryCta to="/resources">Get a Free Brand Audit</SecondaryCta>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center">
+          <div>
+            <span className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+              <Logo markOnly size={18} />
+              Featured Author of the Year
+            </span>
+            <h1 className="mt-8 text-4xl leading-[1.05] text-balance sm:text-5xl lg:text-6xl">
+              Sanman Thapa, our Featured Author of the Year.
+            </h1>
+            <div className="rule-fire mt-5" />
+            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Two titles, a full signing room and a launch day that sold through the table. From the
+              Window: The City of What Ifs and A Fight for a Cup of Chai were carried from
+              manuscript to shelf with Arti Facts Publishing and a launch campaign built by HQ360.
+            </p>
+            <ul className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { value: "2", label: "Titles in print" },
+                { value: "1 day", label: "Sold out signing" },
+                { value: "5 star", label: "Reader reviews" },
+              ].map((item) => (
+                <li key={item.label} className="rounded-xl border border-border bg-card px-5 py-4">
+                  <span className="block font-serif text-2xl font-semibold text-primary">
+                    {item.value}
+                  </span>
+                  <span className="mt-1 block text-sm text-muted-foreground">{item.label}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <PrimaryCta to="/contact">Get Your Book Featured</PrimaryCta>
+              <SecondaryCta to="/book-launch">See the Launch Story</SecondaryCta>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-3xl border border-border shadow-editorial">
+            <img
+              src={heroAuthor.url}
+              alt="Sanman Thapa holding From the Window: The City of What Ifs at his signing table"
+              className="aspect-[4/5] w-full object-cover"
+            />
           </div>
         </div>
 

@@ -44,7 +44,7 @@ export function NewsletterSignup({ variant = "light" }: { variant?: "light" | "d
       />
       <button
         type="submit"
-        className="shrink-0 rounded-full bg-fire px-6 py-3 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="shrink-0 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         Subscribe
       </button>

@@ -122,7 +122,7 @@ function ResourceForm({
       />
       <button
         type="submit"
-        className="rounded-full bg-fire px-5 py-3 text-sm font-semibold text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
         {cta}
       </button>

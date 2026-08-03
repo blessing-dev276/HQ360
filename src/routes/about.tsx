@@ -33,25 +33,112 @@ function AboutPage() {
       <Section>
         <SectionHeading
           eyebrow="About"
-          title="We began with books. We stayed for the people behind them."
-          intro="HQ360 opened in 2019 as a book marketing shop. Clients kept asking for the things around the book: the press, the profile, the speaking, the name. So we built those too."
+          title="Five specialists who got tired of watching good work get lost."
+          intro="We are not a book shop and we are not an agency that fills seats. We are people who each ran one part of this work on our own: launches, listings, press, design, reporting. We kept meeting on the same projects and kept seeing the same gap."
         />
         <div className="mt-10 grid max-w-4xl gap-6 text-lg leading-relaxed text-muted-foreground">
           <p>
-            We take on a small number of clients at a time because the work is hands on. Every
-            engagement has a named strategist, a written plan and a weekly update. No account is
-            handed to a junior after the sales call.
+            The idea started in 2020. A client would pay one person for a cover, another for
+            reviews, another for press, and nobody owned the result. We said we would fix it by
+            working as one team. For the next few years we tested that quietly on real projects,
+            with our own money and our own reputations on the line.
           </p>
           <p>
-            Our bias is toward slow, durable work. Verified reviews rather than purchased ones.
-            Relevant press rather than volume. A position you can hold for a decade rather than a
-            campaign that peaks in a week.
+            In 2024 we stopped calling it a side arrangement and built HQ360. Same five people, one
+            plan, one point of contact, one report. The work is the same whether you are publishing
+            a book, launching a company or trying to be the name people mention in a room you are
+            not in. Be found. Be believed. Be remembered.
           </p>
+          <p>
+            We take a small number of clients at a time because the work is hands on. Every
+            engagement has a named lead, a written plan and a weekly update. Nobody gets passed to
+            a junior after the call.
+          </p>
+        </div>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <PrimaryCta to="/contact">Book a Free Strategy Call</PrimaryCta>
+          <span className="text-sm text-muted-foreground">
+            Fifteen minutes, no pitch deck, straight answer on whether we can help.
+          </span>
         </div>
         <div className="mt-14">
           <StatRow />
         </div>
       </Section>
+
+      <Section tone="raised">
+        <SectionHeading
+          eyebrow="Our story"
+          title="Four years of testing before we put a name on it."
+        />
+        <ol className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            {
+              year: "2020",
+              title: "The idea",
+              body: "Five freelancers on the same projects, watching clients pay four people and still miss the result. We sketched what one joined up team would look like.",
+            },
+            {
+              year: "2021 to 2022",
+              title: "Quiet testing",
+              body: "We ran the model on friends, first authors and small founders. No brand, no website, just the process and honest feedback when it did not work.",
+            },
+            {
+              year: "2023",
+              title: "The playbook",
+              body: "We wrote down what repeated: the audit, the listing work, the review engine, the press list, the reporting. That became the system we run today.",
+            },
+            {
+              year: "2024",
+              title: "HQ360 opens",
+              body: "One team, one plan, one report. We put our names on it and started taking a limited number of clients each month.",
+            },
+          ].map((item) => (
+            <li key={item.year} className="rounded-2xl border border-border bg-card p-7">
+              <span className="text-fire font-serif text-2xl font-semibold">{item.year}</span>
+              <h3 className="mt-3 font-serif text-xl">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section>
+        <SectionHeading
+          eyebrow="Who we work with"
+          title="If one of these is you, the call is worth taking."
+        />
+        <ul className="mt-12 grid gap-6 md:grid-cols-3">
+          {[
+            {
+              title: "Authors with a finished book",
+              body: "You have the manuscript and the cover, and the launch is the part nobody prepared you for.",
+            },
+            {
+              title: "Founders and experts",
+              body: "Your name opens doors or it does not. You want press, a profile and proof that stands up when people search you.",
+            },
+            {
+              title: "Publishers and small presses",
+              body: "You need a team that can run launches and review campaigns across several titles without dropping any of them.",
+            },
+          ].map((item) => (
+            <li key={item.title} className="rounded-2xl border border-border bg-card p-8">
+              <h3 className="font-serif text-xl">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-10 rounded-2xl border border-border bg-card p-8">
+          <h3 className="font-serif text-xl">Who we say no to</h3>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            Unfinished manuscripts, covers that are not ready, and anyone asking for paid or fake
+            reviews. We will say it on the first call and save you the money. Roughly one in four
+            inquiries becomes a client.
+          </p>
+        </div>
+      </Section>
+
 
       <Section tone="raised">
         <SectionHeading eyebrow="How we operate" title="Three commitments we do not bend on." />

@@ -6,7 +6,7 @@ import { BRAND, SERVICES } from "@/data/site";
 
 const title = "Book a Free Strategy Call | HQ360";
 const description =
-  "Thirty minutes, no pitch deck. We review your listing or your presence live and name the three things we would fix first, whether or not you hire us.";
+  "Thirty minutes on the phone. We review your listing or your presence live and name the three things we would fix first, whether or not you hire us.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -37,12 +37,12 @@ function ContactPage() {
           <div>
             <SectionHeading
               eyebrow="Book a call"
-              title="Thirty minutes. No pitch deck."
+              title="Thirty minutes. Straight answers."
               intro="Tell us what you are working on. We will look at it live on the call and name the three things we would fix first, whether or not you hire us."
             />
             <ul className="mt-10 space-y-3 text-sm text-muted-foreground">
               <li>Average client rating of 4.9 out of 5 across 210 reviews</li>
-              <li>No long term contracts, thirty days notice at any point</li>
+              <li>Cancel with thirty days notice at any point</li>
               <li>Written audit within five working days of the call</li>
             </ul>
             <p className="mt-8 text-sm">

@@ -100,7 +100,7 @@ function Hero() {
               </SecondaryCta>
             </div>
             <p className="mt-5 text-sm text-muted-foreground">
-              Free thirty minute strategy call. No pitch deck, no contract.
+              Free thirty minute strategy call. Just a practical look at your book or brand.
             </p>
           </div>
 
@@ -332,12 +332,12 @@ function FinalCta() {
           <h2 className="mt-3 text-3xl sm:text-4xl">Book your free strategy call.</h2>
           <div className="rule-fire mt-5" />
           <p className="mt-5 text-muted-foreground">
-            Thirty minutes, no pitch deck. We will look at your listing or your presence live and
+            Thirty minutes on the phone. We will look at your listing or your presence live and
             tell you the three things we would fix first, whether or not you hire us.
           </p>
           <ul className="mt-7 space-y-2 text-sm text-muted-foreground">
             <li>Average client rating of 4.9 out of 5 across 210 reviews</li>
-            <li>No long term contracts, thirty days notice at any point</li>
+            <li>Cancel with thirty days notice at any point</li>
             <li>Written audit within five working days of the call</li>
           </ul>
           <PrimaryCta to="/contact" className="mt-9 w-full sm:w-auto">

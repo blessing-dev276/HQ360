@@ -58,7 +58,7 @@ function AboutPage() {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
           <PrimaryCta to="/contact">Book a Free Strategy Call</PrimaryCta>
           <span className="text-sm text-muted-foreground">
-            Fifteen minutes, no pitch deck, straight answer on whether we can help.
+            Fifteen minutes, straight answer on whether we can help.
           </span>
         </div>
         <div className="mt-14">

@@ -16,7 +16,7 @@ import {
 import { RiskReversal } from "@/components/site/RiskReversal";
 import { PRICING_ALACARTE, PRICING_FAQS, PRICING_FLAGSHIP } from "@/data/site";
 
-const title = "Pricing | Synergy Pubs";
+const title = "Pricing | HQ360";
 const description =
   "One flagship launch engagement at a flat campaign rate, plus every service priced on its own. Month to month, no long contracts, ad spend separate.";
 
@@ -182,7 +182,7 @@ export function PricingPage() {
             </p>
           </div>
           <a
-            href="/resources/synergy-pubs-pricing-one-pager.pdf"
+            href="/resources/hq360-pricing-one-pager.pdf"
             download
             className="shrink-0 rounded-full bg-fire px-6 py-3 text-sm font-medium text-primary-foreground"
           >

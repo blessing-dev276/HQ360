@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { PrimaryCta, Section, SectionHeading } from "@/components/site/Primitives";
 import { SERVICES } from "@/data/site";
 
-const title = "Services | Synergy Pubs";
+const title = "Services | HQ360";
 const description =
   "Listing optimization, launch campaigns, press placement, review campaigns, funnels, personal brand strategy and speaking placement for authors and founders.";
 

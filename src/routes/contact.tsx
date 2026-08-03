@@ -4,7 +4,7 @@ import { Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
 import { RiskReversal } from "@/components/site/RiskReversal";
 import { BRAND, SERVICES } from "@/data/site";
 
-const title = "Book a Free Strategy Call | Synergy Pubs";
+const title = "Book a Free Strategy Call | HQ360";
 const description =
   "Thirty minutes, no pitch deck. We review your listing or your presence live and name the three things we would fix first, whether or not you hire us.";
 

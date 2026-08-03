@@ -3,7 +3,7 @@ import { Eyebrow, PrimaryCta, Section, SectionHeading } from "@/components/site/
 import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 import { LAUNCH, LAUNCH_COVERS, LAUNCH_GALLERY } from "@/data/launch";
 
-const title = "Sanman Thapa Book Launch | Synergy Pubs";
+const title = "Sanman Thapa Book Launch | HQ360";
 const description =
   "Photographs and cover reveal film from the launch of From the Window: The City of What Ifs by Sanman Thapa, published with Arti Facts Publishing.";
 

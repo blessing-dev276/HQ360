@@ -8,7 +8,7 @@ import {
 import { PrimaryCta, Section, SectionHeading } from "@/components/site/Primitives";
 import { FAQ_GROUPS } from "@/data/site";
 
-const title = "Frequently Asked Questions | Synergy Pubs";
+const title = "Frequently Asked Questions | HQ360";
 const description =
   "Answers on who we work with, how long results take, what we charge, how we report and where our ethical lines sit on reviews and bestseller claims.";
 

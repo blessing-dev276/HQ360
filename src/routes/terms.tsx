@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/site/Primitives";
 import { BRAND } from "@/data/site";
 
-const title = "Terms of Service | Synergy Pubs";
+const title = "Terms of Service | HQ360";
 const description =
-  "The terms that apply to engagements with Synergy Pubs, covering scope, payment, cancellation, ownership of work and limits of liability.";
+  "The terms that apply to engagements with HQ360, covering scope, payment, cancellation, ownership of work and limits of liability.";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({

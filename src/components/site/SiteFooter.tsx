@@ -103,7 +103,7 @@ export function SiteFooter() {
           <div>
             <h2 className="font-serif text-xl">Notes from the studio</h2>
             <p className="mt-1 text-sm text-[oklch(0.8_0.012_80)]">
-              One letter a month on publishing, press and building a name. No pitching.
+              One letter a month on publishing, press and building a name. No spam.
             </p>
           </div>
           <NewsletterSignup variant="dark" />

@@ -94,10 +94,6 @@ function Hero() {
             />
           </div>
         </div>
-
-        <div className="mt-16">
-          <StatRow />
-        </div>
       </div>
     </section>
   );

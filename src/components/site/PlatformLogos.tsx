@@ -5,7 +5,7 @@ function LogoWrapper({
 }: {
   children: React.ReactNode;
   viewBox: string;
-  className?: string;
+  className?: string | undefined;
 }) {
   return (
     <svg

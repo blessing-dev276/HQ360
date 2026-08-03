@@ -26,7 +26,6 @@ import { TeamAvatar } from "@/components/site/TeamAvatar";
 import { TeamSocials } from "@/components/site/TeamSocials";
 
 import {
-  BRAND,
   CASES,
   COMPARISON,
   DIFFERENTIATORS,

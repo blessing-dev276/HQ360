@@ -1,4 +1,4 @@
-import video1 from "@/assets/testimonial-video-1.mp4.asset.json";
+import video1 from "@/assets/testimonial-video-1-full.mp4.asset.json";
 import video2 from "@/assets/testimonial-video-2.mp4.asset.json";
 import reviewSanman from "@/assets/review-sanman.png.asset.json";
 

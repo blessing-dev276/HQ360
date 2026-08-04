@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Linkedin, Music2, Twitter } from "lucide-react";
+import { Instagram, Music2, Twitter } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { BRAND } from "@/data/site";
@@ -39,10 +39,9 @@ const columns = [
 ] as const;
 
 const socials = [
-  { label: "Instagram", Icon: Instagram },
-  { label: "TikTok", Icon: Music2 },
-  { label: "X", Icon: Twitter },
-  { label: "LinkedIn", Icon: Linkedin },
+  { label: "Instagram", Icon: Instagram, href: "https://www.instagram.com/hq3_60/" },
+  { label: "TikTok", Icon: Music2, href: "#" },
+  { label: "X", Icon: Twitter, href: "#" },
 ];
 
 export function SiteFooter() {

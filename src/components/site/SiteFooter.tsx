@@ -61,10 +61,12 @@ export function SiteFooter() {
               {BRAND.email}
             </a>
             <ul className="mt-6 flex gap-3">
-              {socials.map(({ label, Icon }) => (
+              {socials.map(({ label, Icon, href }) => (
                 <li key={label}>
                   <a
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 text-[oklch(0.9_0.01_80)] hover:border-gold hover:text-gold"
                   >

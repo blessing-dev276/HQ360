@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Linkedin, Music2, Twitter } from "lucide-react";
+import { Instagram, Music2, Twitter } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { BRAND } from "@/data/site";
@@ -39,10 +39,9 @@ const columns = [
 ] as const;
 
 const socials = [
-  { label: "Instagram", Icon: Instagram },
-  { label: "TikTok", Icon: Music2 },
-  { label: "X", Icon: Twitter },
-  { label: "LinkedIn", Icon: Linkedin },
+  { label: "Instagram", Icon: Instagram, href: "https://www.instagram.com/hq3_60/" },
+  { label: "TikTok", Icon: Music2, href: "#" },
+  { label: "X", Icon: Twitter, href: "#" },
 ];
 
 export function SiteFooter() {
@@ -62,10 +61,12 @@ export function SiteFooter() {
               {BRAND.email}
             </a>
             <ul className="mt-6 flex gap-3">
-              {socials.map(({ label, Icon }) => (
+              {socials.map(({ label, Icon, href }) => (
                 <li key={label}>
                   <a
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 text-[oklch(0.9_0.01_80)] hover:border-gold hover:text-gold"
                   >

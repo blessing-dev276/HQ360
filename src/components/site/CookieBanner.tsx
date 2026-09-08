@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
-const KEY = "hos-cookie-consent";
+const KEY = "hq360-cookie-consent";
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!window.localStorage.getItem(KEY)) setVisible(true);
+    try {
+      if (!window.localStorage.getItem(KEY)) setVisible(true);
+    } catch {
+      /* storage blocked — do not show */
+    }
   }, []);
 
   function decide(value: "accepted" | "declined") {
-    window.localStorage.setItem(KEY, value);
+    try {
+      window.localStorage.setItem(KEY, value);
+    } catch {
+      /* ignore */
+    }
     setVisible(false);
   }
 
@@ -20,15 +29,15 @@ export function CookieBanner() {
     <div
       role="region"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card px-5 py-4 shadow-lift lg:px-8"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card px-5 py-4 shadow-lift sm:px-6 lg:px-8"
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">
-          We use a small number of cookies to understand how the site is used. Nothing is sold or
-          shared. Read the{" "}
-          <a href="/privacy" className="text-primary underline underline-offset-4">
+          We use a small number of cookies to understand how the site is used. Nothing is sold. See
+          the{" "}
+          <Link to="/privacy" className="text-brand underline underline-offset-4">
             privacy policy
-          </a>
+          </Link>
           .
         </p>
         <div className="flex shrink-0 gap-3">

@@ -1,150 +1,91 @@
-import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
-import { RiskReversal } from "@/components/site/RiskReversal";
-import { BRAND, SERVICES } from "@/data/site";
+import { Container, Eyebrow, Section, SectionHeader } from "@/components/site/Primitives";
+import { ProjectInquiryForm } from "@/components/site/ProjectInquiryForm";
+import { FaqSection } from "@/components/site/FaqSection";
+import { BRAND } from "@/config/brand";
+import { buildSeo, breadcrumbSchema, faqSchema } from "@/lib/seo";
 
-const title = "Book a Free Strategy Call | HQ360";
-const description =
-  "Thirty minutes on the phone. We review your listing or your presence live and name the three things we would fix first, whether or not you hire us.";
+const CONTACT_FAQS = [
+  {
+    q: "What happens after I send this?",
+    a: "We read it ourselves and reply within one working day, usually with a first view of what we would do and an honest read on whether we are the right fit. If we are not, we will say so.",
+  },
+  {
+    q: "Do I need a budget figured out?",
+    a: "No. A rough range helps us scope realistically, but 'not sure yet' is a valid answer. We will tell you what a sensible first phase costs.",
+  },
+  {
+    q: "Are you US-based?",
+    a: "We work with businesses and brands worldwide, and a large share of our clients are in the US. Calls are scheduled to your hours.",
+  },
+  {
+    q: "Can you work with our existing team or agencies?",
+    a: "Yes. We can own the whole system or connect to specialists you already trust. The goal is one accountable plan, not necessarily one vendor.",
+  },
+];
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildSeo(
+      {
+        title: "Start a Project | HQ360",
+        description:
+          "Tell HQ360 about your business. We reply within one working day with a first view of what we would build and whether we are the right fit.",
+        path: "/contact",
+      },
+      [
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ]),
+        faqSchema(CONTACT_FAQS),
+      ],
+    ),
   component: ContactPage,
 });
 
 function ContactPage() {
-  const [sent, setSent] = useState(false);
-
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    setSent(true);
-  }
-
   return (
     <>
       <Section>
-        <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:items-start">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-16">
           <div>
-            <SectionHeading
-              eyebrow="Book a call"
-              title="Thirty minutes. Straight answers."
-              intro="Tell us what you are working on. We will look at it live on the call and name the three things we would fix first, whether or not you hire us."
+            <SectionHeader
+              as="h1"
+              eyebrow="Start a project"
+              title="Tell us what you're building"
+              intro="The more context you give, the more useful our first reply will be. Everything here is optional except your name, email and where you need help."
             />
             <ul className="mt-10 space-y-3 text-sm text-muted-foreground">
-              <li>Average client rating of 4.9 out of 5 across 210 reviews</li>
-              <li>Cancel with thirty days notice at any point</li>
-              <li>Written audit within five working days of the call</li>
+              <li>One working day to a considered reply, not an autoresponder</li>
+              <li>You own every account, asset and automation we build</li>
+              <li>Month-to-month on ongoing work, with 30 days' notice</li>
+              <li>{BRAND.serviceArea}</li>
             </ul>
             <p className="mt-8 text-sm">
               Prefer email?{" "}
-              <a
-                href={`mailto:${BRAND.email}`}
-                className="text-primary underline underline-offset-4"
-              >
+              <a href={`mailto:${BRAND.email}`} className="text-brand underline underline-offset-4">
                 {BRAND.email}
               </a>
             </p>
-
-            <div className="mt-10 rounded-2xl border border-dashed border-border bg-card p-8 text-center">
-              <p className="text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                Calendar booking widget
-              </p>
-              <p className="mt-4 font-serif text-2xl">Embed your scheduling tool here</p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Placeholder area sized for a standard scheduling embed.
-              </p>
-            </div>
           </div>
 
-          <div className="rounded-3xl border border-border bg-card p-8 shadow-editorial lg:p-10">
-            <Eyebrow>Request a call</Eyebrow>
-            {sent ? (
-              <p role="status" className="mt-6 font-serif text-2xl">
-                Thank you. We reply to every request within one working day.
-              </p>
-            ) : (
-              <form onSubmit={onSubmit} className="mt-6 grid gap-5">
-                <Field id="name" label="Full name" type="text" autoComplete="name" />
-                <Field id="email" label="Email address" type="email" autoComplete="email" />
-                <Field id="project" label="Book title or brand name" type="text" />
-                <div className="grid gap-2">
-                  <label htmlFor="interest" className="text-sm font-medium">
-                    What do you need most?
-                  </label>
-                  <select
-                    id="interest"
-                    className="rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    <option>Not sure yet</option>
-                    {SERVICES.map((s) => (
-                      <option key={s.slug}>{s.title}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="grid gap-2">
-                  <label htmlFor="message" className="text-sm font-medium">
-                    Tell us where you are
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    className="rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    placeholder="Publication date, current results, what you have tried."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="mt-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-                >
-                  Book Your Free Strategy Call
-                </button>
-                <p className="text-xs text-muted-foreground">
-                  Placeholder form for demonstration. Connect it to your scheduling or email tool
-                  before launch.
-                </p>
-              </form>
-            )}
-            <RiskReversal className="mt-8" />
-          </div>
+          <ProjectInquiryForm />
         </div>
       </Section>
-    </>
-  );
-}
 
-function Field({
-  id,
-  label,
-  type,
-  autoComplete,
-}: {
-  id: string;
-  label: string;
-  type: string;
-  autoComplete?: string | undefined;
-}) {
-  return (
-    <div className="grid gap-2">
-      <label htmlFor={id} className="text-sm font-medium">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        required
-        autoComplete={autoComplete}
-        className="rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      />
-    </div>
+      <Section tone="raised">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+          <SectionHeader eyebrow="Before you ask" title="Common questions" />
+          <FaqSection faqs={CONTACT_FAQS} idPrefix="contact" />
+        </div>
+        <Container className="mt-12 px-0">
+          <p className="text-xs tracking-wide text-muted-foreground/80 uppercase">
+            {BRAND.name} was previously {BRAND.formerlyKnownAs}. Contact address and domain shown
+            here are placeholders pending confirmation.
+          </p>
+        </Container>
+      </Section>
+    </>
   );
 }

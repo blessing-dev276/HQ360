@@ -1,22 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Section, SectionHeading } from "@/components/site/Primitives";
-import { BRAND } from "@/data/site";
-
-const title = "Terms of Service | HQ360";
-const description =
-  "The terms that apply to engagements with HQ360, covering scope, payment, cancellation, ownership of work and limits of liability.";
+import { Section, SectionHeader } from "@/components/site/Primitives";
+import { BRAND } from "@/config/brand";
+import { buildSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildSeo({
+      title: "Terms of Service | HQ360",
+      description:
+        "The terms that apply to engagements with HQ360: scope, payment, cancellation, ownership of work and limits of liability.",
+      path: "/terms",
+    }),
   component: TermsPage,
 });
 
@@ -27,19 +21,19 @@ const sections = [
   },
   {
     heading: "Fees and payment",
-    body: "Fees are stated in the scope and invoiced monthly in advance unless otherwise agreed. Advertising budget is paid by you directly to the platform and is never handled by us.",
+    body: "Fees are stated in the scope. Projects are invoiced against milestones; partnerships are invoiced monthly in advance. Advertising budget is paid by you directly to the platforms and is never handled by us.",
   },
   {
     heading: "Cancellation",
-    body: "Either party may end an engagement with thirty days written notice. Work already delivered is payable. Any unused portion of a prepaid month is refunded.",
+    body: "Either party may end an ongoing engagement with thirty days' written notice. Work already delivered is payable. Any unused portion of a prepaid month is refunded. There are no termination penalties.",
   },
   {
     heading: "Ownership",
-    body: "On payment, you own every asset we create for you, including copy, designs, research and reports. We retain the right to reference the work in our portfolio unless you ask us not to.",
+    body: "On payment, you own every asset, account and automation we create for you, including copy, designs, research, builds and reports. We retain the right to reference the work in our portfolio unless you ask us not to.",
   },
   {
     heading: "Outcomes",
-    body: "We guarantee process, not market outcomes. Our full position on this is published on the guarantee page and forms part of these terms.",
+    body: "We are engaged to deliver a defined scope of work to a professional standard. We do not guarantee specific market outcomes such as rankings, lead volumes, revenue or list placements, because those depend on factors outside our control.",
   },
   {
     heading: "Liability",
@@ -47,30 +41,31 @@ const sections = [
   },
   {
     heading: "Confidentiality",
-    body: "Unpublished manuscripts, sales data and business plans shared with us are treated as confidential and are not disclosed to third parties without written permission.",
+    body: "Business plans, sales data, customer lists and unpublished material shared with us are treated as confidential and are not disclosed to third parties without written permission.",
   },
 ];
 
 function TermsPage() {
   return (
     <Section>
-      <SectionHeading
+      <SectionHeader
+        as="h1"
         eyebrow="Legal"
         title="Terms of service"
-        intro="Last updated July 2026. Placeholder terms for demonstration. Have counsel review before publishing."
+        intro="Placeholder terms for demonstration. Have counsel review before publishing."
       />
       <div className="mt-12 max-w-3xl space-y-10">
         {sections.map((s) => (
           <section key={s.heading}>
-            <h2 className="font-serif text-2xl">{s.heading}</h2>
+            <h2 className="font-display text-xl">{s.heading}</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">{s.body}</p>
           </section>
         ))}
         <section>
-          <h2 className="font-serif text-2xl">Contact</h2>
+          <h2 className="font-display text-xl">Contact</h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">
             Questions about these terms can be sent to{" "}
-            <a href={`mailto:${BRAND.email}`} className="text-primary underline underline-offset-4">
+            <a href={`mailto:${BRAND.email}`} className="text-brand underline underline-offset-4">
               {BRAND.email}
             </a>
             .

@@ -1,40 +1,79 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { STATS } from "@/data/site";
+
+/** Max-width page gutter. */
+export function Container({
+  children,
+  className,
+  size = "default",
+}: {
+  children: ReactNode;
+  className?: string;
+  size?: "default" | "narrow" | "wide";
+}) {
+  return (
+    <div
+      className={cn(
+        "mx-auto px-5 sm:px-6 lg:px-8",
+        size === "narrow" && "max-w-3xl",
+        size === "default" && "max-w-7xl",
+        size === "wide" && "max-w-[88rem]",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
 export function Section({
   children,
   className,
   tone = "base",
   id,
+  bleed = false,
 }: {
   children: ReactNode;
   className?: string;
-  tone?: "base" | "raised" | "dark";
+  tone?: "base" | "raised" | "dark" | "carbon";
   id?: string;
+  /** Skip the Container wrapper (caller controls width). */
+  bleed?: boolean;
 }) {
   return (
     <section
       id={id}
       className={cn(
-        "px-5 py-14 sm:py-20 lg:px-8 lg:py-28",
-        tone === "raised" && "bg-[oklch(0.955_0.011_82)]",
-        tone === "dark" && "bg-charcoal text-[oklch(0.95_0.008_85)]",
+        "py-16 sm:py-20 lg:py-28",
+        tone === "raised" && "bg-secondary",
+        tone === "dark" && "bg-charcoal text-[oklch(0.95_0.003_95)]",
+        tone === "carbon" && "bg-carbon text-[oklch(0.95_0.003_95)]",
         className,
       )}
     >
-      <div className="mx-auto max-w-7xl">{children}</div>
+      {bleed ? children : <Container>{children}</Container>}
     </section>
   );
 }
 
-export function Eyebrow({ children, dark }: { children: ReactNode; dark?: boolean | undefined }) {
+export function Eyebrow({
+  children,
+  tone = "brand",
+  className,
+}: {
+  children: ReactNode;
+  tone?: "brand" | "muted" | "light";
+  className?: string;
+}) {
   return (
     <p
       className={cn(
-        "font-sans text-xs font-semibold tracking-[0.2em] uppercase",
-        dark ? "text-gold" : "text-primary",
+        "text-xs font-semibold tracking-[0.18em] uppercase",
+        tone === "brand" && "text-brand",
+        tone === "muted" && "text-muted-foreground",
+        tone === "light" && "text-[oklch(0.8_0.03_60)]",
+        className,
       )}
     >
       {children}
@@ -42,119 +81,139 @@ export function Eyebrow({ children, dark }: { children: ReactNode; dark?: boolea
   );
 }
 
-export function SectionHeading({
+export function SectionHeader({
   eyebrow,
   title,
   intro,
-  dark,
   align = "left",
+  tone = "base",
+  className,
+  as: TitleTag = "h2",
 }: {
   eyebrow?: string;
-  title: string;
-  intro?: string;
-  dark?: boolean;
+  title: ReactNode;
+  intro?: ReactNode;
   align?: "left" | "center";
+  tone?: "base" | "light";
+  className?: string;
+  as?: "h1" | "h2";
 }) {
+  const light = tone === "light";
   return (
-    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      {eyebrow && <Eyebrow dark={dark ?? false}>{eyebrow}</Eyebrow>}
-      <h2 className="mt-3 text-3xl leading-tight text-balance sm:text-4xl lg:text-[2.75rem]">
+    <div className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}>
+      {eyebrow ? <Eyebrow tone={light ? "light" : "brand"}>{eyebrow}</Eyebrow> : null}
+      <TitleTag
+        className={cn(
+          "mt-3 text-3xl leading-[1.1] text-balance sm:text-4xl lg:text-[2.6rem]",
+          light ? "text-[oklch(0.97_0.003_95)]" : "text-foreground",
+        )}
+      >
         {title}
-      </h2>
-      <div className={cn("rule-fire mt-5", align === "center" && "mx-auto")} />
-      {intro && (
+      </TitleTag>
+      <div className={cn("rule-brand mt-5", align === "center" && "mx-auto")} />
+      {intro ? (
         <p
           className={cn(
             "mt-5 text-base leading-relaxed sm:text-lg",
-            dark ? "text-[oklch(0.83_0.012_80)]" : "text-muted-foreground",
+            light ? "text-[oklch(0.82_0.01_80)]" : "text-muted-foreground",
           )}
         >
           {intro}
         </p>
-      )}
+      ) : null}
     </div>
   );
 }
 
-export function StatRow({ dark }: { dark?: boolean }) {
-  return (
-    <dl
-      className={cn(
-        "grid grid-cols-2 gap-px overflow-hidden rounded-xl border lg:grid-cols-4",
-        dark ? "border-white/12 bg-white/10" : "border-border bg-border",
-      )}
-    >
-      {STATS.map((stat) => (
-        <div
-          key={stat.label}
-          className={cn("px-4 py-6 text-center sm:px-6 sm:py-8", dark ? "bg-charcoal" : "bg-card")}
-        >
-          <dt className="sr-only">{stat.label}</dt>
-          <dd>
-            <span className="text-fire font-serif text-3xl font-semibold sm:text-5xl">
-              {stat.value}
-            </span>
-            <span
-              className={cn(
-                "mt-2 block text-sm",
-                dark ? "text-[oklch(0.8_0.012_80)]" : "text-muted-foreground",
-              )}
-            >
-              {stat.label}
-            </span>
-          </dd>
-        </div>
-      ))}
-    </dl>
+type ButtonVariant = "primary" | "secondary" | "ghost" | "light";
+type ButtonSize = "md" | "lg";
+
+const buttonBase =
+  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-[transform,box-shadow,background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none";
+
+function buttonClasses(variant: ButtonVariant, size: ButtonSize, className?: string) {
+  return cn(
+    buttonBase,
+    size === "md" && "px-5 py-2.5 text-sm",
+    size === "lg" && "px-7 py-3.5 text-sm sm:text-base",
+    variant === "primary" &&
+      "bg-primary text-primary-foreground shadow-editorial hover:shadow-lift hover:-translate-y-0.5",
+    variant === "secondary" &&
+      "border border-foreground/20 text-foreground hover:border-brand hover:text-brand",
+    variant === "ghost" && "text-foreground hover:text-brand",
+    variant === "light" &&
+      "border border-white/25 text-[oklch(0.97_0.003_95)] hover:border-brand hover:text-brand",
+    className,
   );
 }
 
-export function PrimaryCta({
+export function ButtonLink({
   to,
+  href,
   children,
+  variant = "primary",
+  size = "lg",
   className,
+  ...rest
 }: {
-  to: string;
+  to?: string;
+  href?: string;
   children: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   className?: string;
-}) {
+} & Partial<ComponentProps<"a">>) {
+  if (to) {
+    return (
+      <Link to={to} className={buttonClasses(variant, size, className)}>
+        {children}
+      </Link>
+    );
+  }
   return (
-    <Link
-      to={to}
-      className={cn(
-        "inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-editorial hover:shadow-lift focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
-        className,
-      )}
-    >
+    <a href={href} className={buttonClasses(variant, size, className)} {...rest}>
       {children}
-    </Link>
+    </a>
   );
 }
 
-export function SecondaryCta({
-  to,
+export function Button({
   children,
+  variant = "primary",
+  size = "lg",
   className,
-  dark,
+  ...rest
 }: {
-  to: string;
   children: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   className?: string;
-  dark?: boolean;
+} & ComponentProps<"button">) {
+  return (
+    <button className={buttonClasses(variant, size, className)} {...rest}>
+      {children}
+    </button>
+  );
+}
+
+/** Small visible marker for illustrative / placeholder content. */
+export function SampleBadge({
+  children = "Illustrative",
+  className,
+}: {
+  children?: ReactNode;
+  className?: string;
 }) {
   return (
-    <Link
-      to={to}
+    <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full border px-7 py-3.5 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
-        dark
-          ? "border-white/25 text-[oklch(0.96_0.008_85)] hover:border-gold hover:text-gold"
-          : "border-foreground/20 text-foreground hover:border-primary hover:text-primary",
+        "inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand-soft px-2.5 py-1 text-[0.65rem] font-semibold tracking-wide text-[oklch(0.42_0.16_42)] uppercase",
         className,
       )}
     >
+      <span aria-hidden="true" className="size-1.5 rounded-full bg-brand" />
       {children}
-    </Link>
+    </span>
   );
 }
 

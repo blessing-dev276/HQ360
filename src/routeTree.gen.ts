@@ -11,21 +11,50 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AgenciesRouteImport } from './routes/agencies'
+import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as BookLaunchRouteImport } from './routes/book-launch'
+import { Route as CoachesRouteImport } from './routes/coaches'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CreatorsRouteImport } from './routes/creators'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as GuaranteeRouteImport } from './routes/guarantee'
+import { Route as HomeServicesRouteImport } from './routes/home-services'
+import { Route as HvacRouteImport } from './routes/hvac'
+import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as LawFirmsRouteImport } from './routes/law-firms'
+import { Route as LocalBusinessRouteImport } from './routes/local-business'
+import { Route as MedSpasRouteImport } from './routes/med-spas'
+import { Route as PlumbersRouteImport } from './routes/plumbers'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RealEstateRouteImport } from './routes/real-estate'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as RoofersRouteImport } from './routes/roofers'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as CapabilitiesIndexRouteImport } from './routes/capabilities.index'
+import { Route as CapabilitiesSlugRouteImport } from './routes/capabilities.$slug'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as WorkIndexRouteImport } from './routes/work.index'
+import { Route as WorkSlugRouteImport } from './routes/work.$slug'
+import { Route as ApiAdminPortfolioRouteImport } from './routes/api/admin/portfolio'
+import { Route as ApiAdminSessionRouteImport } from './routes/api/admin/session'
+import { Route as ApiAdminUploadRouteImport } from './routes/api/admin/upload'
+import { Route as ApiPublicGrowthAuditRouteImport } from './routes/api/public/growth-audit'
+import { Route as ApiPublicInquiryRouteImport } from './routes/api/public/inquiry'
+import { Route as ApiPublicNewsletterRouteImport } from './routes/api/public/newsletter'
+import { Route as ApiPublicPortfolioRouteImport } from './routes/api/public/portfolio'
 import { Route as ApiPublicResourceRequestRouteImport } from './routes/api/public/resource-request'
+import { Route as ApiAdminPortfolioIdRouteImport } from './routes/api/admin/portfolio.$id'
+import { Route as ApiAdminPortfolioReorderRouteImport } from './routes/api/admin/portfolio.reorder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -37,14 +66,39 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgenciesRoute = AgenciesRouteImport.update({
+  id: '/agencies',
+  path: '/agencies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthorsRoute = AuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookLaunchRoute = BookLaunchRouteImport.update({
   id: '/book-launch',
   path: '/book-launch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoachesRoute = CoachesRouteImport.update({
+  id: '/coaches',
+  path: '/coaches',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorsRoute = CreatorsRouteImport.update({
+  id: '/creators',
+  path: '/creators',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -57,6 +111,41 @@ const GuaranteeRoute = GuaranteeRouteImport.update({
   path: '/guarantee',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeServicesRoute = HomeServicesRouteImport.update({
+  id: '/home-services',
+  path: '/home-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HvacRoute = HvacRouteImport.update({
+  id: '/hvac',
+  path: '/hvac',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LawFirmsRoute = LawFirmsRouteImport.update({
+  id: '/law-firms',
+  path: '/law-firms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalBusinessRoute = LocalBusinessRouteImport.update({
+  id: '/local-business',
+  path: '/local-business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MedSpasRoute = MedSpasRouteImport.update({
+  id: '/med-spas',
+  path: '/med-spas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlumbersRoute = PlumbersRouteImport.update({
+  id: '/plumbers',
+  path: '/plumbers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -65,6 +154,11 @@ const PricingRoute = PricingRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RealEstateRoute = RealEstateRouteImport.update({
+  id: '/real-estate',
+  path: '/real-estate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -82,6 +176,11 @@ const ReviewsRoute = ReviewsRouteImport.update({
   path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoofersRoute = RoofersRouteImport.update({
+  id: '/roofers',
+  path: '/roofers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -97,6 +196,26 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CapabilitiesIndexRoute = CapabilitiesIndexRouteImport.update({
+  id: '/capabilities/',
+  path: '/capabilities/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CapabilitiesSlugRoute = CapabilitiesSlugRouteImport.update({
+  id: '/capabilities/$slug',
+  path: '/capabilities/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/insights/',
+  path: '/insights/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/insights/$slug',
+  path: '/insights/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -107,148 +226,405 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkIndexRoute = WorkIndexRouteImport.update({
+  id: '/work/',
+  path: '/work/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkSlugRoute = WorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminPortfolioRoute = ApiAdminPortfolioRouteImport.update({
+  id: '/api/admin/portfolio',
+  path: '/api/admin/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminSessionRoute = ApiAdminSessionRouteImport.update({
+  id: '/api/admin/session',
+  path: '/api/admin/session',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminUploadRoute = ApiAdminUploadRouteImport.update({
+  id: '/api/admin/upload',
+  path: '/api/admin/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicGrowthAuditRoute = ApiPublicGrowthAuditRouteImport.update({
+  id: '/api/public/growth-audit',
+  path: '/api/public/growth-audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicInquiryRoute = ApiPublicInquiryRouteImport.update({
+  id: '/api/public/inquiry',
+  path: '/api/public/inquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicNewsletterRoute = ApiPublicNewsletterRouteImport.update({
+  id: '/api/public/newsletter',
+  path: '/api/public/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPortfolioRoute = ApiPublicPortfolioRouteImport.update({
+  id: '/api/public/portfolio',
+  path: '/api/public/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicResourceRequestRoute =
   ApiPublicResourceRequestRouteImport.update({
     id: '/api/public/resource-request',
     path: '/api/public/resource-request',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiAdminPortfolioIdRoute = ApiAdminPortfolioIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiAdminPortfolioRoute,
+} as any)
+const ApiAdminPortfolioReorderRoute =
+  ApiAdminPortfolioReorderRouteImport.update({
+    id: '/reorder',
+    path: '/reorder',
+    getParentRoute: () => ApiAdminPortfolioRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/agencies': typeof AgenciesRoute
+  '/authors': typeof AuthorsRoute
   '/book-launch': typeof BookLaunchRoute
+  '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/creators': typeof CreatorsRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
+  '/home-services': typeof HomeServicesRoute
+  '/hvac': typeof HvacRoute
+  '/industries': typeof IndustriesRoute
+  '/law-firms': typeof LawFirmsRoute
+  '/local-business': typeof LocalBusinessRoute
+  '/med-spas': typeof MedSpasRoute
+  '/plumbers': typeof PlumbersRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/real-estate': typeof RealEstateRoute
   '/resources': typeof ResourcesRoute
   '/results': typeof ResultsRoute
   '/reviews': typeof ReviewsRoute
+  '/roofers': typeof RoofersRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/capabilities/$slug': typeof CapabilitiesSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/capabilities/': typeof CapabilitiesIndexRoute
+  '/insights/': typeof InsightsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
+  '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
+  '/api/public/inquiry': typeof ApiPublicInquiryRoute
+  '/api/public/newsletter': typeof ApiPublicNewsletterRoute
+  '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
+  '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/agencies': typeof AgenciesRoute
+  '/authors': typeof AuthorsRoute
   '/book-launch': typeof BookLaunchRoute
+  '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/creators': typeof CreatorsRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
+  '/home-services': typeof HomeServicesRoute
+  '/hvac': typeof HvacRoute
+  '/industries': typeof IndustriesRoute
+  '/law-firms': typeof LawFirmsRoute
+  '/local-business': typeof LocalBusinessRoute
+  '/med-spas': typeof MedSpasRoute
+  '/plumbers': typeof PlumbersRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/real-estate': typeof RealEstateRoute
   '/resources': typeof ResourcesRoute
   '/results': typeof ResultsRoute
   '/reviews': typeof ReviewsRoute
+  '/roofers': typeof RoofersRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/capabilities/$slug': typeof CapabilitiesSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/capabilities': typeof CapabilitiesIndexRoute
+  '/insights': typeof InsightsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/work': typeof WorkIndexRoute
+  '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
+  '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
+  '/api/public/inquiry': typeof ApiPublicInquiryRoute
+  '/api/public/newsletter': typeof ApiPublicNewsletterRoute
+  '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
+  '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/agencies': typeof AgenciesRoute
+  '/authors': typeof AuthorsRoute
   '/book-launch': typeof BookLaunchRoute
+  '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/creators': typeof CreatorsRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
+  '/home-services': typeof HomeServicesRoute
+  '/hvac': typeof HvacRoute
+  '/industries': typeof IndustriesRoute
+  '/law-firms': typeof LawFirmsRoute
+  '/local-business': typeof LocalBusinessRoute
+  '/med-spas': typeof MedSpasRoute
+  '/plumbers': typeof PlumbersRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/real-estate': typeof RealEstateRoute
   '/resources': typeof ResourcesRoute
   '/results': typeof ResultsRoute
   '/reviews': typeof ReviewsRoute
+  '/roofers': typeof RoofersRoute
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/capabilities/$slug': typeof CapabilitiesSlugRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/capabilities/': typeof CapabilitiesIndexRoute
+  '/insights/': typeof InsightsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
+  '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
+  '/api/public/inquiry': typeof ApiPublicInquiryRoute
+  '/api/public/newsletter': typeof ApiPublicNewsletterRoute
+  '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
+  '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
+    | '/agencies'
+    | '/authors'
     | '/book-launch'
+    | '/coaches'
     | '/contact'
+    | '/creators'
     | '/faqs'
     | '/guarantee'
+    | '/home-services'
+    | '/hvac'
+    | '/industries'
+    | '/law-firms'
+    | '/local-business'
+    | '/med-spas'
+    | '/plumbers'
     | '/pricing'
     | '/privacy'
+    | '/real-estate'
     | '/resources'
     | '/results'
     | '/reviews'
+    | '/roofers'
     | '/terms'
     | '/blog/$slug'
+    | '/capabilities/$slug'
+    | '/insights/$slug'
     | '/services/$slug'
+    | '/work/$slug'
     | '/blog/'
+    | '/capabilities/'
+    | '/insights/'
     | '/services/'
+    | '/work/'
+    | '/api/admin/portfolio'
+    | '/api/admin/session'
+    | '/api/admin/upload'
+    | '/api/public/growth-audit'
+    | '/api/public/inquiry'
+    | '/api/public/newsletter'
+    | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/admin/portfolio/$id'
+    | '/api/admin/portfolio/reorder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/admin'
+    | '/agencies'
+    | '/authors'
     | '/book-launch'
+    | '/coaches'
     | '/contact'
+    | '/creators'
     | '/faqs'
     | '/guarantee'
+    | '/home-services'
+    | '/hvac'
+    | '/industries'
+    | '/law-firms'
+    | '/local-business'
+    | '/med-spas'
+    | '/plumbers'
     | '/pricing'
     | '/privacy'
+    | '/real-estate'
     | '/resources'
     | '/results'
     | '/reviews'
+    | '/roofers'
     | '/terms'
     | '/blog/$slug'
+    | '/capabilities/$slug'
+    | '/insights/$slug'
     | '/services/$slug'
+    | '/work/$slug'
     | '/blog'
+    | '/capabilities'
+    | '/insights'
     | '/services'
+    | '/work'
+    | '/api/admin/portfolio'
+    | '/api/admin/session'
+    | '/api/admin/upload'
+    | '/api/public/growth-audit'
+    | '/api/public/inquiry'
+    | '/api/public/newsletter'
+    | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/admin/portfolio/$id'
+    | '/api/admin/portfolio/reorder'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
+    | '/agencies'
+    | '/authors'
     | '/book-launch'
+    | '/coaches'
     | '/contact'
+    | '/creators'
     | '/faqs'
     | '/guarantee'
+    | '/home-services'
+    | '/hvac'
+    | '/industries'
+    | '/law-firms'
+    | '/local-business'
+    | '/med-spas'
+    | '/plumbers'
     | '/pricing'
     | '/privacy'
+    | '/real-estate'
     | '/resources'
     | '/results'
     | '/reviews'
+    | '/roofers'
     | '/terms'
     | '/blog/$slug'
+    | '/capabilities/$slug'
+    | '/insights/$slug'
     | '/services/$slug'
+    | '/work/$slug'
     | '/blog/'
+    | '/capabilities/'
+    | '/insights/'
     | '/services/'
+    | '/work/'
+    | '/api/admin/portfolio'
+    | '/api/admin/session'
+    | '/api/admin/upload'
+    | '/api/public/growth-audit'
+    | '/api/public/inquiry'
+    | '/api/public/newsletter'
+    | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/admin/portfolio/$id'
+    | '/api/admin/portfolio/reorder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  AgenciesRoute: typeof AgenciesRoute
+  AuthorsRoute: typeof AuthorsRoute
   BookLaunchRoute: typeof BookLaunchRoute
+  CoachesRoute: typeof CoachesRoute
   ContactRoute: typeof ContactRoute
+  CreatorsRoute: typeof CreatorsRoute
   FaqsRoute: typeof FaqsRoute
   GuaranteeRoute: typeof GuaranteeRoute
+  HomeServicesRoute: typeof HomeServicesRoute
+  HvacRoute: typeof HvacRoute
+  IndustriesRoute: typeof IndustriesRoute
+  LawFirmsRoute: typeof LawFirmsRoute
+  LocalBusinessRoute: typeof LocalBusinessRoute
+  MedSpasRoute: typeof MedSpasRoute
+  PlumbersRoute: typeof PlumbersRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
+  RealEstateRoute: typeof RealEstateRoute
   ResourcesRoute: typeof ResourcesRoute
   ResultsRoute: typeof ResultsRoute
   ReviewsRoute: typeof ReviewsRoute
+  RoofersRoute: typeof RoofersRoute
   TermsRoute: typeof TermsRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  CapabilitiesSlugRoute: typeof CapabilitiesSlugRoute
+  InsightsSlugRoute: typeof InsightsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  WorkSlugRoute: typeof WorkSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  CapabilitiesIndexRoute: typeof CapabilitiesIndexRoute
+  InsightsIndexRoute: typeof InsightsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  WorkIndexRoute: typeof WorkIndexRoute
+  ApiAdminPortfolioRoute: typeof ApiAdminPortfolioRouteWithChildren
+  ApiAdminSessionRoute: typeof ApiAdminSessionRoute
+  ApiAdminUploadRoute: typeof ApiAdminUploadRoute
+  ApiPublicGrowthAuditRoute: typeof ApiPublicGrowthAuditRoute
+  ApiPublicInquiryRoute: typeof ApiPublicInquiryRoute
+  ApiPublicNewsletterRoute: typeof ApiPublicNewsletterRoute
+  ApiPublicPortfolioRoute: typeof ApiPublicPortfolioRoute
   ApiPublicResourceRequestRoute: typeof ApiPublicResourceRequestRoute
 }
 
@@ -268,6 +644,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agencies': {
+      id: '/agencies'
+      path: '/agencies'
+      fullPath: '/agencies'
+      preLoaderRoute: typeof AgenciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/authors': {
+      id: '/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof AuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book-launch': {
       id: '/book-launch'
       path: '/book-launch'
@@ -275,11 +672,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookLaunchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coaches': {
+      id: '/coaches'
+      path: '/coaches'
+      fullPath: '/coaches'
+      preLoaderRoute: typeof CoachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creators': {
+      id: '/creators'
+      path: '/creators'
+      fullPath: '/creators'
+      preLoaderRoute: typeof CreatorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -296,6 +707,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuaranteeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/home-services': {
+      id: '/home-services'
+      path: '/home-services'
+      fullPath: '/home-services'
+      preLoaderRoute: typeof HomeServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hvac': {
+      id: '/hvac'
+      path: '/hvac'
+      fullPath: '/hvac'
+      preLoaderRoute: typeof HvacRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/law-firms': {
+      id: '/law-firms'
+      path: '/law-firms'
+      fullPath: '/law-firms'
+      preLoaderRoute: typeof LawFirmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/local-business': {
+      id: '/local-business'
+      path: '/local-business'
+      fullPath: '/local-business'
+      preLoaderRoute: typeof LocalBusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/med-spas': {
+      id: '/med-spas'
+      path: '/med-spas'
+      fullPath: '/med-spas'
+      preLoaderRoute: typeof MedSpasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plumbers': {
+      id: '/plumbers'
+      path: '/plumbers'
+      fullPath: '/plumbers'
+      preLoaderRoute: typeof PlumbersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -308,6 +768,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/real-estate': {
+      id: '/real-estate'
+      path: '/real-estate'
+      fullPath: '/real-estate'
+      preLoaderRoute: typeof RealEstateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources': {
@@ -331,6 +798,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/roofers': {
+      id: '/roofers'
+      path: '/roofers'
+      fullPath: '/roofers'
+      preLoaderRoute: typeof RoofersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -352,6 +826,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/capabilities/': {
+      id: '/capabilities/'
+      path: '/capabilities'
+      fullPath: '/capabilities/'
+      preLoaderRoute: typeof CapabilitiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/capabilities/$slug': {
+      id: '/capabilities/$slug'
+      path: '/capabilities/$slug'
+      fullPath: '/capabilities/$slug'
+      preLoaderRoute: typeof CapabilitiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights/': {
+      id: '/insights/'
+      path: '/insights'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/insights/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/services'
@@ -366,6 +868,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/work/': {
+      id: '/work/'
+      path: '/work'
+      fullPath: '/work/'
+      preLoaderRoute: typeof WorkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/$slug': {
+      id: '/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/portfolio': {
+      id: '/api/admin/portfolio'
+      path: '/api/admin/portfolio'
+      fullPath: '/api/admin/portfolio'
+      preLoaderRoute: typeof ApiAdminPortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/session': {
+      id: '/api/admin/session'
+      path: '/api/admin/session'
+      fullPath: '/api/admin/session'
+      preLoaderRoute: typeof ApiAdminSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/upload': {
+      id: '/api/admin/upload'
+      path: '/api/admin/upload'
+      fullPath: '/api/admin/upload'
+      preLoaderRoute: typeof ApiAdminUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/growth-audit': {
+      id: '/api/public/growth-audit'
+      path: '/api/public/growth-audit'
+      fullPath: '/api/public/growth-audit'
+      preLoaderRoute: typeof ApiPublicGrowthAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/inquiry': {
+      id: '/api/public/inquiry'
+      path: '/api/public/inquiry'
+      fullPath: '/api/public/inquiry'
+      preLoaderRoute: typeof ApiPublicInquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/newsletter': {
+      id: '/api/public/newsletter'
+      path: '/api/public/newsletter'
+      fullPath: '/api/public/newsletter'
+      preLoaderRoute: typeof ApiPublicNewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/portfolio': {
+      id: '/api/public/portfolio'
+      path: '/api/public/portfolio'
+      fullPath: '/api/public/portfolio'
+      preLoaderRoute: typeof ApiPublicPortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/resource-request': {
       id: '/api/public/resource-request'
       path: '/api/public/resource-request'
@@ -373,26 +938,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicResourceRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/portfolio/$id': {
+      id: '/api/admin/portfolio/$id'
+      path: '/$id'
+      fullPath: '/api/admin/portfolio/$id'
+      preLoaderRoute: typeof ApiAdminPortfolioIdRouteImport
+      parentRoute: typeof ApiAdminPortfolioRoute
+    }
+    '/api/admin/portfolio/reorder': {
+      id: '/api/admin/portfolio/reorder'
+      path: '/reorder'
+      fullPath: '/api/admin/portfolio/reorder'
+      preLoaderRoute: typeof ApiAdminPortfolioReorderRouteImport
+      parentRoute: typeof ApiAdminPortfolioRoute
+    }
   }
 }
+
+interface ApiAdminPortfolioRouteChildren {
+  ApiAdminPortfolioIdRoute: typeof ApiAdminPortfolioIdRoute
+  ApiAdminPortfolioReorderRoute: typeof ApiAdminPortfolioReorderRoute
+}
+
+const ApiAdminPortfolioRouteChildren: ApiAdminPortfolioRouteChildren = {
+  ApiAdminPortfolioIdRoute: ApiAdminPortfolioIdRoute,
+  ApiAdminPortfolioReorderRoute: ApiAdminPortfolioReorderRoute,
+}
+
+const ApiAdminPortfolioRouteWithChildren =
+  ApiAdminPortfolioRoute._addFileChildren(ApiAdminPortfolioRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  AgenciesRoute: AgenciesRoute,
+  AuthorsRoute: AuthorsRoute,
   BookLaunchRoute: BookLaunchRoute,
+  CoachesRoute: CoachesRoute,
   ContactRoute: ContactRoute,
+  CreatorsRoute: CreatorsRoute,
   FaqsRoute: FaqsRoute,
   GuaranteeRoute: GuaranteeRoute,
+  HomeServicesRoute: HomeServicesRoute,
+  HvacRoute: HvacRoute,
+  IndustriesRoute: IndustriesRoute,
+  LawFirmsRoute: LawFirmsRoute,
+  LocalBusinessRoute: LocalBusinessRoute,
+  MedSpasRoute: MedSpasRoute,
+  PlumbersRoute: PlumbersRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
+  RealEstateRoute: RealEstateRoute,
   ResourcesRoute: ResourcesRoute,
   ResultsRoute: ResultsRoute,
   ReviewsRoute: ReviewsRoute,
+  RoofersRoute: RoofersRoute,
   TermsRoute: TermsRoute,
   BlogSlugRoute: BlogSlugRoute,
+  CapabilitiesSlugRoute: CapabilitiesSlugRoute,
+  InsightsSlugRoute: InsightsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  WorkSlugRoute: WorkSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
+  CapabilitiesIndexRoute: CapabilitiesIndexRoute,
+  InsightsIndexRoute: InsightsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  WorkIndexRoute: WorkIndexRoute,
+  ApiAdminPortfolioRoute: ApiAdminPortfolioRouteWithChildren,
+  ApiAdminSessionRoute: ApiAdminSessionRoute,
+  ApiAdminUploadRoute: ApiAdminUploadRoute,
+  ApiPublicGrowthAuditRoute: ApiPublicGrowthAuditRoute,
+  ApiPublicInquiryRoute: ApiPublicInquiryRoute,
+  ApiPublicNewsletterRoute: ApiPublicNewsletterRoute,
+  ApiPublicPortfolioRoute: ApiPublicPortfolioRoute,
   ApiPublicResourceRequestRoute: ApiPublicResourceRequestRoute,
 }
 export const routeTree = rootRouteImport

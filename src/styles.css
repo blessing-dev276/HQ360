@@ -6,18 +6,21 @@
 
 /*
  * HQ360 design system.
- * All color values use oklch. Brand tokens map to the ember palette:
- * Cream #FFFECB, Dusty Olive #80876A, Onyx #000F08, Dim Grey #776B69.
+ *
+ * Palette (approx hex): Near Black #111416, Warm White #FAF9F6,
+ * HQ Orange #FF5A00, Energy Orange #FF8500, plus a warm neutral ramp.
+ * Orange is an accent only: most surfaces are warm white, charcoal or black.
+ * All colours are oklch so the system can be re-themed from this file alone.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --radius-3xl: calc(var(--radius) + 18px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -38,20 +41,25 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-ember: var(--ember);
-  --color-ember-deep: var(--ember-deep);
-  --color-blaze: var(--blaze);
-  --color-gold: var(--gold);
-  --color-charcoal: var(--charcoal);
+
+  /* Brand tokens */
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
+  --color-charcoal: var(--charcoal);
+  --color-carbon: var(--carbon);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+  --color-hairline: var(--hairline);
+
+  --color-chart-1: var(--brand);
+  --color-chart-2: var(--brand-strong);
+  --color-chart-3: var(--ink);
+  --color-chart-4: var(--ink-muted);
+  --color-chart-5: var(--brand-soft);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -60,27 +68,27 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-serif: "Fraunces", "Playfair Display", Georgia, serif;
+
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.625rem;
 
-  /* HQ360 brand: Onyx #0B0F0E, Deep Pine #14312A, Brass #C8A253, Champagne #E4CE96, Ivory #F6F2E9, Stone #6F6A61 */
-  --ember: oklch(0.731 0.107 83.8);
-  --ember-deep: oklch(0.288 0.038 175.7);
-  --blaze: oklch(0.585 0.056 87.2);
-  --gold: oklch(0.856 0.077 89);
-  --charcoal: oklch(0.164 0.007 178.6);
-  --ink: oklch(0.164 0.007 178.6);
-  --ink-muted: oklch(0.526 0.015 82.4);
-  --surface: oklch(0.962 0.013 86.8);
-  --surface-raised: oklch(0.99 0.006 86.8);
-
-  --gradient-fire: linear-gradient(100deg, var(--charcoal), oklch(0.288 0.038 175.7) 40%, oklch(0.585 0.056 87.2) 78%, var(--ember));
-  --shadow-editorial: 0 1px 2px oklch(0.164 0.007 178.6 / 6%), 0 18px 40px -28px oklch(0.164 0.007 178.6 / 35%);
-  --shadow-lift: 0 2px 4px oklch(0.164 0.007 178.6 / 8%), 0 28px 60px -32px oklch(0.164 0.007 178.6 / 45%);
+  /* Raw brand values */
+  --brand: oklch(0.702 0.213 41.2); /* HQ Orange  #FF5A00 */
+  --brand-strong: oklch(0.775 0.174 58); /* Energy Orange #FF8500 */
+  --brand-soft: oklch(0.968 0.03 62); /* faint orange wash */
+  --ink: oklch(0.216 0.008 247); /* Near Black #111416 */
+  --carbon: oklch(0.166 0.006 247); /* deepest black section bg */
+  --charcoal: oklch(0.216 0.008 247);
+  --ink-muted: oklch(0.502 0.011 250);
+  --surface: oklch(0.984 0.003 95); /* Warm White #FAF9F6 */
+  --surface-raised: oklch(1 0 0);
+  --hairline: oklch(0.912 0.004 90);
 
   --background: var(--surface);
   --foreground: var(--ink);
@@ -88,56 +96,56 @@
   --card-foreground: var(--ink);
   --popover: var(--surface-raised);
   --popover-foreground: var(--ink);
-  --primary: oklch(0.288 0.038 175.7);
-  --primary-foreground: oklch(0.962 0.013 86.8);
-  --secondary: oklch(0.93 0.014 86.8);
-  --secondary-foreground: var(--ink);
-  --muted: oklch(0.935 0.012 86.8);
-  --muted-foreground: var(--ink-muted);
-  --accent: oklch(0.9 0.04 88);
-  --accent-foreground: var(--ember-deep);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.962 0.013 86.8);
-  --border: oklch(0.885 0.012 86.8);
-  --input: oklch(0.885 0.012 86.8);
-  --ring: var(--ember);
 
-  --chart-1: var(--ember);
-  --chart-2: var(--ember-deep);
-  --chart-3: var(--ink-muted);
-  --chart-4: var(--blaze);
-  --chart-5: oklch(0.856 0.077 89);
+  --primary: var(--ink);
+  --primary-foreground: oklch(0.985 0.003 95);
+  --secondary: oklch(0.951 0.004 90);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.953 0.004 90);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--brand-soft);
+  --accent-foreground: oklch(0.42 0.16 42);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0.003 95);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--brand);
+
+  --shadow-editorial:
+    0 1px 2px oklch(0.216 0.008 247 / 5%), 0 14px 32px -22px oklch(0.216 0.008 247 / 28%);
+  --shadow-lift:
+    0 2px 6px oklch(0.216 0.008 247 / 7%), 0 32px 64px -34px oklch(0.216 0.008 247 / 42%);
+  --gradient-brand: linear-gradient(96deg, var(--brand) 8%, var(--brand-strong) 92%);
+
   --sidebar: var(--surface-raised);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--ember-deep);
-  --sidebar-primary-foreground: oklch(0.962 0.013 86.8);
-  --sidebar-accent: oklch(0.9 0.04 88);
-  --sidebar-accent-foreground: var(--ember-deep);
-  --sidebar-border: oklch(0.885 0.012 86.8);
-  --sidebar-ring: var(--ember);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: oklch(0.985 0.003 95);
+  --sidebar-accent: var(--brand-soft);
+  --sidebar-accent-foreground: oklch(0.42 0.16 42);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--brand);
 }
 
 .dark {
-  --background: oklch(0.164 0.007 178.6);
-  --foreground: oklch(0.962 0.013 86.8);
-  --card: oklch(0.212 0.012 176);
-  --card-foreground: oklch(0.962 0.013 86.8);
-  --popover: oklch(0.212 0.012 176);
-  --popover-foreground: oklch(0.962 0.013 86.8);
-  --primary: oklch(0.731 0.107 83.8);
-  --primary-foreground: oklch(0.164 0.007 178.6);
-  --secondary: oklch(0.248 0.012 167.6);
-  --secondary-foreground: oklch(0.962 0.013 86.8);
-  --muted: oklch(0.248 0.012 167.6);
-  --muted-foreground: oklch(0.75 0.014 86);
-  --accent: oklch(0.288 0.038 175.7);
-  --accent-foreground: oklch(0.962 0.013 86.8);
+  --background: var(--carbon);
+  --foreground: oklch(0.965 0.003 95);
+  --card: oklch(0.216 0.008 247);
+  --card-foreground: oklch(0.965 0.003 95);
+  --popover: oklch(0.216 0.008 247);
+  --popover-foreground: oklch(0.965 0.003 95);
+  --primary: oklch(0.985 0.003 95);
+  --primary-foreground: var(--ink);
+  --secondary: oklch(0.27 0.008 247);
+  --secondary-foreground: oklch(0.965 0.003 95);
+  --muted: oklch(0.27 0.008 247);
+  --muted-foreground: oklch(0.72 0.01 250);
+  --accent: oklch(0.32 0.06 45);
+  --accent-foreground: oklch(0.965 0.003 95);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
-  --ring: var(--ember);
-
+  --ring: var(--brand);
 }
-
 
 @layer base {
   * {
@@ -146,45 +154,63 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light;
   }
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "cv02", "cv03", "cv04";
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.022em;
+  }
+
+  h1 {
+    letter-spacing: -0.032em;
   }
 
   ::selection {
-    background: var(--blaze);
-    color: oklch(0.99 0 0);
+    background: var(--brand);
+    color: oklch(1 0 0);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
   }
 }
 
-@utility text-fire {
-  background-image: var(--gradient-fire);
+/* ---------- Brand utilities ---------- */
+
+@utility text-brand {
+  color: var(--brand);
+}
+
+@utility bg-brand-gradient {
+  background-image: var(--gradient-brand);
+}
+
+@utility text-brand-gradient {
+  background-image: var(--gradient-brand);
   background-clip: text;
   color: transparent;
 }
 
-@utility bg-fire {
-  background-image: var(--gradient-fire);
-}
-
-@utility rule-fire {
-  background-image: var(--gradient-fire);
+@utility rule-brand {
+  background-image: var(--gradient-brand);
   height: 3px;
-  width: 4rem;
+  width: 3.5rem;
   border-radius: 999px;
 }
 
@@ -196,19 +222,76 @@
   box-shadow: var(--shadow-lift);
 }
 
-@keyframes marquee-scroll {
-  0% {
+/* ---------- Motion ---------- */
+
+@keyframes hq-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hq-orbit-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes hq-marquee {
+  from {
     transform: translateX(0);
   }
-  100% {
-    transform: translateX(-33.333%);
+  to {
+    transform: translateX(-50%);
   }
 }
 
-.marquee-track {
-  animation: marquee-scroll 45s linear infinite;
+.hq-spin-slow {
+  animation: hq-orbit 42s linear infinite;
+  transform-origin: center;
 }
 
-.marquee-track:hover {
+.hq-spin-slower {
+  animation: hq-orbit-reverse 68s linear infinite;
+  transform-origin: center;
+}
+
+.hq-marquee-track {
+  animation: hq-marquee 46s linear infinite;
+}
+
+.hq-marquee-track:hover {
   animation-play-state: paused;
+}
+
+/* Scroll reveal: elements start hidden, `.is-visible` is toggled by useReveal */
+.hq-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.hq-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hq-spin-slow,
+  .hq-spin-slower,
+  .hq-marquee-track {
+    animation: none !important;
+  }
+
+  .hq-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

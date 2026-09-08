@@ -1,228 +1,135 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  Eyebrow,
-  PlaceholderNote,
-  PrimaryCta,
-  SecondaryCta,
-  Section,
-  SectionHeading,
-} from "@/components/site/Primitives";
-import { RiskReversal } from "@/components/site/RiskReversal";
-import { PRICING_ALACARTE, PRICING_FAQS, PRICING_FLAGSHIP } from "@/data/site";
-
-const title = "Pricing | HQ360";
-const description =
-  "One flagship launch engagement at a flat campaign rate, plus every service priced on its own. Month to month, no long contracts, ad spend separate.";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
+import { Section, SectionHeader } from "@/components/site/Primitives";
+import { FaqSection } from "@/components/site/FaqSection";
+import { CtaBand } from "@/components/site/CtaBand";
+import { Reveal } from "@/components/site/Reveal";
+import { ENGAGEMENTS, PRICING_FAQS, PRICING_PRINCIPLES } from "@/data/pricing";
+import { buildSeo, breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { CTAS } from "@/config/brand";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildSeo(
+      {
+        title: "Pricing & Engagement Models | HQ360",
+        description:
+          "Three ways to work with HQ360: a defined Project, a full Growth System build, or an ongoing Growth Partnership. Custom scope, no long contracts.",
+        path: "/pricing",
+      },
+      [
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Pricing", path: "/pricing" },
+        ]),
+        faqSchema(PRICING_FAQS),
+      ],
+    ),
   component: PricingPage,
 });
 
-const included = [
-  "A named strategist on every call",
-  "Weekly written updates and a live dashboard",
-  "All research, reporting and creative direction",
-  "Thirty days notice to pause or stop",
-];
-
-const excluded = [
-  "Advertising budget, paid by you to the platform",
-  "Editing, cover design and interior layout",
-  "Printing, distribution and fulfilment",
-  "Third party review service fees",
-];
-
-export function PricingPage() {
+function PricingPage() {
   return (
     <>
       <Section>
-        <SectionHeading
+        <SectionHeader
+          as="h1"
           eyebrow="Pricing"
-          title="Flat rates, written scope, month to month."
-          intro="You will always know the price before work starts and what happens if we stop. Prices below are placeholder figures for demonstration."
+          title="Three ways to work together"
+          intro="No single flat price for every business. Scope is set from your goals, what you already have running, and how fast you want to move. Figures below are indicative starting points, marked as placeholders."
         />
+
+        <ul className="mt-14 grid gap-6 lg:grid-cols-3">
+          {ENGAGEMENTS.map((e, i) => (
+            <li key={e.slug}>
+              <Reveal delay={i * 50} className="h-full">
+                <article
+                  className={cn(
+                    "flex h-full flex-col rounded-3xl border bg-card p-7 sm:p-8",
+                    e.featured
+                      ? "border-brand shadow-lift ring-1 ring-brand/20"
+                      : "border-border shadow-editorial",
+                  )}
+                >
+                  {e.featured ? (
+                    <span className="mb-4 inline-flex w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold tracking-wide text-[oklch(0.42_0.16_42)] uppercase">
+                      Most common
+                    </span>
+                  ) : null}
+                  <h2 className="font-display text-2xl">{e.name}</h2>
+                  <p className="mt-2 text-sm text-muted-foreground">{e.forWho}</p>
+                  <p className="mt-5">
+                    <span className="text-brand-gradient font-display text-3xl font-semibold">
+                      {e.priceHint}
+                    </span>
+                    <span className="mt-1 block text-xs text-muted-foreground">{e.priceNote}</span>
+                  </p>
+                  <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{e.summary}</p>
+                  <ul className="mt-6 flex-1 space-y-2.5">
+                    {e.includes.map((inc) => (
+                      <li key={inc} className="flex gap-2.5 text-sm">
+                        <span
+                          aria-hidden="true"
+                          className="mt-2 size-1.5 shrink-0 rounded-full bg-brand"
+                        />
+                        {inc}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-6 text-xs tracking-wide text-muted-foreground uppercase">
+                    Best for
+                  </p>
+                  <p className="mt-1 text-sm text-foreground">{e.bestFor}</p>
+                  <Link
+                    to={e.cta.to}
+                    className={cn(
+                      "mt-7 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5",
+                      e.featured
+                        ? "bg-primary text-primary-foreground"
+                        : "border border-foreground/20 text-foreground hover:border-brand hover:text-brand",
+                    )}
+                  >
+                    {e.cta.label}
+                  </Link>
+                </article>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-8 text-xs tracking-wide text-muted-foreground/80 uppercase">
+          Indicative figures for layout. Confirm real numbers before publishing.
+        </p>
       </Section>
-
-      <Section tone="raised" className="pt-0 lg:pt-0">
-        <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-start">
-          <div>
-          <article className="rounded-3xl border-2 border-primary bg-card p-9 shadow-lift">
-            <Eyebrow>Flagship bundle</Eyebrow>
-            <h2 className="mt-3 font-serif text-3xl">{PRICING_FLAGSHIP.name}</h2>
-            <p className="mt-4">
-              <span className="text-fire font-serif text-5xl font-semibold">
-                {PRICING_FLAGSHIP.price}
-              </span>
-              <span className="mt-1 block text-sm text-muted-foreground">
-                {PRICING_FLAGSHIP.cadence}
-              </span>
-            </p>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              {PRICING_FLAGSHIP.summary}
-            </p>
-            <ul className="mt-7 space-y-3">
-              {PRICING_FLAGSHIP.features.map((f) => (
-                <li key={f} className="flex gap-3 text-sm">
-                  <span aria-hidden="true" className="text-primary">
-                    &#10003;
-                  </span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <PrimaryCta to="/contact" className="mt-9 w-full">
-              Book a Free Strategy Call
-            </PrimaryCta>
-          </article>
-          <RiskReversal className="mt-6" />
-          </div>
-
-
-
-          <div>
-            <h2 className="font-serif text-2xl">Services on their own</h2>
-            <ul className="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-              {PRICING_ALACARTE.map((p) => (
-                <li key={p.name} className="flex items-center justify-between gap-6 px-6 py-4">
-                  <span className="text-sm font-medium">{p.name}</span>
-                  <span className="text-right">
-                    <span className="block font-serif text-lg">{p.price}</span>
-                    <span className="block text-xs text-muted-foreground">{p.note}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-card p-6">
-                <h3 className="font-serif text-lg">Always included</h3>
-                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                  {included.map((i) => (
-                    <li key={i}>{i}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl border border-border bg-card p-6">
-                <h3 className="font-serif text-lg">Never included</h3>
-                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                  {excluded.map((i) => (
-                    <li key={i}>{i}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <p className="mt-6 text-sm text-muted-foreground">
-              Payment plans are available above three thousand dollars. See what we do and do not
-              promise on the{" "}
-              <Link to="/guarantee" className="text-primary underline underline-offset-4">
-                guarantee page
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
-        <PlaceholderNote>Placeholder pricing. Confirm rates before publishing.</PlaceholderNote>
-      </Section>
-
-      <Section>
-        <SectionHeading
-          eyebrow="Bundle eligibility"
-          title="How services can be combined and what changes in timelines."
-          intro="The flagship bundle is the simplest path, but you can also build a smaller bundle from the services above."
-        />
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <h3 className="font-serif text-lg">What can be bundled</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Any ongoing service can be combined with any other ongoing service. Launch campaigns
-              are treated as a single project and can sit alongside monthly retainers such as
-              press, review outreach or email marketing.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <h3 className="font-serif text-lg">What cannot be bundled</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              One time work such as listing optimization, media kits and positioning reports are
-              scoped separately. If they are part of a launch, they are already included inside the
-              flagship bundle.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <h3 className="font-serif text-lg">How timelines change</h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Adding services usually shortens the overall timeline because work runs in parallel.
-              A single service may take six to eight weeks; the full launch runs twelve to sixteen
-              weeks because everything is coordinated around one date.
-            </p>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 className="font-serif text-lg">Pricing one pager</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              A single page PDF with bundle rules, everything included, service rates and how
-              timelines shift.
-            </p>
-          </div>
-          <a
-            href="/resources/hq360-pricing-one-pager.pdf"
-            download
-            className="shrink-0 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
-          >
-            Download the PDF
-          </a>
-        </div>
-      </Section>
-
 
       <Section tone="raised">
-        <SectionHeading
-          eyebrow="Pricing FAQs"
-          title="What is included, how long it takes, and how we measure success."
-          intro="Straight answers to the questions we hear most often before a client signs."
-        />
-        <Accordion type="single" collapsible className="mt-10">
-          {PRICING_FAQS.map((item, idx) => (
-            <AccordionItem key={item.q} value={`pricing-faq-${idx}`}>
-              <AccordionTrigger className="text-left font-sans text-base">
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
+        <SectionHeader eyebrow="How it works" title="The same principles, whichever model" />
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+          {PRICING_PRINCIPLES.map((p) => (
+            <li
+              key={p}
+              className="flex gap-2.5 rounded-2xl border border-border bg-card p-5 text-sm"
+            >
+              <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-brand" />
+              {p}
+            </li>
           ))}
-        </Accordion>
+        </ul>
       </Section>
 
       <Section>
-        <div className="flex flex-col items-start gap-6 rounded-3xl border border-border bg-card p-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <h2 className="font-serif text-3xl">Not sure what your budget should buy?</h2>
-            <p className="mt-3 text-muted-foreground">
-              We will tell you what to spend first and what can wait a quarter.
-            </p>
-          </div>
-          <SecondaryCta to="/contact">Talk it through</SecondaryCta>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+          <SectionHeader eyebrow="Questions" title="Pricing, answered" />
+          <FaqSection faqs={PRICING_FAQS} idPrefix="pricing" />
         </div>
       </Section>
+
+      <CtaBand
+        title="Get a real number for your situation"
+        body="Tell us your goals and what is already running. We will come back with a scoped first phase and a price."
+        primary={CTAS.primary}
+        secondary={CTAS.industries}
+      />
     </>
   );
 }

@@ -6,3 +6,10 @@ pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+
+# Auto-generated / externally managed — do not reformat
+src/integrations/supabase/client.ts
+src/integrations/supabase/client.server.ts
+src/integrations/supabase/auth-attacher.ts
+src/integrations/supabase/auth-middleware.ts
+AGENTS.md

@@ -19,12 +19,7 @@ const TEXT_SRC = "/logo-text.png";
  * - default: the full HQ360 wordmark lockup (logo-text.png)
  * On dark surfaces pass variant="mono" to render the artwork in white.
  */
-export function Logo({
-  variant = "gradient",
-  markOnly = false,
-  className,
-  size = 36,
-}: LogoProps) {
+export function Logo({ variant = "gradient", markOnly = false, className, size = 36 }: LogoProps) {
   const src = markOnly ? MARK_SRC : TEXT_SRC;
   const mono = variant === "mono";
 

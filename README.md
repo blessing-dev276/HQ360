@@ -130,7 +130,6 @@ Use placeholder but realistic-sounding copy/testimonials/stats (clearly marked a
 
 Build the logo as a reusable SVG component so colors can be swapped from a central theme/token file.
 
-
 There should be no Ai words or hypens in text and no Animation excpet the bazing Logo
 
 This project was built with [Lovable](https://lovable.dev).

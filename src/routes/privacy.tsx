@@ -1,33 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Section, SectionHeading } from "@/components/site/Primitives";
-import { BRAND } from "@/data/site";
-
-const title = "Privacy Policy | HQ360";
-const description =
-  "How HQ360 collects, uses and stores personal information from website visitors, subscribers and clients.";
+import { Section, SectionHeader } from "@/components/site/Primitives";
+import { BRAND } from "@/config/brand";
+import { buildSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildSeo({
+      title: "Privacy Policy | HQ360",
+      description:
+        "How HQ360 collects, uses and stores personal information from website visitors, subscribers and clients.",
+      path: "/privacy",
+    }),
   component: PrivacyPage,
 });
 
 const sections = [
   {
     heading: "What we collect",
-    body: "Your name and email address when you submit a form, the content of messages you send us, and basic analytics about how pages on this site are used. We do not collect payment details through this website.",
+    body: "Your name, email address and the details you provide when you submit a form (company, website, industry, goals, budget and message), the content of messages you send us, newsletter sign-ups, and basic analytics about how pages on this site are used. We do not collect payment details through this website.",
   },
   {
     heading: "Why we collect it",
-    body: "To reply to your enquiry, to deliver a resource you requested, to send the monthly letter if you subscribed, and to understand which pages are useful so we can improve them.",
+    body: "To respond to your enquiry, to route it to the right person, to send the monthly letter if you subscribed, and to understand which pages are useful so we can improve them.",
+  },
+  {
+    heading: "Where it is stored",
+    body: "Enquiries and sign-ups are stored in our database (Supabase). Where you have consented, an enquiry may also be forwarded to our CRM or workflow tools so we can follow up.",
   },
   {
     heading: "Cookies",
@@ -35,11 +33,11 @@ const sections = [
   },
   {
     heading: "Who we share it with",
-    body: "Our email and analytics providers, acting on our instructions. We do not sell personal information and we do not share it for advertising.",
+    body: "Our database, email, analytics and CRM providers, acting on our instructions. We do not sell personal information and we do not share it for advertising.",
   },
   {
     heading: "How long we keep it",
-    body: "Enquiry records for three years. Subscriber records until you unsubscribe. Client records for seven years where accounting rules require it.",
+    body: "Enquiry records for three years. Subscriber records until you unsubscribe. Client records for the period required by accounting rules.",
   },
   {
     heading: "Your rights",
@@ -50,23 +48,24 @@ const sections = [
 function PrivacyPage() {
   return (
     <Section>
-      <SectionHeading
+      <SectionHeader
+        as="h1"
         eyebrow="Legal"
         title="Privacy policy"
-        intro="Last updated July 2026. Placeholder policy for demonstration. Have counsel review before publishing."
+        intro="Placeholder policy for demonstration. Have counsel review before publishing."
       />
       <div className="mt-12 max-w-3xl space-y-10">
         {sections.map((s) => (
           <section key={s.heading}>
-            <h2 className="font-serif text-2xl">{s.heading}</h2>
+            <h2 className="font-display text-xl">{s.heading}</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">{s.body}</p>
           </section>
         ))}
         <section>
-          <h2 className="font-serif text-2xl">Contact</h2>
+          <h2 className="font-display text-xl">Contact</h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">
             Questions about this policy can be sent to{" "}
-            <a href={`mailto:${BRAND.email}`} className="text-primary underline underline-offset-4">
+            <a href={`mailto:${BRAND.email}`} className="text-brand underline underline-offset-4">
               {BRAND.email}
             </a>
             .

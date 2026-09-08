@@ -1,25 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Eyebrow, PrimaryCta, Section, SectionHeading } from "@/components/site/Primitives";
+import { Eyebrow, Section, SectionHeader } from "@/components/site/Primitives";
 import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
+import { CtaBand } from "@/components/site/CtaBand";
 import { LAUNCH, LAUNCH_COVERS, LAUNCH_GALLERY } from "@/data/launch";
-
-const title = "Sanman Thapa Book Launch | HQ360";
-const description =
-  "Photographs and cover reveal film from the launch of From the Window: The City of What Ifs by Sanman Thapa, published with Arti Facts Publishing.";
+import { buildSeo, breadcrumbSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/book-launch")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "/book-launch" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/book-launch" }],
-  }),
+  head: () =>
+    buildSeo(
+      {
+        title: "Sanman Thapa Book Launch | HQ360",
+        description:
+          "Photographs and cover reveal film from the launch of From the Window: The City of What Ifs by Sanman Thapa, published with Arti Facts Publishing and delivered with HQ360.",
+        path: "/book-launch",
+        type: "article",
+      },
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Authors", path: "/authors" },
+        { name: "Sanman Thapa book launch", path: "/book-launch" },
+      ]),
+    ),
   component: BookLaunchPage,
 });
 
@@ -27,10 +28,11 @@ function BookLaunchPage() {
   return (
     <>
       <FeaturedAuthor />
+
       <Section>
-        <SectionHeading
+        <SectionHeader
           eyebrow="Book launch"
-          title="Sanman Thapa book launch."
+          title="Sanman Thapa book launch"
           intro={LAUNCH.intro}
         />
 
@@ -51,7 +53,7 @@ function BookLaunchPage() {
           </div>
           <div className="rounded-2xl border border-border bg-card p-8 shadow-editorial">
             <Eyebrow>The title</Eyebrow>
-            <h2 className="mt-3 font-serif text-2xl leading-snug">{LAUNCH.book}</h2>
+            <h2 className="mt-3 font-display text-2xl leading-snug">{LAUNCH.book}</h2>
             <p className="mt-3 text-sm text-muted-foreground">
               {LAUNCH.author} &middot; {LAUNCH.publisher}
             </p>
@@ -64,7 +66,7 @@ function BookLaunchPage() {
       </Section>
 
       <Section tone="raised">
-        <SectionHeading eyebrow="The book" title="Cover and print." />
+        <SectionHeader eyebrow="The book" title="Cover and print" />
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {LAUNCH_COVERS.map((c) => (
             <li key={c.src} className="overflow-hidden rounded-2xl border border-border bg-card">
@@ -76,15 +78,14 @@ function BookLaunchPage() {
       </Section>
 
       <Section>
-        <SectionHeading eyebrow="Launch day" title="Photographs from the room." />
+        <SectionHeader eyebrow="Launch day" title="Photographs from the room" />
         <ul className="mt-12 grid gap-6 md:grid-cols-2">
           {LAUNCH_GALLERY.map((g) => (
             <li
               key={g.src}
               className={
-                g.wide
-                  ? "overflow-hidden rounded-2xl border border-border bg-card md:col-span-2"
-                  : "overflow-hidden rounded-2xl border border-border bg-card"
+                "overflow-hidden rounded-2xl border border-border bg-card" +
+                (g.wide ? " md:col-span-2" : "")
               }
             >
               <img src={g.src} alt={g.alt} loading="lazy" className="w-full object-cover" />
@@ -94,14 +95,13 @@ function BookLaunchPage() {
         </ul>
       </Section>
 
-      <Section tone="dark">
-        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-          <h2 className="max-w-2xl font-serif text-3xl sm:text-4xl">
-            Want a launch day that looks like this?
-          </h2>
-          <PrimaryCta to="/contact">Book a Free Strategy Call</PrimaryCta>
-        </div>
-      </Section>
+      <CtaBand
+        eyebrow="Authors & Publishers"
+        title="Want a launch that looks like this?"
+        body="The Authors & Publishers vertical covers the listing, the launch and the platform that keeps a book selling afterward."
+        primary={{ label: "Build my author growth system", to: "/authors" }}
+        secondary={{ label: "Start a project", to: "/contact" }}
+      />
     </>
   );
 }

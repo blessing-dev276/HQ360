@@ -14,8 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { CookieBanner } from "@/components/site/CookieBanner";
-import { StickyCta } from "@/components/site/StickyCta";
-import { ExitIntentOffer } from "@/components/site/ExitIntentOffer";
+import { BRAND } from "@/config/brand";
+import { organizationSchema } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -82,16 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "HQ360" },
-      {
-        name: "description",
-        content:
-          "A full service studio for authors and personal brands: visibility, credibility, sales and press.",
-      },
-      { name: "author", content: "HQ360" },
-      { property: "og:site_name", content: "HQ360" },
+      { title: `${BRAND.name} | ${BRAND.descriptor}` },
+      { name: "description", content: BRAND.positioning },
+      { name: "author", content: BRAND.name },
+      { property: "og:site_name", content: BRAND.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#111416" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -99,10 +96,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationSchema()) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -142,9 +140,6 @@ function RootComponent() {
       </main>
       <SiteFooter />
       <CookieBanner />
-      <StickyCta />
-      <ExitIntentOffer />
     </QueryClientProvider>
   );
 }
-

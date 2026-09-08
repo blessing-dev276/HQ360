@@ -209,6 +209,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      team_members: {
+        Row: {
+          created_at: string;
+          id: string;
+          image_url: string | null;
+          name: string;
+          published: boolean;
+          sort_order: number;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          image_url?: string | null;
+          name: string;
+          published?: boolean;
+          sort_order?: number;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          image_url?: string | null;
+          name?: string;
+          published?: boolean;
+          sort_order?: number;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

@@ -47,14 +47,18 @@ import { Route as WorkIndexRouteImport } from './routes/work.index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as ApiAdminPortfolioRouteImport } from './routes/api/admin/portfolio'
 import { Route as ApiAdminSessionRouteImport } from './routes/api/admin/session'
+import { Route as ApiAdminTeamRouteImport } from './routes/api/admin/team'
 import { Route as ApiAdminUploadRouteImport } from './routes/api/admin/upload'
 import { Route as ApiPublicGrowthAuditRouteImport } from './routes/api/public/growth-audit'
 import { Route as ApiPublicInquiryRouteImport } from './routes/api/public/inquiry'
 import { Route as ApiPublicNewsletterRouteImport } from './routes/api/public/newsletter'
 import { Route as ApiPublicPortfolioRouteImport } from './routes/api/public/portfolio'
 import { Route as ApiPublicResourceRequestRouteImport } from './routes/api/public/resource-request'
+import { Route as ApiPublicTeamRouteImport } from './routes/api/public/team'
 import { Route as ApiAdminPortfolioIdRouteImport } from './routes/api/admin/portfolio.$id'
 import { Route as ApiAdminPortfolioReorderRouteImport } from './routes/api/admin/portfolio.reorder'
+import { Route as ApiAdminTeamIdRouteImport } from './routes/api/admin/team.$id'
+import { Route as ApiAdminTeamReorderRouteImport } from './routes/api/admin/team.reorder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -246,6 +250,11 @@ const ApiAdminSessionRoute = ApiAdminSessionRouteImport.update({
   path: '/api/admin/session',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminTeamRoute = ApiAdminTeamRouteImport.update({
+  id: '/api/admin/team',
+  path: '/api/admin/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminUploadRoute = ApiAdminUploadRouteImport.update({
   id: '/api/admin/upload',
   path: '/api/admin/upload',
@@ -277,6 +286,11 @@ const ApiPublicResourceRequestRoute =
     path: '/api/public/resource-request',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicTeamRoute = ApiPublicTeamRouteImport.update({
+  id: '/api/public/team',
+  path: '/api/public/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminPortfolioIdRoute = ApiAdminPortfolioIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -288,6 +302,16 @@ const ApiAdminPortfolioReorderRoute =
     path: '/reorder',
     getParentRoute: () => ApiAdminPortfolioRoute,
   } as any)
+const ApiAdminTeamIdRoute = ApiAdminTeamIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiAdminTeamRoute,
+} as any)
+const ApiAdminTeamReorderRoute = ApiAdminTeamReorderRouteImport.update({
+  id: '/reorder',
+  path: '/reorder',
+  getParentRoute: () => ApiAdminTeamRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -328,14 +352,18 @@ export interface FileRoutesByFullPath {
   '/work/': typeof WorkIndexRoute
   '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
   '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/team': typeof ApiAdminTeamRouteWithChildren
   '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
   '/api/public/inquiry': typeof ApiPublicInquiryRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/public/team': typeof ApiPublicTeamRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
   '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
+  '/api/admin/team/$id': typeof ApiAdminTeamIdRoute
+  '/api/admin/team/reorder': typeof ApiAdminTeamReorderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -376,14 +404,18 @@ export interface FileRoutesByTo {
   '/work': typeof WorkIndexRoute
   '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
   '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/team': typeof ApiAdminTeamRouteWithChildren
   '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
   '/api/public/inquiry': typeof ApiPublicInquiryRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/public/team': typeof ApiPublicTeamRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
   '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
+  '/api/admin/team/$id': typeof ApiAdminTeamIdRoute
+  '/api/admin/team/reorder': typeof ApiAdminTeamReorderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -425,14 +457,18 @@ export interface FileRoutesById {
   '/work/': typeof WorkIndexRoute
   '/api/admin/portfolio': typeof ApiAdminPortfolioRouteWithChildren
   '/api/admin/session': typeof ApiAdminSessionRoute
+  '/api/admin/team': typeof ApiAdminTeamRouteWithChildren
   '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/public/growth-audit': typeof ApiPublicGrowthAuditRoute
   '/api/public/inquiry': typeof ApiPublicInquiryRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
+  '/api/public/team': typeof ApiPublicTeamRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
   '/api/admin/portfolio/reorder': typeof ApiAdminPortfolioReorderRoute
+  '/api/admin/team/$id': typeof ApiAdminTeamIdRoute
+  '/api/admin/team/reorder': typeof ApiAdminTeamReorderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -475,14 +511,18 @@ export interface FileRouteTypes {
     | '/work/'
     | '/api/admin/portfolio'
     | '/api/admin/session'
+    | '/api/admin/team'
     | '/api/admin/upload'
     | '/api/public/growth-audit'
     | '/api/public/inquiry'
     | '/api/public/newsletter'
     | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/public/team'
     | '/api/admin/portfolio/$id'
     | '/api/admin/portfolio/reorder'
+    | '/api/admin/team/$id'
+    | '/api/admin/team/reorder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -523,14 +563,18 @@ export interface FileRouteTypes {
     | '/work'
     | '/api/admin/portfolio'
     | '/api/admin/session'
+    | '/api/admin/team'
     | '/api/admin/upload'
     | '/api/public/growth-audit'
     | '/api/public/inquiry'
     | '/api/public/newsletter'
     | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/public/team'
     | '/api/admin/portfolio/$id'
     | '/api/admin/portfolio/reorder'
+    | '/api/admin/team/$id'
+    | '/api/admin/team/reorder'
   id:
     | '__root__'
     | '/'
@@ -571,14 +615,18 @@ export interface FileRouteTypes {
     | '/work/'
     | '/api/admin/portfolio'
     | '/api/admin/session'
+    | '/api/admin/team'
     | '/api/admin/upload'
     | '/api/public/growth-audit'
     | '/api/public/inquiry'
     | '/api/public/newsletter'
     | '/api/public/portfolio'
     | '/api/public/resource-request'
+    | '/api/public/team'
     | '/api/admin/portfolio/$id'
     | '/api/admin/portfolio/reorder'
+    | '/api/admin/team/$id'
+    | '/api/admin/team/reorder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -620,12 +668,14 @@ export interface RootRouteChildren {
   WorkIndexRoute: typeof WorkIndexRoute
   ApiAdminPortfolioRoute: typeof ApiAdminPortfolioRouteWithChildren
   ApiAdminSessionRoute: typeof ApiAdminSessionRoute
+  ApiAdminTeamRoute: typeof ApiAdminTeamRouteWithChildren
   ApiAdminUploadRoute: typeof ApiAdminUploadRoute
   ApiPublicGrowthAuditRoute: typeof ApiPublicGrowthAuditRoute
   ApiPublicInquiryRoute: typeof ApiPublicInquiryRoute
   ApiPublicNewsletterRoute: typeof ApiPublicNewsletterRoute
   ApiPublicPortfolioRoute: typeof ApiPublicPortfolioRoute
   ApiPublicResourceRequestRoute: typeof ApiPublicResourceRequestRoute
+  ApiPublicTeamRoute: typeof ApiPublicTeamRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -896,6 +946,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminSessionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/team': {
+      id: '/api/admin/team'
+      path: '/api/admin/team'
+      fullPath: '/api/admin/team'
+      preLoaderRoute: typeof ApiAdminTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin/upload': {
       id: '/api/admin/upload'
       path: '/api/admin/upload'
@@ -938,6 +995,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicResourceRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/team': {
+      id: '/api/public/team'
+      path: '/api/public/team'
+      fullPath: '/api/public/team'
+      preLoaderRoute: typeof ApiPublicTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin/portfolio/$id': {
       id: '/api/admin/portfolio/$id'
       path: '/$id'
@@ -951,6 +1015,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/admin/portfolio/reorder'
       preLoaderRoute: typeof ApiAdminPortfolioReorderRouteImport
       parentRoute: typeof ApiAdminPortfolioRoute
+    }
+    '/api/admin/team/$id': {
+      id: '/api/admin/team/$id'
+      path: '/$id'
+      fullPath: '/api/admin/team/$id'
+      preLoaderRoute: typeof ApiAdminTeamIdRouteImport
+      parentRoute: typeof ApiAdminTeamRoute
+    }
+    '/api/admin/team/reorder': {
+      id: '/api/admin/team/reorder'
+      path: '/reorder'
+      fullPath: '/api/admin/team/reorder'
+      preLoaderRoute: typeof ApiAdminTeamReorderRouteImport
+      parentRoute: typeof ApiAdminTeamRoute
     }
   }
 }
@@ -967,6 +1045,20 @@ const ApiAdminPortfolioRouteChildren: ApiAdminPortfolioRouteChildren = {
 
 const ApiAdminPortfolioRouteWithChildren =
   ApiAdminPortfolioRoute._addFileChildren(ApiAdminPortfolioRouteChildren)
+
+interface ApiAdminTeamRouteChildren {
+  ApiAdminTeamIdRoute: typeof ApiAdminTeamIdRoute
+  ApiAdminTeamReorderRoute: typeof ApiAdminTeamReorderRoute
+}
+
+const ApiAdminTeamRouteChildren: ApiAdminTeamRouteChildren = {
+  ApiAdminTeamIdRoute: ApiAdminTeamIdRoute,
+  ApiAdminTeamReorderRoute: ApiAdminTeamReorderRoute,
+}
+
+const ApiAdminTeamRouteWithChildren = ApiAdminTeamRoute._addFileChildren(
+  ApiAdminTeamRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -1007,12 +1099,14 @@ const rootRouteChildren: RootRouteChildren = {
   WorkIndexRoute: WorkIndexRoute,
   ApiAdminPortfolioRoute: ApiAdminPortfolioRouteWithChildren,
   ApiAdminSessionRoute: ApiAdminSessionRoute,
+  ApiAdminTeamRoute: ApiAdminTeamRouteWithChildren,
   ApiAdminUploadRoute: ApiAdminUploadRoute,
   ApiPublicGrowthAuditRoute: ApiPublicGrowthAuditRoute,
   ApiPublicInquiryRoute: ApiPublicInquiryRoute,
   ApiPublicNewsletterRoute: ApiPublicNewsletterRoute,
   ApiPublicPortfolioRoute: ApiPublicPortfolioRoute,
   ApiPublicResourceRequestRoute: ApiPublicResourceRequestRoute,
+  ApiPublicTeamRoute: ApiPublicTeamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

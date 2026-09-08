@@ -18,12 +18,16 @@ export function TeamAvatar({
   name,
   initials,
   photo,
+  imageUrl,
 }: {
   name: string;
   initials: string;
-  photo?: string;
+  /** key into the bundled PHOTOS map (fallback roster) */
+  photo?: string | undefined;
+  /** explicit portrait URL (admin-managed members); wins over `photo` */
+  imageUrl?: string | undefined;
 }) {
-  const src = photo ? PHOTOS[photo] : undefined;
+  const src = imageUrl || (photo ? PHOTOS[photo] : undefined);
 
   if (!src) {
     return (

@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Container, Eyebrow, Section, SectionHeader } from "@/components/site/Primitives";
-import { TeamAvatar } from "@/components/site/TeamAvatar";
+import { TeamGrid } from "@/components/site/TeamGrid";
 import { ProcessTimeline } from "@/components/site/ProcessTimeline";
 import { GrowthFrameworkStrip } from "@/components/site/GrowthFrameworkStrip";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Reveal } from "@/components/site/Reveal";
 import { PRINCIPLES } from "@/data/process";
-import { TEAM } from "@/data/team";
 import { BRAND, CTAS } from "@/config/brand";
 import { buildSeo, breadcrumbSchema } from "@/lib/seo";
 
@@ -88,22 +87,7 @@ function AboutPage() {
           title="The people on your account"
           intro="A small multidisciplinary team. Every engagement has a named lead who stays with it."
         />
-        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {TEAM.map((m, i) => (
-            <li key={m.name}>
-              <Reveal delay={i * 30}>
-                <div className="rounded-2xl border border-border bg-card p-6 text-center">
-                  <TeamAvatar name={m.name} initials={m.initials} photo={m.photo} />
-                  <h3 className="mt-5 font-display text-lg">{m.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{m.role}</p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 text-xs tracking-wide text-muted-foreground/80 uppercase">
-          Team role titles generalised for the rebrand — confirm with each person before publishing.
-        </p>
+        <TeamGrid />
       </Section>
 
       <Section tone="raised">

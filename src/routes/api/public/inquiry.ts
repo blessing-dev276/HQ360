@@ -97,6 +97,36 @@ export const Route = createFileRoute("/api/public/inquiry")({
             console.error("[inquiry] forward failed", err instanceof Error ? err.message : err);
           }
 
+          try {
+            const { sendLeadEmail } = await import("@/lib/email.server");
+            const result = await sendLeadEmail({
+              subject: `New HQ360 inquiry from ${parsed.name}`,
+              replyTo: parsed.email,
+              text: [
+                "New HQ360 inquiry",
+                "",
+                `Name: ${parsed.name}`,
+                `Email: ${parsed.email}`,
+                `Company: ${parsed.company || "N/A"}`,
+                `Website: ${parsed.website || "N/A"}`,
+                `Industry: ${parsed.industry || parsed.sourceIndustry || "N/A"}`,
+                `Need help with: ${parsed.helpWith?.join(", ") || "N/A"}`,
+                `Primary goal: ${parsed.primaryGoal || "N/A"}`,
+                `Budget: ${parsed.budgetRange || "N/A"}`,
+                `Timeline: ${parsed.timeline || "N/A"}`,
+                `Source path: ${parsed.sourcePath || "N/A"}`,
+                "",
+                "Message:",
+                parsed.message || "N/A",
+              ].join("\n"),
+            });
+            if (!result.sent) {
+              console.warn("[inquiry] direct email not sent", result.error);
+            }
+          } catch (err) {
+            console.error("[inquiry] direct email failed", err instanceof Error ? err.message : err);
+          }
+
           return json({ ok: true, id: data.id, forwarded });
         } catch (err) {
           console.error("[inquiry] handler error", err instanceof Error ? err.message : err);

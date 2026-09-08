@@ -77,6 +77,42 @@ export const Route = createFileRoute("/api/public/growth-audit")({
             );
           }
 
+          try {
+            const { sendLeadEmail } = await import("@/lib/email.server");
+            const result = await sendLeadEmail({
+              subject: `New HQ360 growth audit request from ${parsed.name || parsed.email}`,
+              replyTo: parsed.email,
+              text: [
+                "New HQ360 growth audit request",
+                "",
+                `Name: ${parsed.name || "N/A"}`,
+                `Email: ${parsed.email}`,
+                `Website: ${parsed.website || "N/A"}`,
+                `Industry: ${parsed.industry || "N/A"}`,
+                `Audit focus: ${parsed.auditFocus || "N/A"}`,
+                `Source path: ${parsed.sourcePath || "N/A"}`,
+                "",
+                "Submitted details:",
+                JSON.stringify({
+                  email: parsed.email,
+                  name: parsed.name || null,
+                  website: parsed.website || null,
+                  industry: parsed.industry || null,
+                  auditFocus: parsed.auditFocus || null,
+                  sourcePath: parsed.sourcePath || null,
+                }, null, 2),
+              ].join("\n"),
+            });
+            if (!result.sent) {
+              console.warn("[growth-audit] direct email not sent", result.error);
+            }
+          } catch (err) {
+            console.error(
+              "[growth-audit] direct email failed",
+              err instanceof Error ? err.message : err,
+            );
+          }
+
           return json({ ok: true, id: data.id });
         } catch (err) {
           console.error("[growth-audit] handler error", err instanceof Error ? err.message : err);

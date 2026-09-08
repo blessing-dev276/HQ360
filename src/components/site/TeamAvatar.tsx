@@ -1,4 +1,4 @@
-import blessing from "@/assets/team-blessing.jpg.asset.json";
+import blessingPhoto from "@/assets/team-blessing.png";
 import zainab from "@/assets/team-zainab.jpg.asset.json";
 import emmanuel from "@/assets/team-emmanuel.jpg.asset.json";
 import richard from "@/assets/team-richard.jpg.asset.json";
@@ -6,7 +6,7 @@ import ebenezer from "@/assets/team-ebenezer.jpg.asset.json";
 import racheal from "@/assets/team-racheal.jpg.asset.json";
 
 const PHOTOS: Record<string, string> = {
-  blessing: blessing.url,
+  blessing: blessingPhoto,
   zainab: zainab.url,
   emmanuel: emmanuel.url,
   richard: richard.url,

@@ -14,10 +14,10 @@ export type TeamMember = {
 };
 
 export const TEAM: TeamMember[] = [
-  { name: "Blessing", role: "Growth & Campaign Director", photo: "blessing", initials: "B" },
-  { name: "Richard", role: "Brand & Design Lead", photo: "richard", initials: "R" },
-  { name: "Zainab", role: "Web & Conversion Lead", photo: "zainab", initials: "Z" },
-  { name: "Ebenezer", role: "Reporting & Reputation Lead", photo: "ebenezer", initials: "E" },
-  { name: "Emmanuel", role: "Media & Partnerships Lead", photo: "emmanuel", initials: "E" },
-  { name: "Racheal", role: "Client Success Lead", photo: "racheal", initials: "R" },
+  { name: "Blessing", role: "CEO & Mobile App Developer", photo: "blessing", initials: "B" },
+  { name: "Richard", role: "Digital Marketing Lead", photo: "richard", initials: "R" },
+  { name: "Zainab", role: "AI & Video Production Lead", photo: "zainab", initials: "Z" },
+  { name: "Ebenezer", role: "Brand & Creative Lead", photo: "ebenezer", initials: "E" },
+  { name: "Emmanuel", role: "Web & Funnel Development Lead", photo: "emmanuel", initials: "E" },
+  { name: "Racheal", role: "Social Media Manager", photo: "racheal", initials: "R" },
 ];

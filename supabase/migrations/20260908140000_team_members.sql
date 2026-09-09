@@ -45,9 +45,9 @@ CREATE POLICY "team public read"
 -- Seed the current team. Portraits stay NULL: the public page falls back to the
 -- bundled photos by name until an admin uploads replacements.
 INSERT INTO public.team_members (name, title, sort_order) VALUES
-  ('Blessing', 'Growth & Campaign Director', 0),
-  ('Richard',  'Brand & Design Lead',        1),
-  ('Zainab',   'Web & Conversion Lead',      2),
-  ('Ebenezer', 'Reporting & Reputation Lead', 3),
-  ('Emmanuel', 'Media & Partnerships Lead',  4),
-  ('Racheal',  'Client Success Lead',        5);
+  ('Blessing', 'CEO & Mobile App Developer', 0),
+  ('Richard',  'Digital Marketing Lead',        1),
+  ('Zainab',   'AI & Video Production Lead',      2),
+  ('Ebenezer', 'Brand & Creative Lead', 3),
+  ('Emmanuel', 'Web & Funnel Development Lead',  4),
+  ('Racheal',  'Social Media Manager',        5);

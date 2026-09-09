@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getIndustry } from "@/data/industries";
 import { industryHead } from "@/lib/page-heads";
-import { IndustryPage } from "@/components/site/IndustryPage";
-import { EcommerceSections } from "@/components/site/EcommerceSections";
+import { IndustryPageV2 } from "@/components/site/IndustryPageV2";
 
 const industry = getIndustry("ecommerce")!;
 
@@ -12,5 +11,5 @@ export const Route = createFileRoute("/ecommerce")({
 });
 
 function RouteComponent() {
-  return <IndustryPage industry={industry} beforeCta={<EcommerceSections />} />;
+  return <IndustryPageV2 industry={industry} />;
 }

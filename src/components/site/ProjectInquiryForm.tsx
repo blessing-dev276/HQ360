@@ -29,15 +29,18 @@ export function ProjectInquiryForm({
   className,
   compact = false,
   helpOptions = HELP_OPTIONS,
+  prefillMessage,
 }: {
   /** Prefill the industry select (Industry.shortName). */
-  defaultIndustry?: string;
+  defaultIndustry?: string | undefined;
   /** The industry landing page this form was rendered on. */
-  sourceIndustry?: string;
+  sourceIndustry?: string | undefined;
   className?: string;
   compact?: boolean;
   /** Optional vertical-specific service choices. */
   helpOptions?: string[];
+  /** Seed the message box — e.g. context from an on-page diagnostic. */
+  prefillMessage?: string | undefined;
 }) {
   const [helpWith, setHelpWith] = useState<string[]>([]);
   const [errors, setErrors] = useState<Errors>({});
@@ -240,7 +243,13 @@ export function ProjectInquiryForm({
         </div>
 
         <Field label="Anything else" hint="Optional">
-          <textarea name="message" rows={4} className={cn(inputCls, "resize-y")} />
+          <textarea
+            key={prefillMessage ?? "message"}
+            name="message"
+            rows={4}
+            defaultValue={prefillMessage}
+            className={cn(inputCls, "resize-y")}
+          />
         </Field>
 
         {/* Honeypot */}

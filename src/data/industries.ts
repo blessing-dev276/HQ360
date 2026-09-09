@@ -48,6 +48,57 @@ export type Industry = {
   faqs: { q: string; a: string }[];
   cta: { label: string; sub: string };
   seo: { title: string; description: string };
+
+  /* --- v2 industry-page architecture (opt-in per industry) ---------------
+   * When `systemStages`, `serviceExplorer` and `diagnostic` are all present,
+   * the route renders <IndustryPageV2> (Hero → Problem → System → Service
+   * Explorer → Proof → Smart Diagnostic → Final CTA). Otherwise the legacy
+   * <IndustryPage> is used. */
+  problems?: IndustryProblem[];
+  systemStages?: IndustrySystemStage[];
+  serviceExplorer?: IndustryServiceCategory[];
+  diagnostic?: IndustryDiagnostic;
+  finalCta?: { line: string; label: string };
+  /** Drives composition/motif variants in industry-v2.css — never colour. */
+  visualTheme?: "editorial" | "creator" | "commerce" | "pipeline" | "local";
+};
+
+export type IndustryProblem = {
+  title: string;
+  body: string;
+  /** The commercial cost of leaving it unsolved. */
+  consequence: string;
+};
+
+export type IndustrySystemStage = {
+  id: string;
+  label: string;
+  whatHappens: string;
+  whatHQ360Does: string;
+  whyItMatters: string;
+};
+
+export type IndustryServiceCategory = {
+  id: string;
+  name: string;
+  outcome: string;
+  description: string;
+  capabilities: string[];
+  howItHelps: string;
+};
+
+export type IndustryDiagnostic = {
+  question: string;
+  options: {
+    id: string;
+    label: string;
+    /** One-line read on the visitor's situation. */
+    recommendation: string;
+    /** Recommended starting point — a serviceExplorer name or "the full system". */
+    service: string;
+    /** What HQ360 would look at first. */
+    review: string;
+  }[];
 };
 
 export const INDUSTRIES: Industry[] = [
@@ -182,6 +233,198 @@ export const INDUSTRIES: Industry[] = [
       title: "Author & Publisher Growth System | HQ360",
       description:
         "HQ360 builds a connected growth system for authors and publishers: brand, book funnels, SEO, video, social, advertising, automation and a reader app that turns discovery into repeat sales.",
+    },
+    visualTheme: "editorial",
+    problems: [
+      {
+        title: "A good book nobody discovers",
+        body: "The writing is there, but categories, keywords and cover do the marketing — and they're left at defaults.",
+        consequence: "Sales depend on people who already knew your name.",
+      },
+      {
+        title: "Attention that doesn't become readers",
+        body: "A launch post, a podcast, a promo — traffic arrives at a listing or page that doesn't close the sale.",
+        consequence: "You pay for reach twice and keep none of it.",
+      },
+      {
+        title: "No reader audience you can reach again",
+        body: "Every buyer belongs to the retailer. No list, no reader magnet, no way to tell them about the next book.",
+        consequence: "Book two launches as cold as book one.",
+      },
+      {
+        title: "Marketing that isn't connected",
+        body: "A cover designer here, a publicist there, a funnel somewhere else — nobody owns the result end to end.",
+        consequence: "Effort goes in, momentum never compounds.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "position",
+        label: "Position",
+        whatHappens: "A reader decides in seconds whether a book is for them.",
+        whatHQ360Does:
+          "Rebuild the retail listing from the metadata up — categories, keywords, description and cover feedback from live marketplace data.",
+        whyItMatters:
+          "Discovery and conversion both start with a listing that's findable and worth the click.",
+      },
+      {
+        id: "discover",
+        label: "Discover",
+        whatHappens: "People search for topics, comps and authors — or scroll past on social.",
+        whatHQ360Does:
+          "Book and author SEO, comparison and topic content, and social profiles built to be found.",
+        whyItMatters: "Organic discovery keeps working long after a launch push stops.",
+      },
+      {
+        id: "engage",
+        label: "Engage",
+        whatHappens: "An interested reader wants a reason to trust the book before buying.",
+        whatHQ360Does: "Author site, sample delivery, a reader magnet and a welcome sequence.",
+        whyItMatters: "The gap between interest and purchase is where most author marketing leaks.",
+      },
+      {
+        id: "capture",
+        label: "Capture",
+        whatHappens: "A reader buys — on a platform you don't control.",
+        whatHQ360Does:
+          "Email capture, reader-magnet funnel and CRM so buyers become a list you own.",
+        whyItMatters: "An owned audience is the only asset that carries to the next book.",
+      },
+      {
+        id: "sell",
+        label: "Sell",
+        whatHappens: "Launch week and the weeks after decide a book's trajectory.",
+        whatHQ360Does:
+          "A dated launch runway — preorder sequencing, launch team, review timing, promotion stack — and a compliant review engine.",
+        whyItMatters: "Momentum in the first weeks compounds; a quiet launch rarely recovers.",
+      },
+      {
+        id: "retain",
+        label: "Retain",
+        whatHappens: "A reader finishes the book and moves on.",
+        whatHQ360Does:
+          "Series and next-book sequences, press and podcast outreach, and speaking pipeline using the book as proof.",
+        whyItMatters: "The platform, not any single title, is what keeps earning opportunities.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "brand",
+        name: "Author brand & positioning",
+        outcome: "A name and a book that read as a category, not a hobby.",
+        description: "Positioning, author identity, cover and blurb direction, and a media kit.",
+        capabilities: [
+          "Author positioning and messaging",
+          "Cover and blurb feedback",
+          "Author identity and media kit",
+          "Series branding",
+        ],
+        howItHelps:
+          "Everything downstream — listing, site, press — reads as one credible author brand.",
+      },
+      {
+        id: "listing",
+        name: "Retail listing & discoverability",
+        outcome: "A book that turns up for the right searches and earns the click.",
+        description:
+          "Amazon and retail metadata, categories, keywords, A+ content and Goodreads placement.",
+        capabilities: [
+          "Category and keyword optimisation",
+          "Description and A+ content",
+          "Goodreads and reader-list placement",
+          "Book and author SEO",
+        ],
+        howItHelps: "Removes the guesswork between a reader searching and a reader buying.",
+      },
+      {
+        id: "funnel",
+        name: "Website, funnel & reader capture",
+        outcome: "Interest becomes an email address you own.",
+        description:
+          "Author site, book landing pages, reader magnet, capture and welcome sequence.",
+        capabilities: [
+          "Author website and book pages",
+          "Reader magnet and lead capture",
+          "Welcome and nurture email",
+          "CRM setup",
+        ],
+        howItHelps:
+          "Closes the gap where discovery normally leaks, and builds the list for book two.",
+      },
+      {
+        id: "launch",
+        name: "Launch campaigns & reviews",
+        outcome: "A launch that builds momentum instead of fading.",
+        description:
+          "Dated launch plan, launch team, promotion stack and a compliant review engine.",
+        capabilities: [
+          "Launch runway and calendar",
+          "Launch-team recruitment",
+          "Promotion and ad stack",
+          "Compliant review generation",
+        ],
+        howItHelps:
+          "Concentrates activity into the window that actually moves rank and visibility.",
+      },
+      {
+        id: "platform",
+        name: "Press, podcasts & speaking",
+        outcome: "A book that keeps opening doors after release.",
+        description:
+          "Hand-pitched podcast and press outreach, and speaking and thought-leadership pipeline.",
+        capabilities: [
+          "Podcast and press pitching",
+          "Media kit and one-sheet",
+          "Speaking outreach",
+          "Thought-leadership content",
+        ],
+        howItHelps: "Turns one title into an ongoing platform and pipeline of opportunities.",
+      },
+    ],
+    diagnostic: {
+      question: "What's stopping your book from growing?",
+      options: [
+        {
+          id: "discovery",
+          label: "Not enough people discover it",
+          recommendation: "Your biggest opportunity is discoverability.",
+          service: "Retail listing & discoverability",
+          review:
+            "Categories, keywords, comps, description and cover against live marketplace data.",
+        },
+        {
+          id: "conversion",
+          label: "People discover it but don't buy",
+          recommendation: "Your biggest opportunity is conversion.",
+          service: "Website, funnel & reader capture",
+          review: "The listing, sample delivery and the path from interest to purchase.",
+        },
+        {
+          id: "audience",
+          label: "I don't own my reader audience",
+          recommendation: "Your biggest opportunity is reader capture.",
+          service: "Website, funnel & reader capture",
+          review: "Reader magnet, capture points and whether buyers ever become an owned list.",
+        },
+        {
+          id: "consistency",
+          label: "My marketing feels inconsistent",
+          recommendation: "Your biggest opportunity is a connected launch system.",
+          service: "Launch campaigns & reviews",
+          review: "How your launch, reviews, email and promotion currently connect — or don't.",
+        },
+        {
+          id: "system",
+          label: "I need the complete system",
+          recommendation: "Start with the full author growth system.",
+          service: "the full system",
+          review: "Positioning, listing, funnel, launch and platform as one connected build.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Your book is published. Now build the system that keeps finding readers.",
+      label: "Get my Author Growth Audit",
     },
   },
 
@@ -322,6 +565,192 @@ export const INDUSTRIES: Industry[] = [
       title: "UGC & Content Creator Growth Services | HQ360",
       description:
         "Branding, portfolio websites, Canva portfolios, SEO, social media and client acquisition systems for UGC and professional content creators.",
+    },
+    visualTheme: "creator",
+    problems: [
+      {
+        title: "Strong content, weak business presentation",
+        body: "The videos are great. The media kit, site and offer pages look like a side project next to them.",
+        consequence: "Brands price you as an amateur, or skip you entirely.",
+      },
+      {
+        title: "Waiting to be found",
+        body: "You post consistently and hope the right brand scrolls past, with no profile or search presence built to be discovered.",
+        consequence: "Pipeline depends on the algorithm's mood that week.",
+      },
+      {
+        title: "A portfolio that shows work but doesn't sell value",
+        body: "It's a wall of clips with no positioning, no results framing and no clear rate or offer.",
+        consequence: "A brand can't tell in 30 seconds why to hire you.",
+      },
+      {
+        title: "Brand deals that stay one-offs",
+        body: "Every collaboration is negotiated from scratch and ends with no follow-up or rebooking path.",
+        consequence: "You're always prospecting, never compounding.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "position",
+        label: "Position",
+        whatHappens: "A brand needs to place you in seconds — niche, style, audience, value.",
+        whatHQ360Does: "Creator positioning, a productised offer and a rate card.",
+        whyItMatters: "Vague positioning is the reason 'we'll be in touch' emails go cold.",
+      },
+      {
+        id: "showcase",
+        label: "Showcase",
+        whatHappens: "A brand evaluates whether your work fits their campaign.",
+        whatHQ360Does:
+          "A portfolio site (or Canva portfolio) that frames work by outcome, not just clips.",
+        whyItMatters: "The portfolio is the proposal — it either sells the value or leaks it.",
+      },
+      {
+        id: "discover",
+        label: "Get discovered",
+        whatHappens: "Brands and agencies search for creators in your niche.",
+        whatHQ360Does: "Profile SEO, a findable site, and directory and platform presence.",
+        whyItMatters: "Inbound discovery is what turns you from applicant to shortlist.",
+      },
+      {
+        id: "authority",
+        label: "Build authority",
+        whatHappens: "A brand checks whether other brands trust you.",
+        whatHQ360Does:
+          "Case studies, testimonials and consistent content that reinforces the niche.",
+        whyItMatters: "Proof shortens every negotiation and raises every rate.",
+      },
+      {
+        id: "win",
+        label: "Win",
+        whatHappens: "An opportunity lands in the DMs or inbox.",
+        whatHQ360Does:
+          "An inbound inquiry funnel, outreach system and a CRM for briefs and proposals.",
+        whyItMatters: "Organised follow-up is the difference between a lead and a booking.",
+      },
+      {
+        id: "retain",
+        label: "Retain",
+        whatHappens: "A campaign wraps and both sides move on.",
+        whatHQ360Does:
+          "Feedback, testimonial, new-idea and rebooking sequences — retainer where it fits.",
+        whyItMatters: "Repeat clients are the only way off the prospecting treadmill.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "brand",
+        name: "Creator brand & offer",
+        outcome: "A brand can place you and price you in one glance.",
+        description: "Positioning, productised offers, rate card and visual identity.",
+        capabilities: [
+          "Creator positioning and messaging",
+          "Productised offers and rate card",
+          "Visual identity and templates",
+          "Media kit",
+        ],
+        howItHelps: "Removes the ambiguity that stalls brand conversations.",
+      },
+      {
+        id: "portfolio",
+        name: "Portfolio & website",
+        outcome: "Work that reads as results a brand can buy.",
+        description: "Portfolio site or Canva portfolio, case-study layouts and inquiry funnel.",
+        capabilities: [
+          "Portfolio website",
+          "Canva portfolio",
+          "Case-study and results framing",
+          "Inquiry and booking funnel",
+        ],
+        howItHelps: "Turns a reel of clips into a proposal that closes.",
+      },
+      {
+        id: "discoverability",
+        name: "Discoverability & SEO",
+        outcome: "Brands find you instead of you chasing them.",
+        description: "Profile optimisation, website SEO and directory and platform presence.",
+        capabilities: [
+          "Social profile SEO",
+          "Website and content SEO",
+          "Directory and marketplace presence",
+          "Comparison and niche content",
+        ],
+        howItHelps: "Builds an inbound channel that isn't at the mercy of reach.",
+      },
+      {
+        id: "acquisition",
+        name: "Client acquisition & CRM",
+        outcome: "A predictable path from opportunity to booked collaboration.",
+        description:
+          "Outreach system, inbound funnel and a CRM for briefs, proposals and follow-up.",
+        capabilities: [
+          "Outreach lists and sequences",
+          "Inbound inquiry funnel",
+          "Creator CRM",
+          "Proposal and follow-up templates",
+        ],
+        howItHelps: "Stops opportunities dying between the DM and the contract.",
+      },
+      {
+        id: "retention",
+        name: "Retention & repeat clients",
+        outcome: "One collaboration becomes an ongoing relationship.",
+        description:
+          "Post-project sequences, testimonial capture and rebooking or retainer workflows.",
+        capabilities: [
+          "Post-project follow-up",
+          "Testimonial and case-study capture",
+          "Rebooking and retainer offers",
+          "Referral prompts",
+        ],
+        howItHelps: "Lowers how much new prospecting each month actually requires.",
+      },
+    ],
+    diagnostic: {
+      question: "What's currently holding your creator business back?",
+      options: [
+        {
+          id: "portfolio",
+          label: "My portfolio isn't strong enough",
+          recommendation: "Your biggest opportunity is presentation.",
+          service: "Portfolio & website",
+          review:
+            "How your work is framed, your positioning, and whether the site sells a clear offer.",
+        },
+        {
+          id: "discovery",
+          label: "Brands aren't finding me",
+          recommendation: "Your biggest opportunity is discoverability.",
+          service: "Discoverability & SEO",
+          review:
+            "Profile optimisation, search presence and where brands in your niche actually look.",
+        },
+        {
+          id: "opportunities",
+          label: "I'm struggling to get opportunities",
+          recommendation: "Your biggest opportunity is client acquisition.",
+          service: "Client acquisition & CRM",
+          review: "Your outreach, inbound funnel and how inquiries are followed up.",
+        },
+        {
+          id: "oneoffs",
+          label: "I get deals but they're mostly one-offs",
+          recommendation: "Your biggest opportunity is retention.",
+          service: "Retention & repeat clients",
+          review: "What happens after a project ends, and whether rebooking is ever offered.",
+        },
+        {
+          id: "system",
+          label: "My whole setup feels disconnected",
+          recommendation: "Start with the full creator growth system.",
+          service: "the full system",
+          review: "Positioning, portfolio, discovery, acquisition and retention as one build.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Your content is the product. Build the business around it.",
+      label: "Get my Creator Growth Audit",
     },
   },
 
@@ -1714,6 +2143,237 @@ export const INDUSTRIES: Industry[] = [
       title: "E-commerce & DTC Growth Services | HQ360",
       description:
         "HQ360 connects e-commerce branding, storefront design, SEO, acquisition, automation, retention and optimization into one growth system for product brands.",
+    },
+    visualTheme: "commerce",
+    problems: [
+      {
+        title: "Traffic that doesn't become enough purchases",
+        body: "Ads and posts bring visitors, but navigation, product pages and mobile checkout lose them before the order.",
+        consequence: "Every acquisition channel looks unprofitable.",
+      },
+      {
+        title: "Customers who buy once and disappear",
+        body: "No welcome flow, no post-purchase sequence, no win-back — the first order is the last one.",
+        consequence: "You re-buy every customer at full price.",
+      },
+      {
+        title: "Product pages that don't build buying confidence",
+        body: "Features listed, benefits unclear, objections unanswered, proof missing or buried.",
+        consequence: "Shoppers stall at the exact moment of decision.",
+      },
+      {
+        title: "Marketing systems that run separately",
+        body: "Store, email, ads and analytics each live in their own tool with no shared view of the customer.",
+        consequence: "Nobody can see where the money actually leaks.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "position",
+        label: "Position",
+        whatHappens:
+          "A shopper judges whether the product looks worth buying before reading a word.",
+        whatHQ360Does: "Positioning, product messaging and commercial creative for store and ads.",
+        whyItMatters: "Presentation sets the price a shopper is willing to consider.",
+      },
+      {
+        id: "attract",
+        label: "Attract",
+        whatHappens: "Demand exists in search, shopping and social — some of it ready to buy.",
+        whatHQ360Does:
+          "E-commerce SEO, a clean Merchant Center feed, and Meta / Google / TikTok acquisition after eligibility checks.",
+        whyItMatters: "Discovery you own reduces dependence on rented paid traffic.",
+      },
+      {
+        id: "shop",
+        label: "Shop",
+        whatHappens: "A visitor browses, compares and evaluates.",
+        whatHQ360Does: "Collection and product-page structure, filtering, search and mobile UX.",
+        whyItMatters: "Most drop-off happens here, quietly, before the cart.",
+      },
+      {
+        id: "convert",
+        label: "Convert",
+        whatHappens: "A shopper adds to cart and starts checkout.",
+        whatHQ360Does:
+          "Cart and checkout-journey CRO, trust elements, and analytics on the funnel.",
+        whyItMatters: "Small friction at checkout is the most expensive friction on the site.",
+      },
+      {
+        id: "recover",
+        label: "Recover",
+        whatHappens: "A shopper shows purchase intent, then leaves.",
+        whatHQ360Does:
+          "Browse, cart and checkout recovery flows plus remarketing (Klaviyo / Omnisend).",
+        whyItMatters: "Existing intent is usually cheaper to convert than a fresh cold visitor.",
+      },
+      {
+        id: "retain",
+        label: "Retain",
+        whatHappens: "A first order lands and the relationship could end there.",
+        whatHQ360Does:
+          "Post-purchase education, review requests, cross-sell, win-back and new-product campaigns.",
+        whyItMatters: "Repeat revenue is what makes acquisition math work.",
+      },
+      {
+        id: "scale",
+        label: "Scale",
+        whatHappens: "The system runs, but where it wins and leaks isn't obvious.",
+        whatHQ360Does:
+          "GA4, funnel and creative analysis, and CRO testing on pages, offers and bundles.",
+        whyItMatters: "Compounding comes from reading the data and improving the whole loop.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "brand",
+        name: "Brand & creative",
+        outcome: "The product looks worth buying before the copy is read.",
+        description: "Positioning, visual identity, product and offer creative, and ad creative.",
+        capabilities: [
+          "E-commerce brand positioning",
+          "Product and offer graphics",
+          "Lifestyle and photography direction",
+          "Meta / TikTok ad creative",
+        ],
+        howItHelps: "Raises perceived value across the store and every campaign.",
+      },
+      {
+        id: "website",
+        name: "Website & CRO",
+        outcome: "Turn more store visits into purchases.",
+        description:
+          "Shopify and WooCommerce design, product and collection pages, mobile UX and cart optimisation.",
+        capabilities: [
+          "Shopify and WooCommerce design / redesign",
+          "Product and collection pages",
+          "Mobile commerce UX",
+          "Cart, upsell and bundle optimisation",
+          "Conversion tracking",
+        ],
+        howItHelps: "Removes friction between product discovery and purchase.",
+      },
+      {
+        id: "seo",
+        name: "E-commerce SEO",
+        outcome: "Products get discovered when customers are already searching.",
+        description:
+          "Product and collection keyword work, technical SEO, structured data and product feed.",
+        capabilities: [
+          "Product and collection keyword research",
+          "Technical and on-page SEO",
+          "Product and review structured data",
+          "Merchant Center feed optimisation",
+        ],
+        howItHelps: "Adds discovery you own alongside the traffic you buy.",
+      },
+      {
+        id: "marketing",
+        name: "Digital marketing",
+        outcome: "Bring qualified shoppers into the store.",
+        description: "Meta, Google Shopping and TikTok campaigns to product and campaign pages.",
+        capabilities: [
+          "Audience and offer strategy",
+          "Meta, Google Shopping, TikTok",
+          "Product campaign pages",
+          "Creative and audience testing",
+        ],
+        howItHelps:
+          "Sends intent-matched traffic to pages built to convert it — after checking category eligibility.",
+      },
+      {
+        id: "automation",
+        name: "CRM & automation",
+        outcome: "Recover revenue that would otherwise disappear.",
+        description:
+          "Welcome, browse, cart and checkout recovery flows, segmentation and store integration.",
+        capabilities: [
+          "Welcome and browse-abandonment flows",
+          "Cart and checkout recovery",
+          "Customer segmentation",
+          "Klaviyo / Omnisend setup and integration",
+        ],
+        howItHelps: "Catches the buying intent that leaves the site without ordering.",
+      },
+      {
+        id: "retention",
+        name: "Retention marketing",
+        outcome: "Make the first purchase the start of the relationship.",
+        description: "Post-purchase, review, cross-sell, win-back and new-product email.",
+        capabilities: [
+          "Post-purchase and education flows",
+          "Review requests",
+          "Win-back and reactivation",
+          "New-product and replenishment campaigns",
+        ],
+        howItHelps: "Grows repeat revenue so blended acquisition cost falls.",
+      },
+      {
+        id: "analytics",
+        name: "Analytics & optimisation",
+        outcome: "Find what's working, fix what's leaking.",
+        description: "GA4, funnel analysis and a CRO testing roadmap.",
+        capabilities: [
+          "Conversion tracking and GA4",
+          "Funnel and checkout analysis",
+          "Repeat-purchase and AOV analysis",
+          "Product-page and offer testing",
+        ],
+        howItHelps: "Turns guesses about the store into a prioritised list of fixes.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your store struggling most?",
+      options: [
+        {
+          id: "traffic",
+          label: "Getting enough qualified traffic",
+          recommendation: "Your biggest opportunity is acquisition and discovery.",
+          service: "E-commerce SEO",
+          review:
+            "Product and collection SEO, your feed, and which paid channels fit your category.",
+        },
+        {
+          id: "conversion",
+          label: "Turning visitors into buyers",
+          recommendation: "Your biggest opportunity is conversion.",
+          service: "Website & CRO",
+          review: "Product pages, mobile checkout friction and the path from browse to cart.",
+        },
+        {
+          id: "carts",
+          label: "Too many abandoned carts",
+          recommendation: "Your biggest opportunity is recovery automation.",
+          service: "CRM & automation",
+          review: "Whether browse, cart and checkout recovery flows exist and how they're built.",
+        },
+        {
+          id: "repeat",
+          label: "Customers rarely purchase again",
+          recommendation: "Your biggest opportunity is retention.",
+          service: "Retention marketing",
+          review: "Post-purchase, win-back and new-product flows, and customer segmentation.",
+        },
+        {
+          id: "brand",
+          label: "My brand or store doesn't look strong enough",
+          recommendation: "Your biggest opportunity is brand and presentation.",
+          service: "Brand & creative",
+          review: "Positioning, product creative and how the store presents value.",
+        },
+        {
+          id: "unsure",
+          label: "I don't know what's actually wrong",
+          recommendation: "Start with a Store Growth Audit.",
+          service: "the full system",
+          review:
+            "Brand, storefront, product pages, mobile, SEO, conversion, cart, automation, retention and analytics.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Find the gaps between store traffic and sustainable growth.",
+      label: "Get my Store Growth Audit",
     },
   },
 ];

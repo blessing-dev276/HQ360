@@ -116,6 +116,7 @@ function PortfolioDashboard() {
   const [items, setItems] = useState<Item[] | null>(null);
   const [loadError, setLoadError] = useState("");
   const [editing, setEditing] = useState<Draft | null>(null);
+  const [view, setView] = useState<"grouped" | "flat">("grouped");
   const dragId = useRef<string | null>(null);
 
   const load = useCallback(async () => {
@@ -207,6 +208,32 @@ function PortfolioDashboard() {
     [items, reorderWithinGroup],
   );
 
+  /** Reorder across the whole flat list (ignores capability grouping). */
+  const reorderFlat = useCallback(
+    (fromId: string, toId: string) => {
+      if (!items || fromId === toId) return;
+      const from = items.findIndex((i) => i.id === fromId);
+      const to = items.findIndex((i) => i.id === toId);
+      if (from < 0 || to < 0) return;
+      const next = [...items];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved!);
+      void persistOrder(next);
+    },
+    [items, persistOrder],
+  );
+
+  const moveFlat = useCallback(
+    (id: string, dir: -1 | 1) => {
+      if (!items) return;
+      const idx = items.findIndex((i) => i.id === id);
+      const target = idx + dir;
+      if (idx < 0 || target < 0 || target >= items.length) return;
+      reorderFlat(id, items[target]!.id);
+    },
+    [items, reorderFlat],
+  );
+
   async function saveDraft(draft: Draft) {
     const payload = {
       title: draft.title,
@@ -242,6 +269,14 @@ function PortfolioDashboard() {
     await load();
   }
 
+  async function togglePublish(it: Item) {
+    await api(`/api/admin/portfolio/${it.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ published: !it.published }),
+    });
+    await load();
+  }
+
   return (
     <div className="space-y-8">
       <ItemForm
@@ -257,10 +292,60 @@ function PortfolioDashboard() {
         </p>
       ) : null}
 
+      {items && items.length > 0 ? (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">
+            {items.length} uploaded {items.length === 1 ? "item" : "items"}
+          </p>
+          <div className="flex rounded-full border border-border bg-card p-0.5 text-xs">
+            {(["grouped", "flat"] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                className={cn(
+                  "rounded-full px-3 py-1 font-medium",
+                  view === v ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+                )}
+              >
+                {v === "grouped" ? "By category" : "All items"}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {items === null ? (
         <p className="text-sm text-muted-foreground">Loading items…</p>
       ) : items.length === 0 && !loadError ? (
         <p className="text-sm text-muted-foreground">No portfolio items yet. Add one above.</p>
+      ) : view === "flat" ? (
+        <ul className="space-y-2">
+          {items.map((it, i) => (
+            <li
+              key={it.id}
+              draggable
+              onDragStart={() => (dragId.current = it.id)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => {
+                if (dragId.current) reorderFlat(dragId.current, it.id);
+                dragId.current = null;
+              }}
+            >
+              <ItemRow
+                item={it}
+                first={i === 0}
+                last={i === items.length - 1}
+                showCategory
+                onUp={() => moveFlat(it.id, -1)}
+                onDown={() => moveFlat(it.id, 1)}
+                onEdit={() => setEditing(toDraft(it))}
+                onDelete={() => void remove(it.id)}
+                onTogglePublish={() => void togglePublish(it)}
+              />
+            </li>
+          ))}
+        </ul>
       ) : (
         <div className="space-y-8">
           {groups.map((group) => (
@@ -288,13 +373,7 @@ function PortfolioDashboard() {
                       onDown={() => move(group.slug, it.id, 1)}
                       onEdit={() => setEditing(toDraft(it))}
                       onDelete={() => void remove(it.id)}
-                      onTogglePublish={async () => {
-                        await api(`/api/admin/portfolio/${it.id}`, {
-                          method: "PATCH",
-                          body: JSON.stringify({ published: !it.published }),
-                        });
-                        await load();
-                      }}
+                      onTogglePublish={() => void togglePublish(it)}
                     />
                   </li>
                 ))}
@@ -328,6 +407,7 @@ function ItemRow({
   item,
   first,
   last,
+  showCategory,
   onUp,
   onDown,
   onEdit,
@@ -337,12 +417,15 @@ function ItemRow({
   item: Item;
   first: boolean;
   last: boolean;
+  showCategory?: boolean;
   onUp: () => void;
   onDown: () => void;
   onEdit: () => void;
   onDelete: () => void;
   onTogglePublish: () => void;
 }) {
+  const categoryLabel =
+    CAPABILITY_OPTIONS.find((c) => c.value === item.capability_slug)?.label ?? item.capability_slug;
   return (
     <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-3">
       <span
@@ -368,6 +451,11 @@ function ItemRow({
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{item.title}</p>
         <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+          {showCategory ? (
+            <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[oklch(0.42_0.16_42)]">
+              {categoryLabel}
+            </span>
+          ) : null}
           <span className="rounded-full bg-secondary px-2 py-0.5">
             {industryName(item.industry_slug)}
           </span>

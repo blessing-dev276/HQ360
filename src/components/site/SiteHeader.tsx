@@ -11,6 +11,7 @@ type NavItem = { label: string; to: string };
 const INDUSTRY_GROUPS = [
   { label: "People & ideas", routes: ["/authors", "/creators", "/coaches"] },
   { label: "Places & spaces", routes: ["/real-estate", "/home-services", "/med-spas"] },
+  { label: "Commerce & product", routes: ["/ecommerce"] },
   { label: "Business & expertise", routes: ["/law-firms", "/agencies"] },
 ].map((group) => ({
   label: group.label,
@@ -97,9 +98,7 @@ export function SiteHeader() {
   useEffect(() => {
     if (!openMenu) return;
     if (focusPanelRef.current) {
-      const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(
-        ".hq-mega-menu a[href]",
-      );
+      const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(".hq-mega-menu a[href]");
       const index = focusPanelRef.current === "last" ? (links?.length ?? 1) - 1 : 0;
       links?.[index]?.focus();
       focusPanelRef.current = null;
@@ -191,9 +190,10 @@ export function SiteHeader() {
                       if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
                       event.preventDefault();
                       if (openMenu === key) {
-                        const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(
-                          ".hq-mega-menu a[href]",
-                        );
+                        const links =
+                          headerRef.current?.querySelectorAll<HTMLAnchorElement>(
+                            ".hq-mega-menu a[href]",
+                          );
                         links?.[event.key === "ArrowUp" ? links.length - 1 : 0]?.focus();
                       } else {
                         focusPanelRef.current = event.key === "ArrowUp" ? "last" : "first";
@@ -252,13 +252,19 @@ export function SiteHeader() {
                           <ul className="hq-capability-menu-list">
                             {CAPABILITY_MENU.map((link, index) => (
                               <li key={link.to}>
-                                <Link to={link.to} preload="intent" className="hq-capability-menu-link">
+                                <Link
+                                  to={link.to}
+                                  preload="intent"
+                                  className="hq-capability-menu-link"
+                                >
                                   <span className="hq-capability-menu-number" aria-hidden="true">
                                     {String(index + 1).padStart(2, "0")}
                                   </span>
                                   <span>
                                     <strong>{link.label}</strong>
-                                    <span className="hq-capability-menu-description">{link.blurb}</span>
+                                    <span className="hq-capability-menu-description">
+                                      {link.blurb}
+                                    </span>
                                   </span>
                                   <ArrowUpRight size={15} aria-hidden="true" />
                                 </Link>
@@ -332,7 +338,10 @@ export function SiteHeader() {
           }}
         >
           <span className="hq-nav-eyebrow">Find your next move</span>
-          <MobileGroup title="Industries" extra={{ label: "View all industries", to: "/industries" }}>
+          <MobileGroup
+            title="Industries"
+            extra={{ label: "View all industries", to: "/industries" }}
+          >
             {INDUSTRY_GROUPS.map((group) => (
               <div key={group.label} className="hq-mobile-industry-group">
                 <p className="hq-nav-eyebrow">{group.label}</p>

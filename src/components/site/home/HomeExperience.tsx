@@ -29,6 +29,7 @@ const FEATURED_SLUGS = [
   "creators",
   "real-estate",
   "coaches",
+  "ecommerce",
   "home-services",
   "agencies",
 ];

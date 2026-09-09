@@ -18,6 +18,7 @@ import { Route as BookLaunchRouteImport } from './routes/book-launch'
 import { Route as CoachesRouteImport } from './routes/coaches'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreatorsRouteImport } from './routes/creators'
+import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as GuaranteeRouteImport } from './routes/guarantee'
 import { Route as HomeServicesRouteImport } from './routes/home-services'
@@ -108,6 +109,11 @@ const ContactRoute = ContactRouteImport.update({
 const CreatorsRoute = CreatorsRouteImport.update({
   id: '/creators',
   path: '/creators',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcommerceRoute = EcommerceRouteImport.update({
+  id: '/ecommerce',
+  path: '/ecommerce',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -354,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
   '/creators': typeof CreatorsRoute
+  '/ecommerce': typeof EcommerceRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
   '/home-services': typeof HomeServicesRoute
@@ -411,6 +418,7 @@ export interface FileRoutesByTo {
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
   '/creators': typeof CreatorsRoute
+  '/ecommerce': typeof EcommerceRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
   '/home-services': typeof HomeServicesRoute
@@ -469,6 +477,7 @@ export interface FileRoutesById {
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
   '/creators': typeof CreatorsRoute
+  '/ecommerce': typeof EcommerceRoute
   '/faqs': typeof FaqsRoute
   '/guarantee': typeof GuaranteeRoute
   '/home-services': typeof HomeServicesRoute
@@ -528,6 +537,7 @@ export interface FileRouteTypes {
     | '/coaches'
     | '/contact'
     | '/creators'
+    | '/ecommerce'
     | '/faqs'
     | '/guarantee'
     | '/home-services'
@@ -585,6 +595,7 @@ export interface FileRouteTypes {
     | '/coaches'
     | '/contact'
     | '/creators'
+    | '/ecommerce'
     | '/faqs'
     | '/guarantee'
     | '/home-services'
@@ -642,6 +653,7 @@ export interface FileRouteTypes {
     | '/coaches'
     | '/contact'
     | '/creators'
+    | '/ecommerce'
     | '/faqs'
     | '/guarantee'
     | '/home-services'
@@ -700,6 +712,7 @@ export interface RootRouteChildren {
   CoachesRoute: typeof CoachesRoute
   ContactRoute: typeof ContactRoute
   CreatorsRoute: typeof CreatorsRoute
+  EcommerceRoute: typeof EcommerceRoute
   FaqsRoute: typeof FaqsRoute
   GuaranteeRoute: typeof GuaranteeRoute
   HomeServicesRoute: typeof HomeServicesRoute
@@ -805,6 +818,13 @@ declare module '@tanstack/react-router' {
       path: '/creators'
       fullPath: '/creators'
       preLoaderRoute: typeof CreatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecommerce': {
+      id: '/ecommerce'
+      path: '/ecommerce'
+      fullPath: '/ecommerce'
+      preLoaderRoute: typeof EcommerceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -1182,6 +1202,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoachesRoute: CoachesRoute,
   ContactRoute: ContactRoute,
   CreatorsRoute: CreatorsRoute,
+  EcommerceRoute: EcommerceRoute,
   FaqsRoute: FaqsRoute,
   GuaranteeRoute: GuaranteeRoute,
   HomeServicesRoute: HomeServicesRoute,

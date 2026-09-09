@@ -1056,12 +1056,241 @@
   }
 }
 
+/* =====================================================================
+   MOTION LAYER — scroll reveals, panel swaps, hero orbit, staggers.
+   All gated by the reduced-motion block at the end of this file.
+   ===================================================================== */
+
+/* Section scroll-reveal */
+.indv2 :where(.v2-problems, .v2-system, .v2-services, .v2-proof, .v2-diag, .v2-faq) {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s var(--ease-emph),
+    transform 0.7s var(--ease-emph);
+}
+
+.indv2 :where(.v2-problems, .v2-system, .v2-services, .v2-proof, .v2-diag, .v2-faq)[data-inview] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Animated content swap on tab / stage / answer change */
+.v2-swap {
+  animation: v2-swap-in 0.42s var(--ease-emph) both;
+}
+
+@keyframes v2-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+.v2-ghost-num {
+  animation: v2-ghost-in 0.5s var(--ease-emph) both;
+}
+
+@keyframes v2-ghost-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+/* Staggered rows as a section reveals */
+.indv2 [data-inview] :where(.v2-problems-rail, .v2-services-rail, .v2-system-rail) button {
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: v2-row-in 0.45s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 55ms + 120ms);
+}
+
+@keyframes v2-row-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Capability chips cascade in on each swap */
+.v2-services-caps li {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  animation: v2-chip-in 0.4s var(--ease-emph) forwards;
+  animation-delay: calc(var(--i, 0) * 45ms + 120ms);
+}
+
+@keyframes v2-chip-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.v2-system-facets > div {
+  opacity: 0;
+  animation: v2-row-in 0.45s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 140ms);
+}
+
+/* Diagnostic option cascade + result pop */
+.indv2 [data-inview] .v2-diag-options button {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: v2-row-in 0.4s var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * 50ms + 140ms);
+}
+
+/* Hero: entrance + interactive orbit backdrop */
+.v2-hero {
+  isolation: isolate;
+}
+
+.v2-hero[data-anim] .v2-hero-copy > * {
+  opacity: 0;
+  animation: v2-hero-up 0.6s var(--ease-emph) forwards;
+}
+
+.v2-hero[data-anim] .v2-eyebrow {
+  animation-delay: 0.05s;
+}
+.v2-hero[data-anim] h1 {
+  animation-delay: 0.12s;
+}
+.v2-hero[data-anim] .v2-hero-lede {
+  animation-delay: 0.2s;
+}
+.v2-hero[data-anim] .v2-actions {
+  animation-delay: 0.28s;
+}
+
+@keyframes v2-hero-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.v2-hero-track li {
+  opacity: 0;
+  animation: v2-hero-up 0.5s var(--ease-emph) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 0.36s);
+}
+
+.v2-hero-orb {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: clip;
+  --px: 0px;
+  --py: 0px;
+}
+
+.v2-hero-orb span,
+.v2-hero-orb i {
+  position: absolute;
+  top: 50%;
+  right: clamp(-18rem, -6vw, -8rem);
+  translate: calc(var(--px) * 1) calc(-50% + var(--py));
+  border-radius: 999px;
+  transition: translate 0.5s var(--ease);
+}
+
+.v2-hero-orb span:nth-child(1) {
+  width: 40rem;
+  height: 40rem;
+  border: 1px solid color-mix(in oklch, var(--ink) 10%, transparent);
+  animation: v2-spin 90s linear infinite;
+}
+
+.v2-hero-orb span:nth-child(2) {
+  width: 26rem;
+  height: 26rem;
+  right: clamp(-12rem, -3vw, -4rem);
+  border: 1px dashed color-mix(in oklch, var(--brand) 32%, transparent);
+  animation: v2-spin 60s linear infinite reverse;
+}
+
+.v2-hero-orb i {
+  width: 0.6rem;
+  height: 0.6rem;
+  right: 6rem;
+  background: var(--brand);
+  box-shadow: 0 0 24px 4px color-mix(in oklch, var(--brand) 55%, transparent);
+  translate: calc(var(--px) * 2) calc(-50% + var(--py) * 2);
+}
+
+@keyframes v2-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Final CTA rings drift */
+.v2-final-rings span:nth-child(1) {
+  animation: v2-spin 120s linear infinite;
+}
+
+.v2-final-rings span:nth-child(2) {
+  animation: v2-spin 80s linear infinite reverse;
+}
+
+/* Button / link microinteractions */
+.v2-btn-primary {
+  box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 45%, transparent);
+  transition:
+    transform var(--fast) var(--ease),
+    box-shadow var(--base) var(--ease);
+}
+
+.v2-btn-primary:hover {
+  box-shadow: 0 10px 34px -8px color-mix(in oklch, var(--brand) 55%, transparent);
+}
+
+.v2-diag-options button {
+  transition:
+    border-color var(--fast) var(--ease),
+    background var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.v2-diag-options button:hover {
+  transform: translateX(4px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .indv2 *,
   .indv2 *::before,
   .indv2 *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.001ms !important;
+  }
+
+  .indv2 :where(.v2-problems, .v2-system, .v2-services, .v2-proof, .v2-diag, .v2-faq),
+  .indv2 :where(.v2-problems, .v2-system, .v2-services, .v2-proof, .v2-diag, .v2-faq)[data-inview],
+  .v2-swap,
+  .v2-hero[data-anim] .v2-hero-copy > *,
+  .v2-hero-track li,
+  .v2-services-caps li,
+  .v2-system-facets > div,
+  .indv2 [data-inview] :where(.v2-problems-rail, .v2-services-rail, .v2-system-rail) button,
+  .indv2 [data-inview] .v2-diag-options button {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

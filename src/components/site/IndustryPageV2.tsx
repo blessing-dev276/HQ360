@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import type { Industry, IndustryDiagnostic } from "@/data/industries";
@@ -7,11 +14,33 @@ import { FaqSection } from "@/components/site/FaqSection";
 import { ProjectInquiryForm } from "@/components/site/ProjectInquiryForm";
 import { PortfolioStrip } from "@/components/site/PortfolioStrip";
 import { getCaseStudy } from "@/data/work";
+import { useReveal } from "@/hooks/use-reveal";
 import "./industry-v2.css";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
+const vars = (o: Record<string, string | number>) => o as CSSProperties;
 
 type DiagOption = IndustryDiagnostic["options"][number];
+
+const reducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** A <section> that fades/rises in the first time it enters the viewport. */
+function RevealSection({
+  className,
+  children,
+  ...rest
+}: {
+  className: string;
+  children: ReactNode;
+} & React.HTMLAttributes<HTMLElement>) {
+  const { ref, visible } = useReveal<HTMLElement>();
+  return (
+    <section ref={ref} className={className} data-inview={visible || undefined} {...rest}>
+      {children}
+    </section>
+  );
+}
 
 /** Roving-focus tab group — hover / focus / click / arrow keys all select. */
 function useRoving(count: number) {
@@ -73,8 +102,34 @@ export function IndustryPageV2({
 function Hero({ industry }: { industry: Industry }) {
   const stages = industry.systemStages ?? [];
   const label = industry.finalCta?.label ?? industry.cta.label;
+  const orbRef = useRef<HTMLDivElement>(null);
+  const raf = useRef(0);
+
+  function onMove(e: React.PointerEvent<HTMLElement>) {
+    if (e.pointerType !== "mouse" || reducedMotion()) return;
+    const b = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - b.left) / b.width - 0.5) * 26;
+    const y = ((e.clientY - b.top) / b.height - 0.5) * 26;
+    cancelAnimationFrame(raf.current);
+    raf.current = requestAnimationFrame(() => {
+      orbRef.current?.style.setProperty("--px", `${x}px`);
+      orbRef.current?.style.setProperty("--py", `${y}px`);
+    });
+  }
+  function reset() {
+    cancelAnimationFrame(raf.current);
+    orbRef.current?.style.setProperty("--px", "0px");
+    orbRef.current?.style.setProperty("--py", "0px");
+  }
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+
   return (
-    <section className="v2-hero">
+    <section className="v2-hero" data-anim onPointerMove={onMove} onPointerLeave={reset}>
+      <div ref={orbRef} className="v2-hero-orb" aria-hidden="true">
+        <span />
+        <span />
+        <i />
+      </div>
       <Container size="wide" className="relative z-10">
         <nav aria-label="Breadcrumb" className="v2-crumb">
           <Link to="/industries">Industries</Link>
@@ -100,7 +155,7 @@ function Hero({ industry }: { industry: Industry }) {
         {stages.length > 0 ? (
           <ol className="v2-hero-track" aria-label={`${industry.shortName} growth journey`}>
             {stages.map((s, i) => (
-              <li key={s.id} style={{ "--i": String(i) } as Record<string, string>}>
+              <li key={s.id} style={vars({ "--i": i })}>
                 <span className="v2-hero-node">
                   <em>{num(i)}</em>
                   {s.label}
@@ -126,7 +181,7 @@ function Problems({ industry }: { industry: Industry }) {
   if (problems.length === 0) return null;
   const p = problems[Math.min(active, problems.length - 1)]!;
   return (
-    <section className="v2-problems">
+    <RevealSection className="v2-problems">
       <Container size="wide">
         <p className="v2-eyebrow">
           <span /> This may be what&rsquo;s holding you back
@@ -138,6 +193,7 @@ function Problems({ industry }: { industry: Industry }) {
                 key={item.title}
                 type="button"
                 role="tab"
+                style={vars({ "--i": i })}
                 aria-selected={i === active}
                 tabIndex={i === active ? 0 : -1}
                 className={i === active ? "active" : ""}
@@ -152,19 +208,21 @@ function Problems({ industry }: { industry: Industry }) {
             ))}
           </div>
           <div className="v2-problems-panel" role="tabpanel" aria-live="polite">
-            <span className="v2-ghost-num" aria-hidden="true">
+            <span className="v2-ghost-num" key={`g${active}`} aria-hidden="true">
               {num(active)}
             </span>
-            <h3>{p.title}</h3>
-            <p>{p.body}</p>
-            <p className="v2-problems-cost">
-              <span>The cost</span>
-              {p.consequence}
-            </p>
+            <div className="v2-swap" key={active}>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+              <p className="v2-problems-cost">
+                <span>The cost</span>
+                {p.consequence}
+              </p>
+            </div>
           </div>
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 
@@ -173,10 +231,40 @@ function Problems({ industry }: { industry: Industry }) {
 function System({ industry }: { industry: Industry }) {
   const stages = industry.systemStages ?? [];
   const { active, setActive, onKeyDown } = useRoving(Math.max(stages.length, 1));
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const touched = useRef(false);
+
+  // Scroll-driven stage activation until the visitor interacts directly.
+  useEffect(() => {
+    const el = layoutRef.current;
+    if (!el || stages.length === 0 || reducedMotion()) return;
+    let frame = 0;
+    const onScroll = () => {
+      if (frame || touched.current) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const r = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = (vh * 0.6 - r.top) / (r.height * 0.8);
+        const i = Math.max(0, Math.min(stages.length - 1, Math.floor(progress * stages.length)));
+        setActive((prev) => (prev === i ? prev : i));
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [stages.length, setActive]);
+
   if (stages.length === 0) return null;
   const s = stages[Math.min(active, stages.length - 1)]!;
+  const mark = () => {
+    touched.current = true;
+  };
   return (
-    <section className="v2-system">
+    <RevealSection className="v2-system">
       <Container size="wide">
         <div className="v2-head light">
           <p className="v2-eyebrow">
@@ -184,14 +272,14 @@ function System({ industry }: { industry: Industry }) {
           </p>
           <h2>How growth actually works here.</h2>
           <p>
-            One connected loop. Select a stage to see what happens, what we do, and why it matters.
+            One connected loop. Scroll it, or pick a stage to see what happens, what we do, and why
+            it matters.
           </p>
         </div>
         <div
+          ref={layoutRef}
           className="v2-system-layout"
-          style={
-            { "--progress": `${((active + 1) / stages.length) * 100}%` } as Record<string, string>
-          }
+          style={vars({ "--progress": `${((active + 1) / stages.length) * 100}%` })}
         >
           <div className="v2-system-rail" role="tablist" aria-label="Growth stages">
             {stages.map((stage, i) => (
@@ -199,13 +287,25 @@ function System({ industry }: { industry: Industry }) {
                 key={stage.id}
                 type="button"
                 role="tab"
+                style={vars({ "--i": i })}
                 aria-selected={i === active}
                 tabIndex={i === active ? 0 : -1}
                 className={i === active ? "active" : ""}
-                onKeyDown={(e) => onKeyDown(e, i)}
-                onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
+                onKeyDown={(e) => {
+                  mark();
+                  onKeyDown(e, i);
+                }}
+                onPointerEnter={(e) => {
+                  if (e.pointerType === "mouse") {
+                    mark();
+                    setActive(i);
+                  }
+                }}
                 onFocus={() => setActive(i)}
-                onClick={() => setActive(i)}
+                onClick={() => {
+                  mark();
+                  setActive(i);
+                }}
               >
                 <em>{num(i)}</em>
                 {stage.label}
@@ -213,28 +313,30 @@ function System({ industry }: { industry: Industry }) {
             ))}
           </div>
           <div className="v2-system-panel" role="tabpanel" aria-live="polite">
-            <p className="v2-system-kicker">
-              Stage {num(active)} / {num(stages.length - 1)}
-            </p>
-            <h3>{s.label}</h3>
-            <dl className="v2-system-facets">
-              <div>
-                <dt>What happens</dt>
-                <dd>{s.whatHappens}</dd>
-              </div>
-              <div>
-                <dt>What HQ360 does</dt>
-                <dd>{s.whatHQ360Does}</dd>
-              </div>
-              <div>
-                <dt>Why it matters</dt>
-                <dd>{s.whyItMatters}</dd>
-              </div>
-            </dl>
+            <div className="v2-swap" key={active}>
+              <p className="v2-system-kicker">
+                Stage {num(active)} / {num(stages.length - 1)}
+              </p>
+              <h3>{s.label}</h3>
+              <dl className="v2-system-facets">
+                <div style={vars({ "--i": 0 })}>
+                  <dt>What happens</dt>
+                  <dd>{s.whatHappens}</dd>
+                </div>
+                <div style={vars({ "--i": 1 })}>
+                  <dt>What HQ360 does</dt>
+                  <dd>{s.whatHQ360Does}</dd>
+                </div>
+                <div style={vars({ "--i": 2 })}>
+                  <dt>Why it matters</dt>
+                  <dd>{s.whyItMatters}</dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 
@@ -246,7 +348,7 @@ function Services({ industry }: { industry: Industry }) {
   if (cats.length === 0) return null;
   const c = cats[Math.min(active, cats.length - 1)]!;
   return (
-    <section className="v2-services">
+    <RevealSection className="v2-services">
       <Container size="wide">
         <div className="v2-head">
           <p className="v2-eyebrow">
@@ -265,6 +367,7 @@ function Services({ industry }: { industry: Industry }) {
                 key={cat.id}
                 type="button"
                 role="tab"
+                style={vars({ "--i": i })}
                 aria-selected={i === active}
                 tabIndex={i === active ? 0 : -1}
                 className={i === active ? "active" : ""}
@@ -279,24 +382,28 @@ function Services({ industry }: { industry: Industry }) {
             ))}
           </div>
           <div className="v2-services-panel" role="tabpanel" aria-live="polite">
-            <p className="v2-services-outcome">{c.outcome}</p>
-            <p className="v2-services-desc">{c.description}</p>
-            <ul className="v2-services-caps">
-              {c.capabilities.map((cap) => (
-                <li key={cap}>{cap}</li>
-              ))}
-            </ul>
-            <p className="v2-services-help">
-              <span>How this helps</span>
-              {c.howItHelps}
-            </p>
-            <button type="button" className="v2-text-link" onClick={scrollToStart}>
-              Talk to HQ360 about this <ArrowUpRight aria-hidden="true" />
-            </button>
+            <div className="v2-swap" key={active}>
+              <p className="v2-services-outcome">{c.outcome}</p>
+              <p className="v2-services-desc">{c.description}</p>
+              <ul className="v2-services-caps">
+                {c.capabilities.map((cap, i) => (
+                  <li key={cap} style={vars({ "--i": i })}>
+                    {cap}
+                  </li>
+                ))}
+              </ul>
+              <p className="v2-services-help">
+                <span>How this helps</span>
+                {c.howItHelps}
+              </p>
+              <button type="button" className="v2-text-link" onClick={scrollToStart}>
+                Talk to HQ360 about this <ArrowUpRight aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 
@@ -306,7 +413,7 @@ function Proof({ industry }: { industry: Industry }) {
   const project = industry.proof?.find((p) => p.slug)?.slug;
   const study = project ? getCaseStudy(project) : undefined;
   return (
-    <section className="v2-proof">
+    <RevealSection className="v2-proof">
       <Container size="wide">
         <div className="v2-head">
           <p className="v2-eyebrow">
@@ -367,7 +474,7 @@ function Proof({ industry }: { industry: Industry }) {
           <PortfolioStrip industry={industry.slug} eyebrow="From the studio" title="Recent work" />
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 
@@ -404,7 +511,7 @@ function Diagnostic({
   }
 
   return (
-    <section className="v2-diag">
+    <RevealSection className="v2-diag">
       <Container size="wide">
         <div className="v2-head light">
           <p className="v2-eyebrow">
@@ -418,11 +525,12 @@ function Diagnostic({
         </div>
         <div className="v2-diag-layout">
           <div className="v2-diag-options" role="radiogroup" aria-label={diag.question}>
-            {diag.options.map((o) => (
+            {diag.options.map((o, i) => (
               <button
                 key={o.id}
                 type="button"
                 role="radio"
+                style={vars({ "--i": i })}
                 aria-checked={picked === o.id}
                 className={picked === o.id ? "active" : ""}
                 onClick={() => choose(o)}
@@ -434,7 +542,7 @@ function Diagnostic({
           </div>
           <div className="v2-diag-result" aria-live="polite">
             {result ? (
-              <>
+              <div className="v2-swap" key={picked}>
                 <p className="v2-diag-verdict">{result.recommendation}</p>
                 <dl>
                   <div>
@@ -449,7 +557,7 @@ function Diagnostic({
                 <button type="button" className="v2-btn v2-btn-primary" onClick={scrollToStart}>
                   Discuss this with HQ360 <ArrowUpRight aria-hidden="true" />
                 </button>
-              </>
+              </div>
             ) : (
               <p className="v2-diag-placeholder">
                 Your recommendation appears here — the likely bottleneck, where we&rsquo;d start,
@@ -459,7 +567,7 @@ function Diagnostic({
           </div>
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 
@@ -467,7 +575,7 @@ function Diagnostic({
 
 function Faq({ industry }: { industry: Industry }) {
   return (
-    <section className="v2-faq">
+    <RevealSection className="v2-faq">
       <Container size="wide">
         <div className="v2-faq-layout">
           <div className="v2-head">
@@ -479,7 +587,7 @@ function Faq({ industry }: { industry: Industry }) {
           <FaqSection faqs={industry.faqs.slice(0, 6)} idPrefix={`v2-${industry.slug}`} />
         </div>
       </Container>
-    </section>
+    </RevealSection>
   );
 }
 

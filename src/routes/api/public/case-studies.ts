@@ -8,7 +8,7 @@ function json(body: unknown, status = 200) {
       "content-type": "application/json",
       "cache-control":
         status === 200
-          ? "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+          ? "public, max-age=0, s-maxage=10, stale-while-revalidate=59"
           : "no-store",
     },
   });

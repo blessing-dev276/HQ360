@@ -6,12 +6,15 @@ import { PageLoadError, PageSkeleton } from "./components/site/loading/RouteLoad
 export const getRouter = () => {
   const queryClient = new QueryClient();
   // Only published agency content gets this cache policy. Admin/session queries
-  // retain their own freshness and privacy rules.
+  // retain their own freshness and privacy rules. staleTime is deliberately
+  // short so admin edits to team / portfolio / case studies surface within
+  // seconds — the CDN (s-maxage=10) and this both revalidate quickly.
   queryClient.setQueryDefaults(["public"], {
-    staleTime: 5 * 60_000,
+    staleTime: 20_000,
     gcTime: 30 * 60_000,
     retry: 1,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: "always",
   });
 
   const router = createRouter({

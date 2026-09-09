@@ -904,6 +904,20 @@
   object-fit: cover;
 }
 
+/* Desktop: portraits 3x larger and squared off (no circle). Mobile keeps
+   the compact circular avatar above. */
+@media (min-width: 961px) {
+  .ab-team-card :where(img, .ab-avatar) {
+    width: 13.5rem;
+    height: 13.5rem;
+    border-radius: var(--r-lg);
+  }
+
+  .ab-team-card .ab-team-fallback-avatar {
+    font-size: 4rem;
+  }
+}
+
 .ab-team-card h3 {
   margin: 0.75rem 0 0;
   font-size: 1.05rem;

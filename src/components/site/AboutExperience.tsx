@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { fetchPublicContent } from "@/lib/public-content";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/site/Primitives";
 import { CtaBand } from "@/components/site/CtaBand";
@@ -408,9 +410,45 @@ function initials(name: string) {
   return name.slice(0, 1).toUpperCase();
 }
 
+type TeamPerson = {
+  key: string;
+  name: string;
+  role: string;
+  blurb: string;
+  imageUrl?: string | undefined;
+};
+
+/** Admin-managed roster wins; the bundled ROSTER is the SSR / fallback view. */
+function useRoster(): TeamPerson[] {
+  const query = useQuery({
+    queryKey: ["public", "team"],
+    queryFn: ({ signal }) =>
+      fetchPublicContent<{
+        members: { id: string; name: string; title: string; image_url: string | null }[];
+      }>("/api/public/team", signal),
+  });
+
+  if (!query.data?.members.length) {
+    return ROSTER.map((m) => ({ key: m.key, name: m.name, role: m.role, blurb: m.blurb }));
+  }
+  return query.data.members.map((m) => {
+    const key = m.name.trim().toLowerCase().split(/\s+/)[0] ?? m.id;
+    const seed = ROSTER.find((r) => r.key === key);
+    return {
+      key: m.id,
+      name: m.name,
+      role: m.title,
+      blurb: seed?.blurb ?? "",
+      imageUrl: m.image_url ?? PHOTOS[key],
+    };
+  });
+}
+
 function Team() {
-  const { active, setActive, onKeyDown } = useTabs(ROSTER.length);
-  const person = ROSTER[active]!;
+  const roster = useRoster();
+  const { active, setActive, onKeyDown } = useTabs(roster.length);
+  const index = Math.min(active, roster.length - 1);
+  const person = roster[index]!;
   return (
     <section className="ab-team">
       <Container size="wide">
@@ -429,36 +467,33 @@ function Team() {
           className="ab-team-grid"
           role="tablist"
           aria-label="Team members"
-          onMouseLeave={() => setActive(active)}
+          onMouseLeave={() => setActive(index)}
         >
-          {ROSTER.map((m, i) => {
-            const src = PHOTOS[m.key];
-            return (
-              <li key={m.key}>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={i === active}
-                  tabIndex={i === active ? 0 : -1}
-                  className={`ab-team-card ${i === active ? "active" : ""}`}
-                  onKeyDown={(e) => onKeyDown(e, i)}
-                  onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                >
-                  {src ? (
-                    <img src={src} alt={`Portrait of ${m.name}`} loading="lazy" />
-                  ) : (
-                    <span className="ab-avatar ab-team-fallback-avatar" aria-hidden="true">
-                      {initials(m.name)}
-                    </span>
-                  )}
-                  <h3>{m.name}</h3>
-                  <p>{m.role}</p>
-                </button>
-              </li>
-            );
-          })}
+          {roster.map((m, i) => (
+            <li key={m.key}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={i === index}
+                tabIndex={i === index ? 0 : -1}
+                className={`ab-team-card ${i === index ? "active" : ""}`}
+                onKeyDown={(e) => onKeyDown(e, i)}
+                onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
+                onFocus={() => setActive(i)}
+                onClick={() => setActive(i)}
+              >
+                {m.imageUrl ? (
+                  <img src={m.imageUrl} alt={`Portrait of ${m.name}`} loading="lazy" />
+                ) : (
+                  <span className="ab-avatar ab-team-fallback-avatar" aria-hidden="true">
+                    {initials(m.name)}
+                  </span>
+                )}
+                <h3>{m.name}</h3>
+                <p>{m.role}</p>
+              </button>
+            </li>
+          ))}
         </ul>
 
         <div className="ab-team-detail" role="tabpanel" aria-live="polite">

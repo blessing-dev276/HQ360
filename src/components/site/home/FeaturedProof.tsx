@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Play, RotateCcw } from "lucide-react";
 import { LAUNCH, LAUNCH_GALLERY } from "@/data/launch";
@@ -68,6 +68,12 @@ function ClientVideo({ video }: { video: (typeof VIDEO_TESTIMONIALS)[number] }) 
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
+    if (!open || state !== "loading") return;
+    const timeout = window.setTimeout(() => setState("error"), 20_000);
+    return () => window.clearTimeout(timeout);
+  }, [open, state, attempt]);
 
   return (
     <Dialog

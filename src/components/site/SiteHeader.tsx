@@ -1,298 +1,409 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useId, useRef, useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { CAPABILITY_MENU, CTAS, INDUSTRY_MENU, PRIMARY_NAV } from "@/config/brand";
+import "./SiteHeader.css";
 
 type MenuKey = "industries" | "capabilities";
+type NavItem = { label: string; to: string };
+
+const INDUSTRY_GROUPS = [
+  { label: "People & ideas", routes: ["/authors", "/creators", "/coaches"] },
+  { label: "Places & spaces", routes: ["/real-estate", "/home-services", "/med-spas"] },
+  { label: "Business & expertise", routes: ["/law-firms", "/agencies"] },
+].map((group) => ({
+  label: group.label,
+  items: group.routes.flatMap((route) => INDUSTRY_MENU.filter((item) => item.to === route)),
+}));
 
 export function SiteHeader() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const mobileCloseRef = useRef<HTMLButtonElement>(null);
+  const triggersRef = useRef<Partial<Record<MenuKey, HTMLButtonElement | null>>>({});
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const focusPanelRef = useRef<"first" | "last" | null>(null);
   const menuId = useId();
 
-  // Close everything on route change.
+  function clearHoverTimer() {
+    if (hoverTimerRef.current !== null) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  }
+
+  function closeDesktopMenu(restoreFocus = false) {
+    clearHoverTimer();
+    if (restoreFocus && openMenu) triggersRef.current[openMenu]?.focus();
+    setOpenMenu(null);
+  }
+
   useEffect(() => {
+    clearHoverTimer();
     setOpenMenu(null);
     setMobileOpen(false);
   }, [pathname]);
 
-  // Lock scroll while the mobile panel is open.
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    if (!mobileOpen || !dialogRef.current) return;
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    mobileCloseRef.current?.focus();
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
     };
   }, [mobileOpen]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    // Only update React when crossing the threshold; batch scroll work per frame.
+    let frame = 0;
+    let wasScrolled = window.scrollY > 24;
+    setScrolled(wasScrolled);
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const next = window.scrollY > 24;
+        if (next !== wasScrolled) {
+          wasScrolled = next;
+          setScrolled(next);
+        }
+      });
+    };
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onViewportChange = () => {
+      clearHoverTimer();
+      setMobileOpen(false);
+      setOpenMenu(null);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    desktop.addEventListener("change", onViewportChange);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      desktop.removeEventListener("change", onViewportChange);
+      window.cancelAnimationFrame(frame);
+      clearHoverTimer();
+    };
   }, []);
 
   useEffect(() => {
     if (!openMenu) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenMenu(null);
+    if (focusPanelRef.current) {
+      const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(
+        ".hq-mega-menu a[href]",
+      );
+      const index = focusPanelRef.current === "last" ? (links?.length ?? 1) - 1 : 0;
+      links?.[index]?.focus();
+      focusPanelRef.current = null;
+    }
+    const onOutsidePress = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        clearHoverTimer();
+        setOpenMenu(null);
+      }
     };
-    const onClick = (e: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null);
-    };
-    document.addEventListener("keydown", onKey);
-    document.addEventListener("mousedown", onClick);
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.removeEventListener("mousedown", onClick);
-    };
+    document.addEventListener("pointerdown", onOutsidePress);
+    return () => document.removeEventListener("pointerdown", onOutsidePress);
   }, [openMenu]);
 
   return (
     <header
-      className={cn(
-        "sticky top-0 z-50 w-full border-b transition-colors duration-200",
-        scrolled || openMenu
-          ? "border-border bg-background/92 backdrop-blur supports-[backdrop-filter]:bg-background/80"
-          : "border-transparent bg-background",
-      )}
+      ref={headerRef}
+      className="hq-header"
+      data-scrolled={scrolled || undefined}
+      data-menu-open={Boolean(openMenu) || undefined}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && openMenu) {
+          event.preventDefault();
+          closeDesktopMenu(true);
+        }
+      }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          closeDesktopMenu();
+        }
+      }}
+      onPointerEnter={clearHoverTimer}
+      onPointerLeave={(event) => {
+        if (event.pointerType !== "mouse") return;
+        clearHoverTimer();
+        // A menu being read with the keyboard must remain available.
+        if (headerRef.current?.querySelector(".hq-mega-menu :focus")) return;
+        hoverTimerRef.current = setTimeout(() => setOpenMenu(null), 180);
+      }}
     >
-      <div ref={navRef} className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
-          <Link to="/" aria-label="HQ360 home" className="shrink-0">
-            <Logo size={30} />
-          </Link>
+      <div className="hq-header-surface" aria-hidden="true" />
+      <div className="hq-header-inner">
+        <Link to="/" preload="intent" aria-label="HQ360 home" className="hq-header-logo">
+          <Logo size={48} />
+        </Link>
 
-          <nav aria-label="Primary" className="hidden lg:flex lg:items-center lg:gap-1">
-            {PRIMARY_NAV.map((item) =>
-              item.menu ? (
-                <div key={item.label} className="relative">
+        <nav aria-label="Primary" className="hq-desktop-nav">
+          <ul className="hq-nav-list">
+            {PRIMARY_NAV.map((item) => {
+              if (!item.menu) {
+                return (
+                  <li key={item.label}>
+                    <Link
+                      to={item.to as string}
+                      preload="intent"
+                      className="hq-nav-link"
+                      activeOptions={{ exact: item.to === "/" }}
+                      activeProps={{ "aria-current": "page" }}
+                      onPointerEnter={() => closeDesktopMenu()}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              }
+              const key = item.menu;
+              return (
+                <li key={key}>
                   <button
+                    ref={(element) => {
+                      triggersRef.current[key] = element;
+                    }}
+                    id={`${menuId}-${key}-trigger`}
                     type="button"
-                    aria-expanded={openMenu === item.menu}
-                    aria-controls={`${menuId}-${item.menu}`}
-                    onClick={() =>
-                      setOpenMenu((cur) => (cur === item.menu ? null : (item.menu as MenuKey)))
-                    }
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                      openMenu === item.menu
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
+                    className="hq-nav-link hq-nav-trigger"
+                    aria-expanded={openMenu === key}
+                    aria-controls={`${menuId}-${key}`}
+                    onPointerEnter={(event) => {
+                      clearHoverTimer();
+                      if (event.pointerType === "mouse") {
+                        hoverTimerRef.current = setTimeout(() => setOpenMenu(key), 110);
+                      }
+                    }}
+                    onClick={() => {
+                      clearHoverTimer();
+                      setOpenMenu((current) => (current === key ? null : key));
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                      event.preventDefault();
+                      if (openMenu === key) {
+                        const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(
+                          ".hq-mega-menu a[href]",
+                        );
+                        links?.[event.key === "ArrowUp" ? links.length - 1 : 0]?.focus();
+                      } else {
+                        focusPanelRef.current = event.key === "ArrowUp" ? "last" : "first";
+                        setOpenMenu(key);
+                      }
+                    }}
                   >
                     {item.label}
-                    <ChevronDown
-                      className={cn(
-                        "size-4 transition-transform",
-                        openMenu === item.menu && "rotate-180",
-                      )}
-                      aria-hidden="true"
-                    />
+                    <ChevronDown size={13} aria-hidden="true" />
                   </button>
-                </div>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.to as string}
-                  activeOptions={{ exact: item.to === "/" }}
-                  activeProps={{ className: "text-foreground" }}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-          </nav>
-
-          <div className="hidden lg:block">
-            <Link
-              to={CTAS.primary.to}
-              className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-editorial transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-            >
-              {CTAS.primary.label}
-            </Link>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-expanded={mobileOpen}
-            aria-controls={`${menuId}-mobile`}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center rounded-md border border-border p-2 text-foreground lg:hidden"
-          >
-            {mobileOpen ? (
-              <X className="size-5" aria-hidden="true" />
-            ) : (
-              <Menu className="size-5" aria-hidden="true" />
-            )}
-          </button>
-        </div>
-
-        {/* Desktop mega menu */}
-        {openMenu ? (
-          <div
-            id={`${menuId}-${openMenu}`}
-            className="absolute inset-x-0 top-full hidden border-b border-border bg-background/98 backdrop-blur lg:block"
-          >
-            <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-8">
-              {openMenu === "industries" ? (
-                <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-                  <div>
-                    <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-                      Built around your industry
-                    </p>
-                    <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1">
-                      {INDUSTRY_MENU.map((it) => (
-                        <li key={it.to}>
+                  {openMenu === key && (
+                    <div
+                      id={`${menuId}-${key}`}
+                      className="hq-mega-menu"
+                      aria-labelledby={`${menuId}-${key}-trigger`}
+                      onPointerEnter={clearHoverTimer}
+                    >
+                      <div className="hq-mega-inner">
+                        <div className="hq-mega-intro">
+                          <span className="hq-nav-eyebrow">
+                            {key === "industries" ? "Who we help" : "What we do"}
+                          </span>
+                          <p>
+                            {key === "industries"
+                              ? "Your world.\nOur perspective."
+                              : "A sharper brand.\nA stronger business."}
+                          </p>
                           <Link
-                            to={it.to}
-                            className="block rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-brand"
+                            to={key === "industries" ? "/industries" : "/capabilities"}
+                            preload="intent"
+                            className="hq-nav-text-link"
                           >
-                            {it.label}
+                            {key === "industries" ? "View all industries" : "Explore capabilities"}
+                            <ArrowRight size={16} aria-hidden="true" />
                           </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="rounded-2xl border border-border bg-secondary/60 p-6">
-                    <p className="font-display text-lg">Don't see yours?</p>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      The system adapts to most industries. See the full list or start a
-                      conversation.
-                    </p>
-                    <div className="mt-4 flex flex-col gap-2 text-sm font-semibold">
-                      <Link to="/industries" className="text-brand hover:underline">
-                        View all industries &rarr;
-                      </Link>
-                      <Link to={CTAS.primary.to} className="text-foreground hover:underline">
-                        Start a project &rarr;
-                      </Link>
+                        </div>
+                        {key === "industries" ? (
+                          <div className="hq-industry-menu-groups">
+                            {INDUSTRY_GROUPS.map((group) => (
+                              <div key={group.label}>
+                                <p className="hq-nav-eyebrow">{group.label}</p>
+                                <ul>
+                                  {group.items.map((link) => (
+                                    <li key={link.to}>
+                                      <Link to={link.to} preload="intent" className="hq-mega-link">
+                                        {link.label}
+                                        <ArrowUpRight size={14} aria-hidden="true" />
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <ul className="hq-capability-menu-list">
+                            {CAPABILITY_MENU.map((link, index) => (
+                              <li key={link.to}>
+                                <Link to={link.to} preload="intent" className="hq-capability-menu-link">
+                                  <span className="hq-capability-menu-number" aria-hidden="true">
+                                    {String(index + 1).padStart(2, "0")}
+                                  </span>
+                                  <span>
+                                    <strong>{link.label}</strong>
+                                    <span className="hq-capability-menu-description">{link.blurb}</span>
+                                  </span>
+                                  <ArrowUpRight size={15} aria-hidden="true" />
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-                    What we do
-                  </p>
-                  <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {CAPABILITY_MENU.map((it) => (
-                      <li key={it.to}>
-                        <Link
-                          to={it.to}
-                          className="block rounded-xl border border-transparent px-4 py-3 hover:border-border hover:bg-secondary/60"
-                        >
-                          <span className="block text-sm font-semibold text-foreground">
-                            {it.label}
-                          </span>
-                          <span className="mt-1 block text-xs leading-snug text-muted-foreground">
-                            {it.blurb}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-4 text-sm font-semibold">
-                    <Link to="/capabilities" className="text-brand hover:underline">
-                      All services &rarr;
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : null}
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <Link to={CTAS.primary.to} preload="intent" className="hq-header-cta">
+          {CTAS.primary.label}
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            closeDesktopMenu();
+            setMobileOpen(true);
+          }}
+          aria-expanded={mobileOpen}
+          aria-controls={`${menuId}-mobile`}
+          aria-label="Open menu"
+          className="hq-mobile-toggle"
+        >
+          <span>Menu</span>
+          <Menu size={19} aria-hidden="true" />
+        </button>
       </div>
 
-      {/* Mobile panel */}
-      {mobileOpen ? (
-        <div
-          id={`${menuId}-mobile`}
-          className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto border-t border-border bg-background lg:hidden"
-        >
-          <div className="px-5 py-6 sm:px-6">
-            <MobileGroup
-              title="Industries"
-              items={INDUSTRY_MENU}
-              extra={{ label: "All industries", to: "/industries" }}
-            />
-            <MobileGroup
-              title="Services"
-              items={CAPABILITY_MENU.map((c) => ({ label: c.label, to: c.to }))}
-              extra={{ label: "All services", to: "/capabilities" }}
-            />
-            <div className="mt-2 flex flex-col border-t border-border pt-2">
-              {PRIMARY_NAV.filter((n) => n.to).map((n) => (
-                <Link
-                  key={n.label}
-                  to={n.to as string}
-                  className="border-b border-border/60 py-3.5 text-base font-medium text-foreground"
-                >
-                  {n.label}
-                </Link>
-              ))}
-            </div>
-            <Link
-              to={CTAS.primary.to}
-              className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground"
-            >
-              {CTAS.primary.label}
-            </Link>
-          </div>
+      <dialog
+        ref={dialogRef}
+        id={`${menuId}-mobile`}
+        aria-label="Site navigation"
+        className="hq-mobile-dialog"
+        onCancel={() => setMobileOpen(false)}
+        onClose={() => setMobileOpen(false)}
+      >
+        <div className="hq-mobile-top">
+          <Link
+            to="/"
+            preload="intent"
+            aria-label="HQ360 home"
+            className="hq-header-logo"
+            onClick={() => setMobileOpen(false)}
+          >
+            <Logo size={48} />
+          </Link>
+          <button
+            ref={mobileCloseRef}
+            type="button"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+            className="hq-mobile-toggle"
+          >
+            <span>Close</span>
+            <X size={19} aria-hidden="true" />
+          </button>
         </div>
-      ) : null}
+        <nav
+          aria-label="Mobile navigation"
+          className="hq-mobile-content"
+          onClick={(event) => {
+            if ((event.target as HTMLElement).closest("a[href]")) setMobileOpen(false);
+          }}
+        >
+          <span className="hq-nav-eyebrow">Find your next move</span>
+          <MobileGroup title="Industries" extra={{ label: "View all industries", to: "/industries" }}>
+            {INDUSTRY_GROUPS.map((group) => (
+              <div key={group.label} className="hq-mobile-industry-group">
+                <p className="hq-nav-eyebrow">{group.label}</p>
+                <MobileLinks items={group.items} />
+              </div>
+            ))}
+          </MobileGroup>
+          <MobileGroup
+            title="Services"
+            extra={{ label: "Explore capabilities", to: "/capabilities" }}
+          >
+            <MobileLinks items={CAPABILITY_MENU} />
+          </MobileGroup>
+          <ul className="hq-mobile-primary-links">
+            {PRIMARY_NAV.filter((item) => item.to).map((item) => (
+              <li key={item.label}>
+                <Link to={item.to as string} preload="intent">
+                  {item.label}
+                  <ArrowUpRight size={21} aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link to={CTAS.primary.to} preload="intent" className="hq-mobile-project-link">
+            {CTAS.primary.label}
+            <ArrowUpRight size={20} aria-hidden="true" />
+          </Link>
+          <p className="hq-mobile-signoff">Strategy. Creative. Technology. Growth.</p>
+        </nav>
+      </dialog>
     </header>
+  );
+}
+
+function MobileLinks({ items }: { items: NavItem[] }) {
+  return (
+    <ul className="hq-mobile-submenu-links">
+      {items.map((item) => (
+        <li key={item.to}>
+          <Link to={item.to} preload="intent">
+            {item.label}
+            <ArrowUpRight size={14} aria-hidden="true" />
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
 function MobileGroup({
   title,
-  items,
   extra,
+  children,
 }: {
   title: string;
-  items: { label: string; to: string }[];
-  extra?: { label: string; to: string };
+  extra: NavItem;
+  children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-border/60">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="flex w-full items-center justify-between py-3.5 text-base font-medium text-foreground"
-      >
+    <details className="hq-mobile-group">
+      <summary>
         {title}
-        <ChevronDown
-          className={cn("size-4 transition-transform", open && "rotate-180")}
-          aria-hidden="true"
-        />
-      </button>
-      {open ? (
-        <ul className="pb-3">
-          {items.map((it) => (
-            <li key={it.to}>
-              <Link to={it.to} className="block py-2.5 pl-3 text-sm text-muted-foreground">
-                {it.label}
-              </Link>
-            </li>
-          ))}
-          {extra ? (
-            <li>
-              <Link to={extra.to} className="block py-2.5 pl-3 text-sm font-semibold text-brand">
-                {extra.label}
-              </Link>
-            </li>
-          ) : null}
-        </ul>
-      ) : null}
-    </div>
+        <ChevronDown size={22} aria-hidden="true" />
+      </summary>
+      <div className="hq-mobile-group-content">
+        {children}
+        <Link to={extra.to} preload="intent" className="hq-nav-text-link">
+          {extra.label}
+          <ArrowRight size={16} aria-hidden="true" />
+        </Link>
+      </div>
+    </details>
   );
 }

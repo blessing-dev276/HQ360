@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Section, SectionHeader } from "@/components/site/Primitives";
 import { Reveal } from "@/components/site/Reveal";
+import { CaseStudySkeleton } from "@/components/site/loading/RouteLoading";
+import { fetchPublicContent } from "@/lib/public-content";
 
 type PortfolioItem = {
   id: string;
@@ -29,40 +31,49 @@ export function PortfolioStrip({
   title?: string;
   tone?: "base" | "raised";
 }) {
-  const [items, setItems] = useState<PortfolioItem[] | null>(null);
+  const params = new URLSearchParams();
+  if (industry) params.set("industry", industry);
+  if (capability) params.set("capability", capability);
+  const query = useQuery({
+    queryKey: ["public", "portfolio", industry ?? "", capability ?? ""],
+    queryFn: ({ signal }) =>
+      fetchPublicContent<{ items: PortfolioItem[] }>(
+        `/api/public/portfolio?${params.toString()}`,
+        signal,
+      ),
+  });
+  const items = query.data?.items;
 
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (industry) params.set("industry", industry);
-    if (capability) params.set("capability", capability);
-    let cancelled = false;
-    fetch(`/api/public/portfolio?${params.toString()}`)
-      .then((r) => r.json())
-      .then((body: { items?: PortfolioItem[] }) => {
-        if (!cancelled) setItems(body.items ?? []);
-      })
-      .catch(() => {
-        if (!cancelled) setItems([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [industry, capability]);
-
-  if (!items || items.length === 0) return null;
+  if (items?.length === 0) return null;
 
   return (
     <Section tone={tone}>
       <SectionHeader eyebrow={eyebrow} title={title} />
-      <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it, i) => (
-          <li key={it.id}>
-            <Reveal delay={i * 35} className="h-full">
-              <PortfolioCard item={it} />
-            </Reveal>
-          </li>
-        ))}
-      </ul>
+      {query.isPending ? (
+        <div role="status" aria-busy="true">
+          <span className="sr-only">Loading selected work</span>
+          <div aria-hidden="true">
+            <CaseStudySkeleton cardsOnly />
+          </div>
+        </div>
+      ) : !items && query.isError ? (
+        <div className="public-content-error mt-10">
+          <p>Selected work couldn’t load just now.</p>
+          <button type="button" className="route-retry-button" onClick={() => void query.refetch()}>
+            Try again
+          </button>
+        </div>
+      ) : (
+        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items?.map((it, i) => (
+            <li key={it.id}>
+              <Reveal delay={i * 35} className="h-full">
+                <PortfolioCard item={it} />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      )}
     </Section>
   );
 }
@@ -77,7 +88,7 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             poster={item.thumbnail_url ?? undefined}
             controls
             playsInline
-            preload="metadata"
+            preload="none"
             className="size-full object-cover"
           >
             Your browser does not support embedded video.
@@ -87,6 +98,9 @@ function PortfolioCard({ item }: { item: PortfolioItem }) {
             src={item.media_url}
             alt={item.title}
             loading="lazy"
+            decoding="async"
+            width={1200}
+            height={900}
             className="size-full object-cover"
           />
         )}

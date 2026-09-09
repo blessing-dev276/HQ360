@@ -299,7 +299,7 @@
   margin-bottom: 0.45rem;
 }
 
-.home-proof-skeleton-title:last-of-type {
+.home-proof-skeleton-title:nth-child(4) {
   width: 64%;
   margin-bottom: 1.5rem;
 }

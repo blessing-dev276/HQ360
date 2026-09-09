@@ -3,14 +3,20 @@ import { createFileRoute } from "@tanstack/react-router";
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "content-type": "application/json", "cache-control": "public, max-age=60" },
+    headers: {
+      "content-type": "application/json",
+      "cache-control":
+        status === 200
+          ? "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+          : "no-store",
+    },
   });
 }
 
 /**
  * Public read of published team members, ordered for display. Returns an empty
- * list (not an error) when nothing matches or the backend is unavailable, so
- * callers can fall back to a static roster gracefully.
+ * list when nothing matches; uncached failures preserve the static UI roster
+ * and let the visitor retry the managed content.
  */
 export const Route = createFileRoute("/api/public/team")({
   server: {
@@ -25,10 +31,10 @@ export const Route = createFileRoute("/api/public/team")({
             .order("sort_order", { ascending: true })
             .order("created_at", { ascending: true })
             .limit(60);
-          if (error) return json({ ok: true, members: [] });
+          if (error) return json({ ok: false }, 503);
           return json({ ok: true, members: data ?? [] });
         } catch {
-          return json({ ok: true, members: [] });
+          return json({ ok: false }, 503);
         }
       },
     },

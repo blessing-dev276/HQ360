@@ -1,11 +1,22 @@
+import type { ComponentType, SVGProps } from "react";
 import { Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
+import { Instagram, Twitter } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { BRAND, FOOTER_NAV, SOCIALS } from "@/config/brand";
 
-const iconFor: Record<string, typeof Instagram> = {
+function TikTok(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M16.5 3c.26 2.07 1.5 3.63 3.5 3.9v3.02c-1.38.05-2.7-.35-3.83-1.1v6.62c0 3.53-2.86 6.06-6.24 6.06C6.55 21.5 4 18.86 4 15.56c0-3.36 2.86-5.98 6.28-5.87v3.13c-.42-.11-.86-.16-1.3-.16-1.6 0-2.9 1.31-2.9 2.93 0 1.62 1.3 2.93 2.9 2.93 1.66 0 3.02-1.3 3.02-3.06V3h2.5Z" />
+    </svg>
+  );
+}
+
+const iconFor: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   Instagram,
+  Twitter,
+  TikTok,
 };
 
 export function SiteFooter() {

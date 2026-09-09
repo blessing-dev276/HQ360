@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getIndustry } from "@/data/industries";
-import { IndustryPageV2 } from "@/components/site/IndustryPageV2";
+import { IndustryPage } from "@/components/site/IndustryPage";
 import { industryHead } from "@/lib/page-heads";
 
 const industry = getIndustry("coaches")!;
@@ -11,5 +11,5 @@ export const Route = createFileRoute("/coaches")({
 });
 
 function RouteComponent() {
-  return <IndustryPageV2 industry={industry} />;
+  return <IndustryPage industry={industry} />;
 }

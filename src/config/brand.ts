@@ -138,6 +138,7 @@ export const FOOTER_NAV: { heading: string; links: { label: string; to: string }
       { label: "About", to: "/about" },
       { label: "Work", to: "/work" },
       { label: "Insights", to: "/insights" },
+      { label: "Pricing", to: "/pricing" },
       { label: "Start a Project", to: "/contact" },
     ],
   },
@@ -152,7 +153,5 @@ export const FOOTER_NAV: { heading: string; links: { label: string; to: string }
 
 /** Only real, verified profiles are listed. Add more as they go live. */
 export const SOCIALS: { label: string; href: string }[] = [
-  { label: "Instagram", href: "https://www.instagram.com/official_hq360/" },
-  { label: "Twitter", href: "https://x.com/official_hq360" },
-  { label: "TikTok", href: "https://www.tiktok.com/@official_hq360" },
+  { label: "Instagram", href: "https://www.instagram.com/hq3_60/" },
 ];

@@ -34,12 +34,13 @@ export const Route = createFileRoute("/api/admin/upload")({
           return json({ ok: false, error: "unauthorized" }, 401);
 
         let file: File | null = null;
-        let bucket: "portfolio" | "team" = "portfolio";
+        let bucket: "portfolio" | "team" | "work" = "portfolio";
         try {
           const form = await request.formData();
           const f = form.get("file");
           if (f instanceof File) file = f;
-          if (form.get("bucket") === "team") bucket = "team";
+          const b = form.get("bucket");
+          if (b === "team" || b === "work") bucket = b;
         } catch {
           return json({ ok: false, error: "invalid" }, 400);
         }

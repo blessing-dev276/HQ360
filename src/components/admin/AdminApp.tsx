@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } fro
 import { cn } from "@/lib/utils";
 import { CAPABILITIES } from "@/data/capabilities";
 import { INDUSTRIES } from "@/data/industries";
+import { uploadAdminMedia, type AdminBucket } from "@/lib/admin-upload";
+import type { SerializedCaseStudy } from "@/lib/case-study-shape";
 
 /* ------------------------------------------------------------------ types */
 
@@ -66,9 +68,65 @@ async function api<T>(url: string, init?: RequestInit): Promise<{ status: number
   return { status: res.status, body };
 }
 
+function uploadErrorMessage(err: unknown): string {
+  const code = err instanceof Error ? err.message : "";
+  if (code === "too_large") return "File is over 50 MB. Host it elsewhere and paste the URL.";
+  if (code === "unsupported_type") return "Unsupported file type.";
+  return "Upload failed. Try again, or paste a URL.";
+}
+
+/** Small file picker that hands back a hosted URL. */
+function UploadField({
+  bucket,
+  accept,
+  onUploaded,
+  hint,
+}: {
+  bucket: AdminBucket;
+  accept: string;
+  onUploaded: (url: string, mediaType: "image" | "video") => void;
+  hint?: string;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+  return (
+    <div>
+      <input
+        type="file"
+        accept={accept}
+        disabled={uploading}
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          setUploading(true);
+          setError("");
+          try {
+            const { url, mediaType } = await uploadAdminMedia(file, bucket);
+            onUploaded(url, mediaType);
+          } catch (err) {
+            setError(uploadErrorMessage(err));
+          }
+          setUploading(false);
+          e.target.value = "";
+        }}
+        className="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-foreground"
+      />
+      {hint ? <p className="mt-1.5 text-xs text-muted-foreground">{hint}</p> : null}
+      {uploading ? <p className="mt-2 text-sm text-brand">Uploading…</p> : null}
+      {error ? <p className="mt-2 text-sm text-destructive">{error}</p> : null}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------- root */
 
-type Tab = "portfolio" | "team";
+type Tab = "portfolio" | "work" | "team";
+
+const TAB_TITLE: Record<Tab, string> = {
+  portfolio: "Service portfolio",
+  work: "Work & case studies",
+  team: "Team",
+};
 
 const input =
   "w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring";
@@ -80,14 +138,14 @@ export function AdminApp() {
     <div className="min-h-[70vh] bg-secondary/40">
       <div className="mx-auto max-w-5xl px-5 py-12 sm:px-6">
         <div>
-          <p className="text-xs font-semibold tracking-[0.18em] text-brand uppercase">HQ360 admin</p>
-          <h1 className="mt-1 font-display text-2xl">
-            {tab === "portfolio" ? "Service portfolio" : "Team"}
-          </h1>
+          <p className="text-xs font-semibold tracking-[0.18em] text-brand uppercase">
+            HQ360 admin
+          </p>
+          <h1 className="mt-1 font-display text-2xl">{TAB_TITLE[tab]}</h1>
         </div>
 
         <div className="mt-6 flex gap-1 rounded-full border border-border bg-card p-1 text-sm">
-          {(["portfolio", "team"] as const).map((t) => (
+          {(["portfolio", "work", "team"] as const).map((t) => (
             <button
               key={t}
               type="button"
@@ -103,7 +161,13 @@ export function AdminApp() {
         </div>
 
         <div className="mt-8">
-          {tab === "portfolio" ? <PortfolioDashboard /> : <TeamDashboard />}
+          {tab === "portfolio" ? (
+            <PortfolioDashboard />
+          ) : tab === "work" ? (
+            <CaseStudyDashboard />
+          ) : (
+            <TeamDashboard />
+          )}
         </div>
       </div>
     </div>
@@ -459,7 +523,9 @@ function ItemRow({
           <span className="rounded-full bg-secondary px-2 py-0.5">
             {industryName(item.industry_slug)}
           </span>
-          <span className="rounded-full bg-secondary px-2 py-0.5 capitalize">{item.media_type}</span>
+          <span className="rounded-full bg-secondary px-2 py-0.5 capitalize">
+            {item.media_type}
+          </span>
           <button
             type="button"
             onClick={onTogglePublish}
@@ -563,35 +629,11 @@ function ItemForm({
     if (!file) return;
     setUploading(true);
     setError("");
-    const fd = new FormData();
-    fd.append("file", file);
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const body = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        url?: string;
-        mediaType?: MediaType;
-        error?: string;
-      };
-      if (res.ok && body.ok && body.url) {
-        setDraft((d) => ({
-          ...d,
-          mediaUrl: body.url!,
-          mediaType: body.mediaType ?? d.mediaType,
-        }));
-      } else {
-        setError(
-          body.error === "too_large"
-            ? "File is over 50 MB. Host it elsewhere and paste the URL."
-            : body.error === "unsupported_type"
-              ? "Unsupported file type."
-              : body.error === "unavailable"
-                ? "Uploads need the Supabase service role key configured."
-                : "Upload failed.",
-        );
-      }
-    } catch {
-      setError("Upload failed.");
+      const { url, mediaType } = await uploadAdminMedia(file, "portfolio");
+      setDraft((d) => ({ ...d, mediaUrl: url, mediaType }));
+    } catch (err) {
+      setError(uploadErrorMessage(err));
     }
     setUploading(false);
   }
@@ -870,7 +912,12 @@ function TeamDashboard() {
   );
 
   async function saveDraft(draft: MemberDraft) {
-    const payload = { name: draft.name, title: draft.title, imageUrl: draft.imageUrl, published: draft.published };
+    const payload = {
+      name: draft.name,
+      title: draft.title,
+      imageUrl: draft.imageUrl,
+      published: draft.published,
+    };
     const { status, body } = draft.id
       ? await api<{ ok: boolean }>(`/api/admin/team/${draft.id}`, {
           method: "PATCH",
@@ -1027,27 +1074,11 @@ function MemberForm({
     if (!file) return;
     setUploading(true);
     setError("");
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("bucket", "team");
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const body = (await res.json().catch(() => ({}))) as { ok?: boolean; url?: string; error?: string };
-      if (res.ok && body.ok && body.url) {
-        set("imageUrl", body.url);
-      } else {
-        setError(
-          body.error === "too_large"
-            ? "Image is over 50 MB."
-            : body.error === "unsupported_type"
-              ? "Unsupported file type."
-              : body.error === "unavailable"
-                ? "Uploads need the Supabase service role key configured."
-                : "Upload failed.",
-        );
-      }
-    } catch {
-      setError("Upload failed.");
+      const { url } = await uploadAdminMedia(file, "team");
+      set("imageUrl", url);
+    } catch (err) {
+      setError(uploadErrorMessage(err));
     }
     setUploading(false);
   }
@@ -1147,6 +1178,719 @@ function MemberForm({
         className="mt-4 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-70"
       >
         {saving ? "Saving…" : draft.id ? "Save changes" : "Add member"}
+      </button>
+    </form>
+  );
+}
+
+/* ----------------------------------------------------- case study dashboard */
+
+const CS_INDUSTRY_OPTIONS = Array.from(new Set(INDUSTRIES.map((i) => i.shortName))).sort();
+
+type MetricRow = { label: string; value: string; note: string };
+type CSMediaRow = { src: string; alt: string; caption: string; type: MediaType };
+
+type CSDraft = {
+  id?: string;
+  slug: string;
+  slugLocked: boolean;
+  status: "verified" | "sample";
+  title: string;
+  client: string;
+  industry: string;
+  capabilities: string[];
+  summary: string;
+  challenge: string;
+  approach: string;
+  deliverables: string;
+  outcome: string;
+  metrics: MetricRow[];
+  testimonialOn: boolean;
+  tQuote: string;
+  tName: string;
+  tRole: string;
+  media: CSMediaRow[];
+  published: boolean;
+};
+
+const emptyCSDraft: CSDraft = {
+  slug: "",
+  slugLocked: false,
+  status: "sample",
+  title: "",
+  client: "",
+  industry: "",
+  capabilities: [],
+  summary: "",
+  challenge: "",
+  approach: "",
+  deliverables: "",
+  outcome: "",
+  metrics: [],
+  testimonialOn: false,
+  tQuote: "",
+  tName: "",
+  tRole: "",
+  media: [],
+  published: true,
+};
+
+function slugify(s: string): string {
+  return s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 160);
+}
+
+function csToDraft(it: SerializedCaseStudy): CSDraft {
+  return {
+    id: it.id,
+    slug: it.slug,
+    slugLocked: true,
+    status: it.status,
+    title: it.title,
+    client: it.client,
+    industry: it.industry,
+    capabilities: it.capabilities,
+    summary: it.summary,
+    challenge: it.challenge,
+    approach: it.approach.join("\n"),
+    deliverables: it.deliverables.join("\n"),
+    outcome: it.outcome,
+    metrics: it.metrics.map((m) => ({ label: m.label, value: m.value, note: m.note ?? "" })),
+    testimonialOn: Boolean(it.testimonial),
+    tQuote: it.testimonial?.quote ?? "",
+    tName: it.testimonial?.name ?? "",
+    tRole: it.testimonial?.role ?? "",
+    media: it.media.map((m) => ({
+      src: m.src,
+      alt: m.alt ?? "",
+      caption: m.caption ?? "",
+      type: m.type ?? "image",
+    })),
+    published: it.published,
+  };
+}
+
+function csDraftToPayload(d: CSDraft) {
+  const lines = (s: string) =>
+    s
+      .split("\n")
+      .map((x) => x.trim())
+      .filter(Boolean);
+  return {
+    slug: (d.slug || slugify(d.title)).trim(),
+    status: d.status,
+    title: d.title.trim(),
+    client: d.client.trim(),
+    industry: d.industry.trim(),
+    capabilities: d.capabilities,
+    summary: d.summary.trim(),
+    challenge: d.challenge.trim(),
+    approach: lines(d.approach),
+    deliverables: lines(d.deliverables),
+    outcome: d.outcome.trim(),
+    metrics: d.metrics
+      .filter((m) => m.label.trim() && m.value.trim())
+      .map((m) => ({ label: m.label.trim(), value: m.value.trim(), note: m.note.trim() })),
+    testimonial:
+      d.testimonialOn && d.tQuote.trim()
+        ? { quote: d.tQuote.trim(), name: d.tName.trim(), role: d.tRole.trim() }
+        : null,
+    media: d.media
+      .filter((m) => m.src.trim())
+      .map((m) => ({
+        src: m.src.trim(),
+        alt: m.alt.trim(),
+        caption: m.caption.trim(),
+        type: m.type,
+      })),
+    published: d.published,
+  };
+}
+
+function CaseStudyDashboard() {
+  const [items, setItems] = useState<SerializedCaseStudy[] | null>(null);
+  const [loadError, setLoadError] = useState("");
+  const [editing, setEditing] = useState<CSDraft | null>(null);
+  const dragId = useRef<string | null>(null);
+
+  const load = useCallback(async () => {
+    const { status, body } = await api<{ ok: boolean; items: SerializedCaseStudy[] }>(
+      "/api/admin/case-studies",
+    );
+    if (status === 200 && body.ok) {
+      setItems(body.items);
+      setLoadError("");
+    } else {
+      setLoadError(
+        status === 503
+          ? "Storage is not connected yet (missing Supabase service role key)."
+          : "Could not load case studies.",
+      );
+      setItems([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const persistOrder = useCallback(async (ordered: SerializedCaseStudy[]) => {
+    setItems(ordered);
+    await api("/api/admin/case-studies/reorder", {
+      method: "POST",
+      body: JSON.stringify({ ids: ordered.map((i) => i.id) }),
+    });
+  }, []);
+
+  const reorder = useCallback(
+    (fromId: string, toId: string) => {
+      if (!items || fromId === toId) return;
+      const from = items.findIndex((i) => i.id === fromId);
+      const to = items.findIndex((i) => i.id === toId);
+      if (from < 0 || to < 0) return;
+      const next = [...items];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved!);
+      void persistOrder(next);
+    },
+    [items, persistOrder],
+  );
+
+  const move = useCallback(
+    (id: string, dir: -1 | 1) => {
+      if (!items) return;
+      const idx = items.findIndex((i) => i.id === id);
+      const target = idx + dir;
+      if (idx < 0 || target < 0 || target >= items.length) return;
+      reorder(id, items[target]!.id);
+    },
+    [items, reorder],
+  );
+
+  async function saveDraft(draft: CSDraft): Promise<string | true> {
+    const payload = csDraftToPayload(draft);
+    if (!payload.title) return "Title is required.";
+    if (!payload.slug) return "Slug is required.";
+    const { status, body } = draft.id
+      ? await api<{ ok: boolean; error?: string }>(`/api/admin/case-studies/${draft.id}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        })
+      : await api<{ ok: boolean; error?: string }>("/api/admin/case-studies", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+    if (status === 200 && body.ok) {
+      setEditing(null);
+      await load();
+      return true;
+    }
+    if (status === 409 || body.error === "duplicate_slug")
+      return "That slug is already used by another case study.";
+    return "Could not save. Check the fields and try again.";
+  }
+
+  async function remove(id: string) {
+    if (!window.confirm("Delete this case study?")) return;
+    await api(`/api/admin/case-studies/${id}`, { method: "DELETE" });
+    await load();
+  }
+
+  async function togglePublish(it: SerializedCaseStudy) {
+    await api(`/api/admin/case-studies/${it.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ published: !it.published }),
+    });
+    await load();
+  }
+
+  return (
+    <div className="space-y-8">
+      <CaseStudyForm
+        key={editing?.id ?? "new"}
+        initial={editing ?? emptyCSDraft}
+        onCancel={editing ? () => setEditing(null) : undefined}
+        onSave={saveDraft}
+      />
+
+      {loadError ? (
+        <p className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+          {loadError}
+        </p>
+      ) : null}
+
+      {items === null ? (
+        <p className="text-sm text-muted-foreground">Loading case studies…</p>
+      ) : items.length === 0 && !loadError ? (
+        <p className="text-sm text-muted-foreground">No case studies yet. Add one above.</p>
+      ) : (
+        <ul className="space-y-2">
+          {items.map((it, i) => (
+            <li
+              key={it.id}
+              draggable
+              onDragStart={() => (dragId.current = it.id)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => {
+                if (dragId.current) reorder(dragId.current, it.id);
+                dragId.current = null;
+              }}
+            >
+              <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-3">
+                <span
+                  className="cursor-grab px-1 text-muted-foreground select-none"
+                  title="Drag to reorder"
+                  aria-hidden="true"
+                >
+                  ⠿
+                </span>
+                <div className="size-16 shrink-0 overflow-hidden rounded-lg border border-border bg-secondary">
+                  {it.media[0] ? (
+                    it.media[0].type === "video" ? (
+                      <video
+                        src={it.media[0].src}
+                        muted
+                        playsInline
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      <img src={it.media[0].src} alt="" className="size-full object-cover" />
+                    )
+                  ) : (
+                    <span className="flex size-full items-center justify-center text-[0.6rem] text-muted-foreground">
+                      No media
+                    </span>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{it.title}</p>
+                  <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                    <span className="rounded-full bg-secondary px-2 py-0.5">/work/{it.slug}</span>
+                    <span className="rounded-full bg-secondary px-2 py-0.5 capitalize">
+                      {it.status}
+                    </span>
+                    {it.industry ? (
+                      <span className="rounded-full bg-secondary px-2 py-0.5">{it.industry}</span>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => void togglePublish(it)}
+                      className={cn(
+                        "rounded-full px-2 py-0.5",
+                        it.published
+                          ? "bg-brand-soft text-[oklch(0.42_0.16_42)]"
+                          : "bg-secondary text-muted-foreground line-through",
+                      )}
+                    >
+                      {it.published ? "Published" : "Hidden"}
+                    </button>
+                  </p>
+                </div>
+                <RowControls
+                  first={i === 0}
+                  last={i === items.length - 1}
+                  onUp={() => move(it.id, -1)}
+                  onDown={() => move(it.id, 1)}
+                  onEdit={() => setEditing(csToDraft(it))}
+                  onDelete={() => void remove(it.id)}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function CaseStudyForm({
+  initial,
+  onSave,
+  onCancel,
+}: {
+  initial: CSDraft;
+  onSave: (d: CSDraft) => Promise<string | true>;
+  onCancel?: (() => void) | undefined;
+}) {
+  const [draft, setDraft] = useState<CSDraft>(initial);
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const set = <K extends keyof CSDraft>(k: K, v: CSDraft[K]) => setDraft((d) => ({ ...d, [k]: v }));
+
+  function setTitle(v: string) {
+    setDraft((d) => ({ ...d, title: v, slug: d.slugLocked ? d.slug : slugify(v) }));
+  }
+
+  function toggleCapability(slug: string) {
+    setDraft((d) => ({
+      ...d,
+      capabilities: d.capabilities.includes(slug)
+        ? d.capabilities.filter((s) => s !== slug)
+        : [...d.capabilities, slug],
+    }));
+  }
+
+  function setMetric(i: number, patch: Partial<MetricRow>) {
+    setDraft((d) => ({
+      ...d,
+      metrics: d.metrics.map((m, idx) => (idx === i ? { ...m, ...patch } : m)),
+    }));
+  }
+  function setMediaRow(i: number, patch: Partial<CSMediaRow>) {
+    setDraft((d) => ({
+      ...d,
+      media: d.media.map((m, idx) => (idx === i ? { ...m, ...patch } : m)),
+    }));
+  }
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    if (!draft.title.trim()) return setError("Title is required.");
+    setSaving(true);
+    const res = await onSave(draft);
+    setSaving(false);
+    if (res !== true) setError(res);
+    else if (!draft.id) setDraft(emptyCSDraft);
+  }
+
+  return (
+    <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+      <div className="flex items-center justify-between">
+        <h2 className="font-display text-lg">{draft.id ? "Edit case study" : "Add case study"}</h2>
+        {onCancel ? (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
+            Cancel
+          </button>
+        ) : null}
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-sm font-medium">Title</span>
+          <input
+            className={cn(input, "mt-1.5")}
+            value={draft.title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium">Slug (URL)</span>
+          <input
+            className={cn(input, "mt-1.5")}
+            value={draft.slug}
+            onChange={(e) =>
+              setDraft((d) => ({ ...d, slug: slugify(e.target.value), slugLocked: true }))
+            }
+          />
+          <span className="mt-1 block text-xs text-muted-foreground">
+            /work/{draft.slug || "…"}
+          </span>
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium">Client</span>
+          <input
+            className={cn(input, "mt-1.5")}
+            placeholder="Client name or “Illustrative engagement”"
+            value={draft.client}
+            onChange={(e) => set("client", e.target.value)}
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium">Industry</span>
+          <input
+            className={cn(input, "mt-1.5")}
+            list="cs-industry-options"
+            value={draft.industry}
+            onChange={(e) => set("industry", e.target.value)}
+          />
+          <datalist id="cs-industry-options">
+            {CS_INDUSTRY_OPTIONS.map((n) => (
+              <option key={n} value={n} />
+            ))}
+          </datalist>
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium">Status</span>
+          <select
+            className={cn(input, "mt-1.5")}
+            value={draft.status}
+            onChange={(e) => set("status", e.target.value as CSDraft["status"])}
+          >
+            <option value="sample">Illustrative (sample)</option>
+            <option value="verified">Verified project</option>
+          </select>
+        </label>
+      </div>
+
+      <fieldset className="mt-4 rounded-xl border border-border bg-background p-4">
+        <legend className="px-1 text-sm font-medium">Capabilities</legend>
+        <div className="mt-1 flex flex-wrap gap-2">
+          {CAPABILITY_OPTIONS.map((o) => (
+            <label
+              key={o.value}
+              className={cn(
+                "cursor-pointer rounded-full border px-3 py-1 text-xs",
+                draft.capabilities.includes(o.value)
+                  ? "border-brand bg-brand-soft text-[oklch(0.42_0.16_42)]"
+                  : "border-border text-muted-foreground",
+              )}
+            >
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={draft.capabilities.includes(o.value)}
+                onChange={() => toggleCapability(o.value)}
+              />
+              {o.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <label className="mt-4 block">
+        <span className="text-sm font-medium">Summary</span>
+        <textarea
+          rows={2}
+          className={cn(input, "mt-1.5 resize-y")}
+          value={draft.summary}
+          onChange={(e) => set("summary", e.target.value)}
+        />
+      </label>
+
+      <label className="mt-4 block">
+        <span className="text-sm font-medium">The challenge</span>
+        <textarea
+          rows={3}
+          className={cn(input, "mt-1.5 resize-y")}
+          value={draft.challenge}
+          onChange={(e) => set("challenge", e.target.value)}
+        />
+      </label>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-sm font-medium">What we did</span>
+          <span className="block text-xs text-muted-foreground">One step per line.</span>
+          <textarea
+            rows={4}
+            className={cn(input, "mt-1.5 resize-y")}
+            value={draft.approach}
+            onChange={(e) => set("approach", e.target.value)}
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm font-medium">Deliverables</span>
+          <span className="block text-xs text-muted-foreground">One item per line.</span>
+          <textarea
+            rows={4}
+            className={cn(input, "mt-1.5 resize-y")}
+            value={draft.deliverables}
+            onChange={(e) => set("deliverables", e.target.value)}
+          />
+        </label>
+      </div>
+
+      <label className="mt-4 block">
+        <span className="text-sm font-medium">Outcome</span>
+        <textarea
+          rows={3}
+          className={cn(input, "mt-1.5 resize-y")}
+          value={draft.outcome}
+          onChange={(e) => set("outcome", e.target.value)}
+        />
+      </label>
+
+      <fieldset className="mt-4 rounded-xl border border-border bg-background p-4">
+        <legend className="px-1 text-sm font-medium">Metrics</legend>
+        <div className="space-y-2">
+          {draft.metrics.map((m, i) => (
+            <div key={i} className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
+              <input
+                className={input}
+                placeholder="Label"
+                value={m.label}
+                onChange={(e) => setMetric(i, { label: e.target.value })}
+              />
+              <input
+                className={input}
+                placeholder="Value"
+                value={m.value}
+                onChange={(e) => setMetric(i, { value: e.target.value })}
+              />
+              <input
+                className={input}
+                placeholder="Note (optional)"
+                value={m.note}
+                onChange={(e) => setMetric(i, { note: e.target.value })}
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  set(
+                    "metrics",
+                    draft.metrics.filter((_, idx) => idx !== i),
+                  )
+                }
+                className="rounded-md border border-border px-2.5 py-1 text-xs text-destructive hover:border-destructive"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => set("metrics", [...draft.metrics, { label: "", value: "", note: "" }])}
+          className="mt-2 rounded-full border border-border px-3 py-1 text-xs font-medium hover:border-brand hover:text-brand"
+        >
+          + Add metric
+        </button>
+      </fieldset>
+
+      <fieldset className="mt-4 rounded-xl border border-border bg-background p-4">
+        <legend className="px-1 text-sm font-medium">Media</legend>
+        <div className="space-y-3">
+          {draft.media.map((m, i) => (
+            <div key={i} className="rounded-lg border border-border bg-card p-3">
+              <div className="flex items-start gap-3">
+                <div className="size-16 shrink-0 overflow-hidden rounded-lg border border-border bg-secondary">
+                  {m.src ? (
+                    m.type === "video" ? (
+                      <video src={m.src} muted playsInline className="size-full object-cover" />
+                    ) : (
+                      <img src={m.src} alt="" className="size-full object-cover" />
+                    )
+                  ) : null}
+                </div>
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="grid gap-2 sm:grid-cols-[1fr_8rem]">
+                    <input
+                      className={input}
+                      placeholder="Media URL"
+                      value={m.src}
+                      onChange={(e) => setMediaRow(i, { src: e.target.value })}
+                    />
+                    <select
+                      className={input}
+                      value={m.type}
+                      onChange={(e) => setMediaRow(i, { type: e.target.value as MediaType })}
+                    >
+                      <option value="image">Image</option>
+                      <option value="video">Video</option>
+                    </select>
+                  </div>
+                  <UploadField
+                    bucket="work"
+                    accept="image/*,video/*"
+                    onUploaded={(url, mediaType) => setMediaRow(i, { src: url, type: mediaType })}
+                  />
+                  <input
+                    className={input}
+                    placeholder="Alt text"
+                    value={m.alt}
+                    onChange={(e) => setMediaRow(i, { alt: e.target.value })}
+                  />
+                  <input
+                    className={input}
+                    placeholder="Caption (optional)"
+                    value={m.caption}
+                    onChange={(e) => setMediaRow(i, { caption: e.target.value })}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    set(
+                      "media",
+                      draft.media.filter((_, idx) => idx !== i),
+                    )
+                  }
+                  className="rounded-md border border-border px-2.5 py-1 text-xs text-destructive hover:border-destructive"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() =>
+            set("media", [...draft.media, { src: "", alt: "", caption: "", type: "image" }])
+          }
+          className="mt-2 rounded-full border border-border px-3 py-1 text-xs font-medium hover:border-brand hover:text-brand"
+        >
+          + Add media
+        </button>
+      </fieldset>
+
+      <fieldset className="mt-4 rounded-xl border border-border bg-background p-4">
+        <legend className="px-1 text-sm font-medium">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={draft.testimonialOn}
+              onChange={(e) => set("testimonialOn", e.target.checked)}
+              className="size-4 accent-[var(--brand)]"
+            />
+            Testimonial
+          </label>
+        </legend>
+        {draft.testimonialOn ? (
+          <div className="space-y-2">
+            <textarea
+              rows={2}
+              className={cn(input, "resize-y")}
+              placeholder="Quote"
+              value={draft.tQuote}
+              onChange={(e) => set("tQuote", e.target.value)}
+            />
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input
+                className={input}
+                placeholder="Name"
+                value={draft.tName}
+                onChange={(e) => set("tName", e.target.value)}
+              />
+              <input
+                className={input}
+                placeholder="Role"
+                value={draft.tRole}
+                onChange={(e) => set("tRole", e.target.value)}
+              />
+            </div>
+          </div>
+        ) : null}
+      </fieldset>
+
+      <label className="mt-4 flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={draft.published}
+          onChange={(e) => set("published", e.target.checked)}
+          className="size-4 accent-[var(--brand)]"
+        />
+        Published (visible on the public site)
+      </label>
+
+      {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
+
+      <button
+        type="submit"
+        disabled={saving}
+        className="mt-4 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-70"
+      >
+        {saving ? "Saving…" : draft.id ? "Save changes" : "Add case study"}
       </button>
     </form>
   );

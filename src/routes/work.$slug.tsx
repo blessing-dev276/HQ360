@@ -1,4 +1,5 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { CASE_STUDIES, getCaseStudy, type CaseStudy } from "@/data/work";
 import { getCapability } from "@/data/capabilities";
 import {
@@ -11,15 +12,16 @@ import {
 import { CtaBand } from "@/components/site/CtaBand";
 import { buildSeo, breadcrumbSchema } from "@/lib/seo";
 import { CTAS } from "@/config/brand";
+import { fetchPublicContent } from "@/lib/public-content";
+import { toCaseStudyShape, type SerializedCaseStudy } from "@/lib/case-study-shape";
 
 export const Route = createFileRoute("/work/$slug")({
-  loader: ({ params }): { study: CaseStudy } => {
-    const study = getCaseStudy(params.slug);
-    if (!study) throw notFound();
-    return { study };
-  },
+  loader: ({ params }): { slug: string; study: CaseStudy | null } => ({
+    slug: params.slug,
+    study: getCaseStudy(params.slug) ?? null,
+  }),
   head: ({ loaderData }) =>
-    loaderData
+    loaderData?.study
       ? buildSeo(
           {
             title: `${loaderData.study.title} | HQ360 Work`,
@@ -35,17 +37,58 @@ export const Route = createFileRoute("/work/$slug")({
           ]),
         )
       : buildSeo({
-          title: "Project not found | HQ360",
-          description: "This project could not be found.",
+          title: "HQ360 Work",
+          description: "A project from HQ360.",
           path: "/work",
-          noindex: true,
         }),
   component: WorkDetail,
 });
 
 function WorkDetail() {
-  const { study } = Route.useLoaderData();
-  const others = CASE_STUDIES.filter((c) => c.slug !== study.slug).slice(0, 2);
+  const { slug, study: fallback } = Route.useLoaderData();
+
+  const query = useQuery({
+    queryKey: ["public", "case-studies", slug],
+    queryFn: ({ signal }) =>
+      fetchPublicContent<{ items: SerializedCaseStudy[] }>(
+        `/api/public/case-studies?slug=${encodeURIComponent(slug)}`,
+        signal,
+      ),
+  });
+
+  const live = query.data?.items[0];
+  const study: CaseStudy | null = live ? (toCaseStudyShape(live) as CaseStudy) : fallback;
+  const pool = query.data?.items.length
+    ? query.data.items.map((r) => toCaseStudyShape(r) as CaseStudy)
+    : CASE_STUDIES;
+
+  if (!study) {
+    if (query.isLoading) {
+      return (
+        <Section>
+          <Container size="narrow" className="px-0">
+            <p className="text-muted-foreground">Loading…</p>
+          </Container>
+        </Section>
+      );
+    }
+    return (
+      <Section>
+        <Container size="narrow" className="px-0">
+          <h1 className="font-display text-3xl">Project not found</h1>
+          <p className="mt-4 text-muted-foreground">
+            This project could not be found.{" "}
+            <Link to="/work" className="text-brand hover:underline">
+              Back to all work
+            </Link>
+            .
+          </p>
+        </Container>
+      </Section>
+    );
+  }
+
+  const others = pool.filter((c) => c.slug !== study.slug).slice(0, 2);
 
   return (
     <>
@@ -95,32 +138,36 @@ function WorkDetail() {
       {study.media && study.media.length > 0 ? (
         <Section tone="raised" className="pt-0 lg:pt-0">
           <ul className="grid gap-6 md:grid-cols-2">
-            {study.media.map((m, i) => (
-              <li
-                key={m.src}
-                className={
-                  "overflow-hidden rounded-2xl border border-border bg-card" +
-                  (i === 0 ? " md:col-span-2" : "")
-                }
-              >
-                {m.src.endsWith(".mp4") ? (
-                  <video
-                    src={m.src}
-                    controls
-                    playsInline
-                    preload="metadata"
-                    className="aspect-video w-full bg-charcoal"
-                  >
-                    Your browser does not support embedded video.
-                  </video>
-                ) : (
-                  <img src={m.src} alt={m.alt} loading="lazy" className="w-full object-cover" />
-                )}
-                {m.caption ? (
-                  <p className="px-5 py-3 text-sm text-muted-foreground">{m.caption}</p>
-                ) : null}
-              </li>
-            ))}
+            {study.media.map((m, i) => {
+              const isVideo =
+                (m as { type?: string }).type === "video" || /\.(mp4|webm|mov)$/i.test(m.src);
+              return (
+                <li
+                  key={m.src}
+                  className={
+                    "overflow-hidden rounded-2xl border border-border bg-card" +
+                    (i === 0 ? " md:col-span-2" : "")
+                  }
+                >
+                  {isVideo ? (
+                    <video
+                      src={m.src}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      className="aspect-video w-full bg-charcoal"
+                    >
+                      Your browser does not support embedded video.
+                    </video>
+                  ) : (
+                    <img src={m.src} alt={m.alt} loading="lazy" className="w-full object-cover" />
+                  )}
+                  {m.caption ? (
+                    <p className="px-5 py-3 text-sm text-muted-foreground">{m.caption}</p>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         </Section>
       ) : null}

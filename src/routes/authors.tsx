@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getIndustry } from "@/data/industries";
 import { industryHead } from "@/lib/page-heads";
-import { AuthorsPage } from "@/components/site/authors/AuthorsPage";
+import { IndustryPage } from "@/components/site/IndustryPage";
+import { FeaturedAuthor } from "@/components/site/FeaturedAuthor";
 
 const industry = getIndustry("authors")!;
 
@@ -11,5 +12,5 @@ export const Route = createFileRoute("/authors")({
 });
 
 function RouteComponent() {
-  return <AuthorsPage industry={industry} />;
+  return <IndustryPage industry={industry} beforeCta={<FeaturedAuthor />} />;
 }

@@ -1,17 +1,17 @@
 import blessingPhoto from "@/assets/team-blessing.png";
-import zainab from "@/assets/team-zainab.jpg.asset.json";
-import emmanuel from "@/assets/team-emmanuel.jpg.asset.json";
-import richard from "@/assets/team-richard.jpg.asset.json";
-import ebenezer from "@/assets/team-ebenezer.jpg.asset.json";
-import racheal from "@/assets/team-racheal.jpg.asset.json";
+import zainab from "@/assets/team-zainab.jpg";
+import emmanuel from "@/assets/team-emmanuel.jpg";
+import richard from "@/assets/team-richard.jpg";
+import ebenezer from "@/assets/team-ebenezer.jpg";
+import racheal from "@/assets/team-racheal.jpg";
 
 const PHOTOS: Record<string, string> = {
   blessing: blessingPhoto,
-  zainab: zainab.url,
-  emmanuel: emmanuel.url,
-  richard: richard.url,
-  ebenezer: ebenezer.url,
-  racheal: racheal.url,
+  zainab,
+  emmanuel,
+  richard,
+  ebenezer,
+  racheal,
 };
 
 export function TeamAvatar({

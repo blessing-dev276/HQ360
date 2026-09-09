@@ -1,8 +1,7 @@
-// The Lovable vite config injects only VITE_-prefixed vars into the dev server,
-// so server-only secrets in .env (ADMIN_PASSWORD, RESEND_API_KEY, SUPABASE_
-// SERVICE_ROLE_KEY, …) never reach process.env during `vite dev`. Load them
-// here. This is a no-op on production hosts, which inject real env vars and
-// where process.loadEnvFile / a filesystem .env do not exist.
+// Vite only injects VITE_-prefixed vars, so server-only secrets in .env
+// (RESEND_API_KEY, SUPABASE_SERVICE_ROLE_KEY, …) never reach process.env during
+// `vite dev`. Load them here. No-op on production hosts, which inject real env
+// vars and where process.loadEnvFile / a filesystem .env do not exist.
 try {
   const proc = typeof process !== "undefined" ? process : undefined;
   if (proc && typeof proc.loadEnvFile === "function") {

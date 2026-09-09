@@ -1,6 +1,5 @@
 import { Link, useRouter, useRouterState, type ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { reportLovableError } from "@/lib/lovable-error-reporting";
 
 export function TextSkeleton({
   title = false,
@@ -276,7 +275,7 @@ export function RouteProgress() {
 export function PageLoadError({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "public_route_error" });
+    console.error("[route error]", error);
   }, [error]);
   return (
     <div className="route-load-error">

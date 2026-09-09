@@ -16,7 +16,8 @@ export const BRAND = {
   legalName: "HQ360",
   formerlyKnownAs: "House of Synergy",
   /** Public site URL, used for canonical + Open Graph absolute URLs. */
-  siteUrl: ENV_SITE_URL || "https://hq360.lovable.app",
+  // Production domain. Override per-environment with SITE_URL / VITE_SITE_URL.
+  siteUrl: ENV_SITE_URL || "https://hq360.co",
   email: "ceo@hq360.space",
   tagline: "Everything your brand needs to grow.",
   /** One-paragraph positioning, reused in meta descriptions and the footer. */

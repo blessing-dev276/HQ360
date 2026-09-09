@@ -4,38 +4,32 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
+  type KeyboardEvent,
   type PointerEvent,
   type ReactNode,
 } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Sparkles } from "lucide-react";
-import { CAPABILITIES } from "@/data/capabilities";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, RotateCcw, Sparkles } from "lucide-react";
 import { INDUSTRIES } from "@/data/industries";
-import { GROWTH_FRAMEWORK, PROCESS } from "@/data/process";
 import { CASE_STUDIES } from "@/data/work";
 import { CTAS } from "@/config/brand";
 import { Container } from "@/components/site/Primitives";
 import { Reveal } from "@/components/site/Reveal";
 import { ProofSkeleton } from "./HomeSkeletons";
+import {
+  DIAGNOSTIC_GOALS,
+  DIAGNOSTIC_INDUSTRIES,
+  diagnose,
+  HOME_CAPABILITIES,
+  HOME_INDUSTRIES,
+  HQ360_SYSTEM,
+  SYSTEM_POINT,
+} from "./home-content";
 import "./home.css";
 
-const LazyProofStrip = lazy(() =>
-  import("@/components/site/ProofStrip").then((m) => ({ default: m.ProofStrip })),
+const LazyFeaturedProof = lazy(() =>
+  import("./FeaturedProof").then((m) => ({ default: m.FeaturedProof })),
 );
-const PRIMARY_CAPABILITIES = CAPABILITIES.slice(0, 6);
-const FEATURED_SLUGS = [
-  "authors",
-  "creators",
-  "real-estate",
-  "coaches",
-  "ecommerce",
-  "home-services",
-  "agencies",
-];
-const FEATURED_INDUSTRIES = FEATURED_SLUGS.map((slug) =>
-  INDUSTRIES.find((item) => item.slug === slug),
-).filter((item): item is (typeof INDUSTRIES)[number] => Boolean(item));
 
 function SmartLink({
   to,
@@ -53,25 +47,37 @@ function SmartLink({
   );
 }
 
+/** Arrow-key roving for a vertical/tab list. */
+function rove(event: KeyboardEvent, index: number, count: number, apply: (next: number) => void) {
+  let next = index;
+  if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % count;
+  else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + count) % count;
+  else if (event.key === "Home") next = 0;
+  else if (event.key === "End") next = count - 1;
+  else return;
+  event.preventDefault();
+  apply(next);
+}
+
 export function HomeExperience() {
   return (
     <div className="home-experience">
       <Hero />
-      <TrustStrip />
-      <GrowthSystem />
-      <CapabilitiesExplorer />
       <IndustriesExplorer />
-      <ConnectedSystem />
-      <WhyHQ360 />
-      <ProcessStory />
-      <ProofExperience />
-      <ClosingCta />
+      <CapabilitiesExplorer />
+      <SystemSection />
+      <FeaturedWork />
+      <SmartDiagnostic />
+      <FinalCta />
     </div>
   );
 }
 
+/* ============================================================ 1 · HERO === */
+
 function Hero() {
   const visualRef = useRef<HTMLDivElement>(null);
+
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -88,6 +94,7 @@ function Hero() {
     visualRef.current?.style.setProperty("--orbit-x", "0px");
     visualRef.current?.style.setProperty("--orbit-y", "0px");
   }
+
   return (
     <section className="home-hero">
       <div className="home-hero-grid" aria-hidden="true" />
@@ -98,26 +105,27 @@ function Hero() {
               <span /> Strategy · Creative · Technology · Growth
             </p>
             <h1>
-              Everything your brand needs <em>to grow.</em>
+              Everything your business needs to grow. <em>Connected.</em>
             </h1>
             <p className="home-hero-lede">
-              HQ360 connects brand, websites, automation, marketing, content and visibility into one
-              focused growth system.
+              HQ360 brings strategy, creative, websites, marketing and automation together into one
+              connected growth system — built around your industry.
             </p>
             <div className="home-actions">
               <SmartLink to={CTAS.primary.to} className="home-button home-button-primary">
-                Start a project <ArrowUpRight aria-hidden="true" />
+                Start a Project <ArrowUpRight aria-hidden="true" />
               </SmartLink>
-              <SmartLink to="/industries" className="home-button home-button-ghost">
-                Explore industries <ArrowRight aria-hidden="true" />
-              </SmartLink>
+              <a href="#home-industries" className="home-button home-button-ghost">
+                Find Your Industry <ArrowRight aria-hidden="true" />
+              </a>
             </div>
             <div className="home-hero-context">
-              <span>Worldwide service</span>
+              <span>Worldwide</span>
               <span>USA-focused</span>
               <span>Multi-industry</span>
             </div>
           </div>
+
           <div
             className="home-orbit-wrap"
             onPointerMove={handlePointerMove}
@@ -127,7 +135,7 @@ function Hero() {
               ref={visualRef}
               className="home-orbit"
               role="img"
-              aria-label="HQ360 connected growth orbit"
+              aria-label="The HQ360 core with brand, web, SEO, marketing, automation and content connected around it"
             >
               <div className="home-orbit-ring ring-a" />
               <div className="home-orbit-ring ring-b" />
@@ -137,191 +145,77 @@ function Hero() {
                 <strong>HQ360</strong>
                 <span>One growth system</span>
               </div>
-              {PRIMARY_CAPABILITIES.map((capability, index) => (
+              {HOME_CAPABILITIES.map((capability, index) => (
                 <SmartLink
                   key={capability.slug}
                   to={capability.path}
                   className={`home-orbit-node node-${index + 1}`}
                 >
                   <span>{String(index + 1).padStart(2, "0")}</span>
-                  {capability.label}
+                  {capability.short}
                 </SmartLink>
               ))}
               <span className="home-orbit-spark" aria-hidden="true" />
             </div>
           </div>
         </div>
-        <a className="home-scroll-cue" href="#growth-system">
-          <ArrowDown aria-hidden="true" /> Discover the system
+
+        <a className="home-scroll-cue" href="#home-industries">
+          <ArrowDown aria-hidden="true" /> Is HQ360 for a business like yours?
         </a>
       </Container>
     </section>
   );
 }
 
-function TrustStrip() {
-  const points = [
-    "Strategy to execution",
-    "Connected growth systems",
-    "Built around business outcomes",
-    "Multi-industry experience",
-    "Worldwide delivery",
-  ];
-  return (
-    <section className="home-trust" aria-label="How HQ360 works">
-      <div className="home-trust-track">
-        {[...points, ...points].map((point, index) => (
-          <span key={`${point}-${index}`}>
-            <i aria-hidden="true" /> {point}
-          </span>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function GrowthSystem() {
-  const [active, setActive] = useState(0);
-  const stage = GROWTH_FRAMEWORK[active]!;
-  return (
-    <section id="growth-system" className="home-growth-section">
-      <Container size="wide">
-        <Reveal>
-          <div className="home-section-intro light">
-            <p className="home-eyebrow">
-              <span /> The HQ360 growth loop
-            </p>
-            <h2>Six stages. One continuous advantage.</h2>
-            <p>Every stage strengthens the next. Select a point in the loop to see its role.</p>
-          </div>
-        </Reveal>
-        <div className="home-growth-layout">
-          <div className="home-growth-wheel" aria-label="Six stages of the HQ360 growth system">
-            <div className="home-growth-wheel-ring" aria-hidden="true" />
-            <div className="home-growth-center">
-              <span>{String(active + 1).padStart(2, "0")}</span>
-              <strong>{stage.title}</strong>
-            </div>
-            {GROWTH_FRAMEWORK.map((item, index) => (
-              <button
-                key={item.key}
-                type="button"
-                className={`home-growth-stage stage-${index + 1} ${index === active ? "active" : ""}`}
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
-                onClick={() => setActive(index)}
-                aria-pressed={index === active}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {item.title}
-              </button>
-            ))}
-          </div>
-          <div className="home-growth-detail" aria-live="polite">
-            <span className="home-detail-number">0{active + 1}</span>
-            <p className="home-detail-label">Current stage</p>
-            <h3>{stage.title}</h3>
-            <p>{stage.body}</p>
-            <div className="home-growth-progress">
-              <span style={{ width: `${((active + 1) / 6) * 100}%` }} />
-            </div>
-            <div className="home-mobile-stage-list">
-              {GROWTH_FRAMEWORK.map((item, index) => (
-                <button
-                  key={item.key}
-                  onClick={() => setActive(index)}
-                  aria-pressed={index === active}
-                >
-                  {String(index + 1).padStart(2, "0")} {item.title}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function CapabilitiesExplorer() {
-  const [active, setActive] = useState(0);
-  const capability = PRIMARY_CAPABILITIES[active]!;
-  return (
-    <section className="home-capabilities">
-      <Container size="wide">
-        <div className="home-capabilities-layout">
-          <div className="home-capability-display" aria-live="polite">
-            <p className="home-eyebrow">
-              <span /> What we do
-            </p>
-            <span className="home-capability-index">0{active + 1} / 06</span>
-            <h2>{capability.name}</h2>
-            <p className="home-capability-tagline">{capability.tagline}</p>
-            <p className="home-capability-summary">{capability.summary}</p>
-            <ul>
-              {capability.services.slice(0, 3).map((service) => (
-                <li key={service.title}>
-                  <Check aria-hidden="true" /> {service.title}
-                </li>
-              ))}
-            </ul>
-            <SmartLink to={capability.path} className="home-text-link">
-              Explore this capability <ArrowRight aria-hidden="true" />
-            </SmartLink>
-          </div>
-          <div className="home-capability-list" role="tablist" aria-label="HQ360 capabilities">
-            {PRIMARY_CAPABILITIES.map((item, index) => (
-              <button
-                key={item.slug}
-                type="button"
-                role="tab"
-                aria-selected={index === active}
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
-                onClick={() => setActive(index)}
-                className={index === active ? "active" : ""}
-              >
-                <span>0{index + 1}</span>
-                <strong>{item.label}</strong>
-                <ArrowUpRight aria-hidden="true" />
-              </button>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
+/* ====================================================== 2 · INDUSTRIES === */
 
 function IndustriesExplorer() {
   const [active, setActive] = useState(0);
-  const industry = FEATURED_INDUSTRIES[active]!;
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const industry = HOME_INDUSTRIES[active]!;
+
   return (
-    <section className="home-industries">
+    <section id="home-industries" className="home-industries">
       <Container size="wide">
         <Reveal>
           <div className="home-section-intro">
             <p className="home-eyebrow">
               <span /> Who we help
             </p>
-            <h2>Built for the way your market wins.</h2>
-            <p>Different industries need different paths to attention, trust and conversion.</p>
+            <h2>Different industries. Different growth problems.</h2>
+            <p>
+              We don't apply the same playbook to every business. Explore the HQ360 system built
+              around your industry.
+            </p>
           </div>
         </Reveal>
+
         <div className="home-industry-layout">
           <div className="home-industry-list" role="tablist" aria-label="Featured industries">
-            {FEATURED_INDUSTRIES.map((item, index) => (
+            {HOME_INDUSTRIES.map((item, index) => (
               <button
                 key={item.slug}
-                role="tab"
+                ref={(el) => {
+                  tabs.current[index] = el;
+                }}
                 type="button"
+                role="tab"
+                id={`home-industry-tab-${index}`}
                 aria-selected={index === active}
+                aria-controls="home-industry-panel"
+                tabIndex={index === active ? 0 : -1}
                 className={index === active ? "active" : ""}
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
                 onClick={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onKeyDown={(e) =>
+                  rove(e, index, HOME_INDUSTRIES.length, (n) => {
+                    setActive(n);
+                    tabs.current[n]?.focus();
+                  })
+                }
               >
-                <span>{item.shortName}</span>
+                <span>{item.label}</span>
                 <ArrowRight aria-hidden="true" />
               </button>
             ))}
@@ -329,17 +223,27 @@ function IndustriesExplorer() {
               View all {INDUSTRIES.length} industries <ArrowUpRight aria-hidden="true" />
             </SmartLink>
           </div>
-          <div className="home-industry-preview" aria-live="polite">
-            <div className="home-industry-orbit" aria-hidden="true">
-              <span />
-              <i />
-            </div>
+
+          <div
+            className="home-industry-panel"
+            id="home-industry-panel"
+            role="tabpanel"
+            aria-labelledby={`home-industry-tab-${active}`}
+            aria-live="polite"
+          >
             <p className="home-detail-label">{industry.category}</p>
-            <h3>{industry.shortName}</h3>
+            <h3>{industry.label}</h3>
+            <ol className="home-flow" aria-label={`${industry.label} growth path`}>
+              {industry.flow.map((node, index) => (
+                <li key={node}>
+                  <span>{node}</span>
+                  {index < industry.flow.length - 1 ? <ArrowRight aria-hidden="true" /> : null}
+                </li>
+              ))}
+            </ol>
             <p className="home-industry-outcome">{industry.outcome}</p>
-            <p>{industry.description}</p>
-            <SmartLink to={industry.path} className="home-button home-button-light">
-              View {industry.shortName} services <ArrowRight aria-hidden="true" />
+            <SmartLink to={industry.path} className="home-button home-button-dark">
+              Explore {industry.label} <ArrowRight aria-hidden="true" />
             </SmartLink>
           </div>
         </div>
@@ -348,147 +252,191 @@ function IndustriesExplorer() {
   );
 }
 
-const SYSTEM_STEPS = [
-  ["Traffic", "SEO · Social · Ads"],
-  ["Experience", "Website · Landing page · Portfolio"],
-  ["Capture", "Forms · Lead magnets · CRM"],
-  ["Follow-up", "Email · SMS · Automation"],
-  ["Conversion", "Booking · Purchase · Inquiry"],
-  ["Retention", "Reviews · Nurture · Repeat business"],
-];
-function ConnectedSystem() {
-  return (
-    <section className="home-connected">
-      <Container size="wide">
-        <div className="home-connected-heading">
-          <p className="home-eyebrow">
-            <span /> How it connects
-          </p>
-          <h2>Attention is useful only when the rest of the journey works.</h2>
-          <p>
-            We design every handoff—from first impression to repeat customer—as one measurable path.
-          </p>
-        </div>
-        <ol className="home-system-flow">
-          {SYSTEM_STEPS.map(([title, detail], index) => (
-            <li key={title}>
-              <span className="home-system-number">0{index + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{detail}</p>
-              </div>
-              {index < SYSTEM_STEPS.length - 1 ? <ArrowRight aria-hidden="true" /> : null}
-            </li>
-          ))}
-        </ol>
-      </Container>
-    </section>
-  );
-}
+/* ==================================================== 3 · CAPABILITIES === */
 
-const DIFFERENTIATORS = [
-  [
-    "01",
-    "One accountable team",
-    "Strategy, creative, technology and performance move from the same plan.",
-  ],
-  [
-    "02",
-    "Built around your market",
-    "The system adapts to how your buyers discover, decide and return.",
-  ],
-  [
-    "03",
-    "Strategy before production",
-    "We diagnose the constraint before recommending the deliverable.",
-  ],
-  ["04", "Designed for action", "Every touchpoint has a job, a next step and a way to measure it."],
-];
-function WhyHQ360() {
-  return (
-    <section className="home-why">
-      <Container size="wide">
-        <div className="home-why-title">
-          <p className="home-eyebrow">
-            <span /> Why HQ360
-          </p>
-          <h2>Good-looking work is the starting point.</h2>
-        </div>
-        <ol>
-          {DIFFERENTIATORS.map(([number, title, body]) => (
-            <li key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
-      </Container>
-    </section>
-  );
-}
-
-function ProcessStory() {
-  const listRef = useRef<HTMLOListElement>(null);
+function CapabilitiesExplorer() {
   const [active, setActive] = useState(0);
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.step));
-        }
-      },
-      { rootMargin: "-30% 0px -45% 0px" },
-    );
-    list.querySelectorAll("li").forEach((li) => observer.observe(li));
-    return () => observer.disconnect();
-  }, []);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const capability = HOME_CAPABILITIES[active]!;
+
   return (
-    <section className="home-process">
+    <section className="home-capabilities">
       <Container size="wide">
-        <div className="home-process-layout">
-          <div className="home-process-heading">
+        <Reveal>
+          <div className="home-section-intro light">
             <p className="home-eyebrow">
-              <span /> How we work
+              <span /> What we do
             </p>
-            <h2>Clarity at every stage.</h2>
-            <p>A visible process keeps the work moving and every decision grounded.</p>
-            <div className="home-process-counter" aria-hidden="true">
-              <strong>{PROCESS[active]?.step}</strong>
-              <span>
-                / {String(PROCESS.length).padStart(2, "0")} · {PROCESS[active]?.title}
-              </span>
-            </div>
+            <h2>One connected set of capabilities.</h2>
+            <p>
+              The whole system, or the part you need right now. Detailed deliverables live on each
+              service page.
+            </p>
           </div>
-          <ol
-            ref={listRef}
-            className="home-process-list"
-            style={
-              { "--process-progress": `${((active + 1) / PROCESS.length) * 100}%` } as CSSProperties
-            }
+        </Reveal>
+
+        <div className="home-capability-layout">
+          <div className="home-capability-list" role="tablist" aria-label="HQ360 capabilities">
+            {HOME_CAPABILITIES.map((item, index) => (
+              <button
+                key={item.slug}
+                ref={(el) => {
+                  tabs.current[index] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`home-capability-tab-${index}`}
+                aria-selected={index === active}
+                aria-controls="home-capability-panel"
+                tabIndex={index === active ? 0 : -1}
+                className={index === active ? "active" : ""}
+                onClick={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onKeyDown={(e) =>
+                  rove(e, index, HOME_CAPABILITIES.length, (n) => {
+                    setActive(n);
+                    tabs.current[n]?.focus();
+                  })
+                }
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.label}</strong>
+                <ArrowUpRight aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+
+          <div
+            className="home-capability-panel"
+            id="home-capability-panel"
+            role="tabpanel"
+            aria-labelledby={`home-capability-tab-${active}`}
+            aria-live="polite"
           >
-            {PROCESS.map((item, index) => (
-              <li key={item.step} data-step={index} className={index === active ? "active" : ""}>
-                <span>{item.step}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </div>
+            <span className="home-capability-index">
+              {String(active + 1).padStart(2, "0")} /{" "}
+              {String(HOME_CAPABILITIES.length).padStart(2, "0")}
+            </span>
+            <h3>{capability.outcome}</h3>
+            <ul>
+              {capability.items.map((item) => (
+                <li key={item}>
+                  <Check aria-hidden="true" /> {item}
+                </li>
+              ))}
+            </ul>
+            <SmartLink to={capability.path} className="home-text-link">
+              Explore {capability.label} <ArrowRight aria-hidden="true" />
+            </SmartLink>
+          </div>
+        </div>
+
+        <p className="home-capability-footer">
+          <SmartLink to="/services" className="home-text-link">
+            See all services <ArrowUpRight aria-hidden="true" />
+          </SmartLink>
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+/* ================================================= 4 · THE HQ360 SYSTEM === */
+
+function SystemSection() {
+  const [active, setActive] = useState(0);
+  const count = HQ360_SYSTEM.length;
+  const stage = HQ360_SYSTEM[active] ?? HQ360_SYSTEM[0]!;
+
+  return (
+    <section className="home-system-section">
+      <Container size="wide">
+        <Reveal>
+          <div className="home-section-intro light">
+            <p className="home-eyebrow">
+              <span /> The 360 system
+            </p>
+            <h2>How the pieces connect.</h2>
+            <p>Six stages, one loop. Each one feeds the next. Select a stage to see its role.</p>
+          </div>
+        </Reveal>
+
+        <div className="home-system">
+          <div
+            className="home-system-orbit"
+            role="tablist"
+            aria-label="The six stages of the HQ360 system"
+          >
+            <div className="home-system-orbit-ring" aria-hidden="true" />
+            <div className="home-system-core" aria-hidden="true">
+              <span>{String(active + 1).padStart(2, "0")}</span>
+              <strong>{stage.title}</strong>
+            </div>
+            {HQ360_SYSTEM.map((item, index) => (
+              <button
+                key={item.key}
+                type="button"
+                role="tab"
+                aria-selected={index === active}
+                tabIndex={index === active ? 0 : -1}
+                className={`home-system-stage stage-${index + 1} ${index === active ? "active" : ""}`}
+                onClick={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onKeyDown={(e) => rove(e, index, count, setActive)}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {item.title}
+              </button>
+            ))}
+          </div>
+
+          <div className="home-system-detail" aria-live="polite">
+            <p className="home-detail-label">
+              Stage {active + 1} of {count}
+            </p>
+            <h3>{stage.title}</h3>
+            <p>{stage.blurb}</p>
+            <p className="home-system-capabilities">{stage.capabilities}</p>
+          </div>
+
+          {/* Mobile: connected vertical sequence, each stage an accordion. */}
+          <ul className="home-system-list">
+            {HQ360_SYSTEM.map((item, index) => (
+              <li key={item.key} className={index === active ? "active" : ""}>
+                <button
+                  type="button"
+                  aria-expanded={index === active}
+                  onClick={() => setActive(index)}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {item.title}
+                </button>
+                {index === active ? (
+                  <div>
+                    <p>{item.blurb}</p>
+                    <p className="home-system-capabilities">{item.capabilities}</p>
+                  </div>
+                ) : null}
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
+
+        <Reveal>
+          <p className="home-system-point">{SYSTEM_POINT}</p>
+        </Reveal>
       </Container>
     </section>
   );
 }
 
-function ProofExperience() {
+/* =================================================== 5 · FEATURED WORK === */
+
+function FeaturedWork() {
   const [near, setNear] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const verified = CASE_STUDIES.find((study) => study.status === "verified");
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || typeof IntersectionObserver === "undefined") {
@@ -502,30 +450,29 @@ function ProofExperience() {
           observer.disconnect();
         }
       },
-      { rootMargin: "500px 0px" },
+      { rootMargin: "600px 0px" },
     );
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
+
   return (
-    <section ref={sectionRef} className="home-proof">
+    <section ref={sectionRef} className="home-work">
       <Container size="wide">
-        <div className="home-proof-heading">
+        <div className="home-work-heading">
           <div>
             <p className="home-eyebrow">
-              <span /> Verified proof
+              <span /> Proof of work
             </p>
             <h2>Real work. Real clients. No invented numbers.</h2>
           </div>
-          {verified ? (
-            <SmartLink to={`/work/${verified.slug}`} className="home-text-link">
-              View featured project <ArrowUpRight aria-hidden="true" />
-            </SmartLink>
-          ) : null}
+          <SmartLink to={verified ? `/work/${verified.slug}` : "/work"} className="home-text-link">
+            Explore Our Work <ArrowUpRight aria-hidden="true" />
+          </SmartLink>
         </div>
         {near ? (
           <Suspense fallback={<ProofSkeleton />}>
-            <LazyProofStrip />
+            <LazyFeaturedProof />
           </Suspense>
         ) : (
           <ProofSkeleton />
@@ -535,7 +482,120 @@ function ProofExperience() {
   );
 }
 
-function ClosingCta() {
+/* ================================================= 6 · SMART DIAGNOSTIC === */
+
+function SmartDiagnostic() {
+  const [goal, setGoal] = useState<string | null>(null);
+  const [industry, setIndustry] = useState<string | null>(null);
+  const result = goal && industry ? diagnose(goal, industry) : null;
+
+  return (
+    <section className="home-diagnostic">
+      <Container size="wide">
+        <Reveal>
+          <div className="home-section-intro">
+            <p className="home-eyebrow">
+              <span /> Where to start
+            </p>
+            <h2>Not sure what your business actually needs?</h2>
+            <p>
+              Start with the problem. We'll point you toward the part of the system that may matter
+              most. This is guided self-diagnosis, not automated consulting.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="home-diagnostic-flow">
+          <fieldset className="home-diagnostic-step">
+            <legend>
+              <span className="home-diagnostic-step-n">01</span> What are you trying to improve?
+            </legend>
+            <div className="home-diagnostic-options" role="radiogroup" aria-label="Your goal">
+              {DIAGNOSTIC_GOALS.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={goal === option.id}
+                  className={goal === option.id ? "active" : ""}
+                  onClick={() => setGoal(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset className="home-diagnostic-step" data-locked={goal ? undefined : true}>
+            <legend>
+              <span className="home-diagnostic-step-n">02</span> What kind of business are you?
+            </legend>
+            <div className="home-diagnostic-options" role="radiogroup" aria-label="Your business">
+              {DIAGNOSTIC_INDUSTRIES.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={industry === option.id}
+                  disabled={!goal}
+                  className={industry === option.id ? "active" : ""}
+                  onClick={() => setIndustry(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <div className="home-diagnostic-result" aria-live="polite">
+            {result ? (
+              <div className="home-diagnostic-card">
+                <p className="home-detail-label">Your likely starting point</p>
+                <h3>{result.title}</h3>
+                <p>{result.copy}</p>
+                <div className="home-diagnostic-actions">
+                  <Link
+                    to="/contact"
+                    search={result.contactSearch}
+                    preload="intent"
+                    className="home-button home-button-primary"
+                  >
+                    {result.ctaLabel} <ArrowUpRight aria-hidden="true" />
+                  </Link>
+                  {result.capabilityPath && result.capabilityLabel ? (
+                    <SmartLink to={result.capabilityPath} className="home-button home-button-ghost">
+                      {result.capabilityLabel} <ArrowRight aria-hidden="true" />
+                    </SmartLink>
+                  ) : null}
+                </div>
+                <button
+                  type="button"
+                  className="home-diagnostic-reset"
+                  onClick={() => {
+                    setGoal(null);
+                    setIndustry(null);
+                  }}
+                >
+                  <RotateCcw size={14} aria-hidden="true" /> Start over
+                </button>
+              </div>
+            ) : (
+              <p className="home-diagnostic-hint">
+                {goal
+                  ? "Pick your business type to see a starting point."
+                  : "Pick a goal to begin."}
+              </p>
+            )}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ===================================================== 7 · FINAL CTA === */
+
+function FinalCta() {
   return (
     <section className="home-closing">
       <div className="home-closing-rings" aria-hidden="true">
@@ -547,14 +607,17 @@ function ClosingCta() {
         <p className="home-eyebrow">
           <span /> Your next move
         </p>
-        <h2>Your growth shouldn’t depend on five different agencies.</h2>
-        <p>Bring strategy, creative, technology and performance under one accountable system.</p>
+        <h2>Your growth shouldn't depend on disconnected pieces.</h2>
+        <p>
+          Tell us where you're trying to go. We'll help identify what needs to connect to get you
+          there.
+        </p>
         <div className="home-actions">
           <SmartLink to={CTAS.primary.to} className="home-button home-button-orange">
-            Start a project <ArrowUpRight aria-hidden="true" />
+            Start a Project <ArrowUpRight aria-hidden="true" />
           </SmartLink>
           <SmartLink to="/industries" className="home-button home-button-dark-ghost">
-            Explore industries <ArrowRight aria-hidden="true" />
+            Find Your Industry <ArrowRight aria-hidden="true" />
           </SmartLink>
         </div>
       </Container>

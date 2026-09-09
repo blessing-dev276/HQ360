@@ -41,10 +41,39 @@ export const Route = createFileRoute("/contact")({
         faqSchema(CONTACT_FAQS),
       ],
     ),
+  validateSearch: (search: Record<string, unknown>): ContactSearch => {
+    const str = (v: unknown) =>
+      typeof v === "string" && v.trim() ? v.trim().slice(0, 120) : undefined;
+    return {
+      industry: str(search.industry),
+      goal: str(search.goal),
+      service: str(search.service),
+      source: str(search.source),
+    };
+  },
   component: ContactPage,
 });
 
+type ContactSearch = {
+  industry?: string | undefined;
+  goal?: string | undefined;
+  service?: string | undefined;
+  source?: string | undefined;
+};
+
 function ContactPage() {
+  const { industry, goal, service, source } = Route.useSearch();
+  const fromDiagnostic = source === "home-diagnostic";
+  const prefillMessage = fromDiagnostic
+    ? [
+        goal ? `Goal: ${goal}.` : null,
+        service ? `Likely starting point from your site: ${service}.` : null,
+        industry ? `Business type: ${industry}.` : null,
+      ]
+        .filter(Boolean)
+        .join(" ") || undefined
+    : undefined;
+
   return (
     <>
       <Section>
@@ -70,7 +99,11 @@ function ContactPage() {
             </p>
           </div>
 
-          <ProjectInquiryForm />
+          <ProjectInquiryForm
+            defaultIndustry={fromDiagnostic ? industry : undefined}
+            sourceIndustry={fromDiagnostic ? industry : undefined}
+            prefillMessage={prefillMessage}
+          />
         </div>
       </Section>
 

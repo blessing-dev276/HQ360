@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
+import { Instagram, Music2, Twitter } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { BRAND, FOOTER_NAV, SOCIALS } from "@/config/brand";
 
 const iconFor: Record<string, typeof Instagram> = {
   Instagram,
+  Twitter,
+  TikTok: Music2,
 };
 
 export function SiteFooter() {

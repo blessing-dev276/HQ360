@@ -875,6 +875,187 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds positioning, application funnels, paid traffic and nurture that fill a coach or consultant's calendar with qualified calls.",
     },
+    visualTheme: "pipeline",
+    problems: [
+      {
+        title: "The offer speaks to everyone",
+        body: "Positioning tries to serve every client, so it compels no one and ends up competing on price.",
+        consequence: "Every sales call starts from a discount.",
+      },
+      {
+        title: "Discovery calls are unqualified",
+        body: "The calendar fills with people who can't afford the work or aren't ready to start.",
+        consequence: "Hours a week lost to calls that were never going to close.",
+      },
+      {
+        title: "Leads go cold before the call",
+        body: "Someone books, then ghosts — no reminder sequence, no pre-call nurture, no show-up system.",
+        consequence: "You pay to book calls that never happen.",
+      },
+      {
+        title: "Revenue arrives in exhausting launches",
+        body: "Money comes in big stressful pushes with long flat stretches between and nothing evergreen.",
+        consequence: "Cash flow you can't plan around.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "position",
+        label: "Position",
+        whatHappens:
+          "A prospect decides in seconds whether you're the obvious choice for their problem.",
+        whatHQ360Does:
+          "Sharpen positioning to one audience and one outcome, then rebuild the site and offer pages around it.",
+        whyItMatters:
+          "Specific positioning is what lets you charge for the outcome instead of the hour.",
+      },
+      {
+        id: "qualify",
+        label: "Qualify",
+        whatHappens: "Anyone can book a call, so anyone does.",
+        whatHQ360Does:
+          "An application funnel that screens on budget, readiness and fit before a call is booked.",
+        whyItMatters: "Fewer, better calls beat a full calendar of tyre-kickers.",
+      },
+      {
+        id: "attract",
+        label: "Attract",
+        whatHappens: "Referrals plateau and there's no channel to replace them.",
+        whatHQ360Does:
+          "Paid campaigns to a cost-per-qualified-call target across the channels your buyers use.",
+        whyItMatters: "A channel you control is what makes revenue predictable.",
+      },
+      {
+        id: "convert",
+        label: "Convert",
+        whatHappens: "A qualified lead books — then has days to cool off before the call.",
+        whatHQ360Does:
+          "Confirmations, reminders and pre-call content that lift attendance and close rate.",
+        whyItMatters: "Show-up rate is the cheapest number in the funnel to improve.",
+      },
+      {
+        id: "nurture",
+        label: "Nurture",
+        whatHappens: "A good-fit lead isn't ready today and gets forgotten.",
+        whatHQ360Does:
+          "An evergreen sequence that keeps unconverted leads warm until the timing changes.",
+        whyItMatters: "Most high-ticket clients buy on the third or fourth touch, not the first.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "positioning",
+        name: "Positioning & offer",
+        outcome: "One audience, one outcome, one offer that doesn't compete on price.",
+        description:
+          "Positioning work, offer definition and the site and offer pages built around it.",
+        capabilities: [
+          "Positioning and messaging",
+          "Offer definition and pricing structure",
+          "Consultant website and offer pages",
+          "Proof and case-study assets",
+        ],
+        howItHelps: "Removes the vagueness that turns every call into a price negotiation.",
+      },
+      {
+        id: "funnel",
+        name: "Application funnel",
+        outcome: "Only calls worth taking reach your calendar.",
+        description:
+          "An application page and qualification form that screen on fit, budget and readiness.",
+        capabilities: [
+          "Application page and form",
+          "Qualification logic",
+          "Calendar and routing setup",
+          "Disqualification nurture path",
+        ],
+        howItHelps: "Protects your time and raises your close rate on the calls that remain.",
+      },
+      {
+        id: "traffic",
+        name: "Paid traffic",
+        outcome: "A predictable number of qualified calls each week.",
+        description: "Meta, Google and LinkedIn campaigns to a cost-per-qualified-call target.",
+        capabilities: [
+          "Campaign and audience strategy",
+          "Ad creative",
+          "Landing and thank-you pages",
+          "Conversion tracking",
+        ],
+        howItHelps: "Replaces referral dependence with a channel you can turn up.",
+      },
+      {
+        id: "showup",
+        name: "Show-up & nurture automation",
+        outcome: "More booked calls actually happen — and more slow leads convert later.",
+        description: "Pre-call reminders and content, plus a long evergreen nurture sequence.",
+        capabilities: [
+          "Confirmation and reminder flows",
+          "Pre-call content sequence",
+          "Evergreen email nurture",
+          "CRM setup",
+        ],
+        howItHelps: "Recovers the revenue that leaks between booking and closing.",
+      },
+      {
+        id: "content",
+        name: "Authority content",
+        outcome: "Proof that does some of the selling before the call.",
+        description:
+          "Case-study production and thought-leadership content that reinforce the positioning.",
+        capabilities: [
+          "Case-study writing",
+          "Long-form and email content",
+          "Testimonial capture",
+          "LinkedIn content support",
+        ],
+        howItHelps: "Shortens the sales conversation by answering doubt in advance.",
+      },
+    ],
+    diagnostic: {
+      question: "What's holding your practice back?",
+      options: [
+        {
+          id: "positioning",
+          label: "My offer isn't landing — I compete on price",
+          recommendation: "Your biggest opportunity is positioning.",
+          service: "Positioning & offer",
+          review: "Who your offer speaks to, the outcome it promises, and how the site frames it.",
+        },
+        {
+          id: "funnel",
+          label: "My discovery calls are mostly unqualified",
+          recommendation: "Your biggest opportunity is qualification.",
+          service: "Application funnel",
+          review: "Whether anything screens a lead on budget, readiness and fit before they book.",
+        },
+        {
+          id: "traffic",
+          label: "Referrals dried up and there's no other channel",
+          recommendation: "Your biggest opportunity is a paid acquisition channel.",
+          service: "Paid traffic",
+          review: "Which channels your buyers use and what a qualified call would need to cost.",
+        },
+        {
+          id: "showup",
+          label: "Leads book then ghost, or go cold",
+          recommendation: "Your biggest opportunity is show-up and nurture.",
+          service: "Show-up & nurture automation",
+          review: "Your reminder sequence, pre-call content and what happens to slow leads.",
+        },
+        {
+          id: "system",
+          label: "I need the whole client-acquisition system",
+          recommendation: "Start with the full client-acquisition system.",
+          service: "the full system",
+          review: "Positioning, funnel, traffic and follow-up as one connected build.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Fill your calendar with calls worth taking.",
+      label: "Get my Client Acquisition Audit",
+    },
   },
 
   /* ---------------------------------------------------------- Home services */
@@ -998,6 +1179,182 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds local ads, booking-focused websites, speed-to-lead texting and review systems that book more jobs for home service businesses.",
     },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "The pipeline is one directory",
+        body: "When the lead-seller raises prices or sends junk, the work dries up — there's no channel you own.",
+        consequence: "Your growth is set by someone else's pricing.",
+      },
+      {
+        title: "Too slow to respond",
+        body: "A quote request sits for hours; by the time someone calls back, the customer booked a competitor.",
+        consequence: "You paid for a lead that closed for someone else.",
+      },
+      {
+        title: "Estimates booked and forgotten",
+        body: "Quotes get scheduled and missed, and nobody chases the ones that didn't close.",
+        consequence: "Revenue sitting in your CRM, untouched.",
+      },
+      {
+        title: "The site doesn't push to book",
+        body: "It lists services but makes booking hard, and mobile visitors leave.",
+        consequence: "You pay for clicks that never become calls.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "site",
+        label: "Site",
+        whatHappens: "A mobile visitor decides in seconds whether to call or bounce.",
+        whatHQ360Does:
+          "Build service-area pages with call and book buttons above the fold on every service.",
+        whyItMatters: "Every other stage sends traffic here — it has to convert.",
+      },
+      {
+        id: "demand",
+        label: "Demand",
+        whatHappens: "Homeowners search for your service, or your profile never shows.",
+        whatHQ360Does:
+          "Google and Meta campaigns plus a Google Business Profile tuned for the map pack.",
+        whyItMatters: "Owned channels reduce what you have to buy from a directory.",
+      },
+      {
+        id: "speed",
+        label: "Speed to lead",
+        whatHappens: "A lead comes in and the clock starts — minutes decide who wins the job.",
+        whatHQ360Does:
+          "Automatic text-back and call routing so every enquiry is answered in seconds.",
+        whyItMatters: "First-to-respond wins most home-service jobs.",
+      },
+      {
+        id: "followup",
+        label: "Follow-up",
+        whatHappens: "An estimate is given and the homeowner goes quiet.",
+        whatHQ360Does: "Sequences that chase quotes until they book or say no.",
+        whyItMatters: "The job usually goes to whoever stayed in touch.",
+      },
+      {
+        id: "reviews",
+        label: "Reviews",
+        whatHappens: "Good work is done and the online profile never shows it.",
+        whatHQ360Does: "Automated review requests after each job.",
+        whyItMatters: "The review profile drives the cost of the next lead.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "website",
+        name: "Booking website",
+        outcome: "A mobile visitor calls or books in one or two taps.",
+        description:
+          "Service-area website and landing pages by service and town, built to convert.",
+        capabilities: [
+          "Service-area website",
+          "Service and location landing pages",
+          "Click-to-call and booking UX",
+          "Page speed and mobile optimisation",
+        ],
+        howItHelps: "Stops paid and organic traffic leaking before the call.",
+      },
+      {
+        id: "leadgen",
+        name: "Local lead generation",
+        outcome: "Lead channels you own, not just a directory.",
+        description: "Google and Meta campaigns plus Google Business Profile optimisation.",
+        capabilities: [
+          "Google and Meta lead campaigns",
+          "Google Business Profile optimisation",
+          "Local SEO and citations",
+          "Call and form tracking",
+        ],
+        howItHelps: "Builds pipeline you control alongside the leads you buy.",
+      },
+      {
+        id: "speed",
+        name: "Speed-to-lead response",
+        outcome: "Every enquiry answered within seconds.",
+        description: "Automatic SMS text-back and call routing to the right person.",
+        capabilities: [
+          "Instant SMS text-back",
+          "Call routing rules",
+          "Missed-call automation",
+          "After-hours handling",
+        ],
+        howItHelps: "Wins the jobs that go to whoever responds first.",
+      },
+      {
+        id: "followup",
+        name: "Estimate follow-up",
+        outcome: "More quotes turn into booked jobs.",
+        description: "Automated sequences that chase unbooked estimates to a decision.",
+        capabilities: [
+          "Estimate follow-up flows",
+          "CRM pipeline setup",
+          "Reminder and re-quote prompts",
+          "Database reactivation campaigns",
+        ],
+        howItHelps: "Recovers revenue already quoted and sitting idle.",
+      },
+      {
+        id: "reviews",
+        name: "Review engine",
+        outcome: "A profile that brings in the next lead.",
+        description: "Automated review requests after every completed job.",
+        capabilities: [
+          "Post-job review requests",
+          "Review monitoring",
+          "Reply templates",
+          "Profile and citation consistency",
+        ],
+        howItHelps: "Lowers cost per lead as the profile strengthens.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your lead flow breaking down?",
+      options: [
+        {
+          id: "leadgen",
+          label: "We rely on bought leads from a directory",
+          recommendation: "Your biggest opportunity is owned lead generation.",
+          service: "Local lead generation",
+          review:
+            "Your Google Business Profile, local ads and whether you have any channel you control.",
+        },
+        {
+          id: "speed",
+          label: "Leads come in but we're too slow to reach them",
+          recommendation: "Your biggest opportunity is speed to lead.",
+          service: "Speed-to-lead response",
+          review: "How fast new enquiries are answered and what happens after hours.",
+        },
+        {
+          id: "followup",
+          label: "We give estimates that never get chased",
+          recommendation: "Your biggest opportunity is estimate follow-up.",
+          service: "Estimate follow-up",
+          review: "Whether unbooked quotes are followed up and how your database is worked.",
+        },
+        {
+          id: "website",
+          label: "Our website doesn't turn visitors into calls",
+          recommendation: "Your biggest opportunity is the booking site.",
+          service: "Booking website",
+          review: "Mobile speed, call and book placement, and service and location pages.",
+        },
+        {
+          id: "system",
+          label: "We need the whole growth system",
+          recommendation: "Start with the full home-services growth system.",
+          service: "the full system",
+          review: "Site, demand, speed to lead, follow-up and reviews as one build.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "More booked jobs, less time chasing quotes.",
+      label: "Get my Home Services Growth Audit",
+    },
   },
 
   /* -------------------------------------------------------------- Plumbers */
@@ -1119,6 +1476,177 @@ export const INDUSTRIES: Industry[] = [
       title: "Marketing Agency for Plumbing Companies | HQ360",
       description:
         "HQ360 builds local search, emergency-intent ads, instant lead response and review systems that fill plumbers' schedules with booked jobs.",
+    },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "Losing the emergency search",
+        body: "When someone searches a burst pipe at 9pm, a competitor's ad and profile show up first.",
+        consequence: "The highest-value calls go elsewhere.",
+      },
+      {
+        title: "Quotes unanswered too long",
+        body: "Form fills sit until morning while emergency work goes to whoever picked up.",
+        consequence: "Urgent, high-margin jobs missed nightly.",
+      },
+      {
+        title: "Booked on price, not trust",
+        body: "Without visible reviews and a credible site, every job is a race to the lowest number.",
+        consequence: "Margin competed away before you quote.",
+      },
+      {
+        title: "Slow seasons hit hard",
+        body: "No system to reactivate past customers for maintenance and non-urgent work.",
+        consequence: "Crews idle between emergencies.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "visibility",
+        label: "Local visibility",
+        whatHappens: "An urgent search happens and your profile isn't in the map pack.",
+        whatHQ360Does: "Google Business Profile optimisation and citations to compete locally.",
+        whyItMatters: "Emergency buyers pick from the first results, not page two.",
+      },
+      {
+        id: "ads",
+        label: "Emergency ads",
+        whatHappens: "Someone needs a plumber now and is clicking the first call button.",
+        whatHQ360Does: "Search campaigns targeting urgent intent with call-first ad formats.",
+        whyItMatters: "Paid placement captures demand while it's hot.",
+      },
+      {
+        id: "response",
+        label: "Instant response",
+        whatHappens: "A lead arrives after hours and every minute costs the job.",
+        whatHQ360Does: "Text-back and call routing so no after-hours emergency is missed.",
+        whyItMatters: "Response speed decides who gets the emergency call.",
+      },
+      {
+        id: "reviews",
+        label: "Review engine",
+        whatHappens: "The job's done well and nothing asks the customer to say so.",
+        whatHQ360Does: "Automatic review requests after each job.",
+        whyItMatters: "A strong profile wins the next call on trust, not price.",
+      },
+      {
+        id: "reactivation",
+        label: "Reactivation",
+        whatHappens: "Past customers forget you until the next emergency.",
+        whatHQ360Does: "Seasonal outreach for maintenance and non-urgent work.",
+        whyItMatters: "Existing customers are the cheapest work you can book.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "localseo",
+        name: "Local SEO & profile",
+        outcome: "Show up first for urgent plumbing searches.",
+        description: "Google Business Profile optimisation, citations and local SEO.",
+        capabilities: [
+          "Google Business Profile optimisation",
+          "Citations and local SEO",
+          "Service and location pages",
+          "Review monitoring",
+        ],
+        howItHelps: "Puts you in front of buyers at the moment they need you.",
+      },
+      {
+        id: "ads",
+        name: "Emergency-intent ads",
+        outcome: "Capture urgent demand as it happens.",
+        description: "Google search campaigns built around emergency plumbing intent.",
+        capabilities: [
+          "Emergency-intent search campaigns",
+          "Call-first ad formats",
+          "Location and hours targeting",
+          "Call tracking",
+        ],
+        howItHelps: "Wins high-value jobs a directory listing would miss.",
+      },
+      {
+        id: "response",
+        name: "Speed-to-lead response",
+        outcome: "Every lead answered in seconds, day or night.",
+        description: "SMS text-back and after-hours call routing.",
+        capabilities: [
+          "Instant SMS text-back",
+          "After-hours call routing",
+          "On-call schedule rules",
+          "Missed-call recovery",
+        ],
+        howItHelps: "Stops emergencies going to whoever answered first.",
+      },
+      {
+        id: "website",
+        name: "Website built to call",
+        outcome: "Visitors call or book without friction.",
+        description: "Plumbing website with call and book actions on every page.",
+        capabilities: [
+          "Plumbing website",
+          "Click-to-call UX",
+          "Trust and review elements",
+          "Mobile speed",
+        ],
+        howItHelps: "Converts the traffic ads and search send you.",
+      },
+      {
+        id: "reactivation",
+        name: "Maintenance reactivation",
+        outcome: "Non-urgent work pulled from past customers.",
+        description: "Seasonal reactivation campaigns to your existing customer list.",
+        capabilities: [
+          "Customer list import",
+          "Seasonal outreach campaigns",
+          "Maintenance offers",
+          "Review and referral prompts",
+        ],
+        howItHelps: "Fills slow weeks with work you don't pay to acquire.",
+      },
+    ],
+    diagnostic: {
+      question: "Where are you losing plumbing jobs?",
+      options: [
+        {
+          id: "localseo",
+          label: "We don't show up for local searches",
+          recommendation: "Your biggest opportunity is local visibility.",
+          service: "Local SEO & profile",
+          review: "Your Google Business Profile, citations and map-pack position.",
+        },
+        {
+          id: "ads",
+          label: "We miss the urgent, high-value searches",
+          recommendation: "Your biggest opportunity is emergency-intent ads.",
+          service: "Emergency-intent ads",
+          review: "Whether you're bidding on urgent intent and how calls are tracked.",
+        },
+        {
+          id: "response",
+          label: "After-hours leads slip through",
+          recommendation: "Your biggest opportunity is speed to lead.",
+          service: "Speed-to-lead response",
+          review: "How after-hours enquiries are answered and routed.",
+        },
+        {
+          id: "reactivation",
+          label: "Slow seasons leave crews idle",
+          recommendation: "Your biggest opportunity is reactivation.",
+          service: "Maintenance reactivation",
+          review: "Whether your past-customer list is being worked for maintenance work.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full plumbing growth system.",
+          service: "the full system",
+          review: "Visibility, ads, response, reviews and reactivation together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Be the plumber that gets the call.",
+      label: "Get my Plumbing Growth Audit",
     },
   },
 
@@ -1243,6 +1771,178 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds paid lead generation, inspection funnels, speed-to-lead response and estimate follow-up that book more roofing jobs.",
     },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "Demand spikes, follow-up can't keep up",
+        body: "After a storm the phones flood, then leads are lost because nothing scales the follow-up.",
+        consequence: "You pay for a surge you can't convert.",
+      },
+      {
+        title: "Door-knocking doesn't scale",
+        body: "Growth is capped by how many crews can canvass, with nothing generating leads in the background.",
+        consequence: "Revenue is limited by headcount, not demand.",
+      },
+      {
+        title: "Long cycle, weak follow-up",
+        body: "Homeowners collect three bids over weeks; without nurture, the job goes to whoever stayed in touch.",
+        consequence: "Signed bids lost on silence, not price.",
+      },
+      {
+        title: "Insurance jobs stall",
+        body: "No clear process or content to guide homeowners through claims, so deals drag or die.",
+        consequence: "Approved work that never gets scheduled.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "funnel",
+        label: "Inspection funnel",
+        whatHappens: "A homeowner with a damaged roof lands on a page that has to earn one action.",
+        whatHQ360Does: "A mobile page with one job: book a roof inspection.",
+        whyItMatters: "The booked inspection is the start of every roofing deal.",
+      },
+      {
+        id: "campaigns",
+        label: "Intent campaigns",
+        whatHappens: "Storm-damage and replacement searches spike, then fall.",
+        whatHQ360Does: "Paid traffic for those searches, scaled up and down with demand.",
+        whyItMatters: "An always-on channel replaces door-knocking's ceiling.",
+      },
+      {
+        id: "nurture",
+        label: "Instant + nurture",
+        whatHappens: "A homeowner starts a weeks-long decision across multiple contractors.",
+        whatHQ360Does:
+          "Speed-to-lead reply plus a sequence that holds attention through the decision.",
+        whyItMatters: "Staying in front is how the bid gets signed.",
+      },
+      {
+        id: "bids",
+        label: "Bid follow-up",
+        whatHappens: "An estimate is delivered and goes quiet.",
+        whatHQ360Does: "Automated chase on unsigned estimates until a decision.",
+        whyItMatters: "Follow-up recovers bids that would otherwise time out.",
+      },
+      {
+        id: "referral",
+        label: "Referral loop",
+        whatHappens: "A roof is finished and nothing asks for the review or the referral.",
+        whatHQ360Does: "Post-job review and referral requests.",
+        whyItMatters: "Referrals and proof lower the cost of the next lead.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "funnel",
+        name: "Website & inspection funnel",
+        outcome: "More booked roof inspections.",
+        description: "Roofing website and a mobile funnel built to book an inspection.",
+        capabilities: [
+          "Roofing website",
+          "Inspection-booking funnel",
+          "Retail and commercial paths",
+          "Trust and proof elements",
+        ],
+        howItHelps: "Turns storm and replacement demand into scheduled inspections.",
+      },
+      {
+        id: "campaigns",
+        name: "Storm & replacement campaigns",
+        outcome: "An always-on lead channel beyond canvassing.",
+        description: "Meta and Google campaigns for storm-damage and replacement intent.",
+        capabilities: [
+          "Storm and replacement campaigns",
+          "Demand-based budget scaling",
+          "Ad creative",
+          "Conversion tracking",
+        ],
+        howItHelps: "Removes the headcount ceiling on lead volume.",
+      },
+      {
+        id: "nurture",
+        name: "Speed-to-lead & nurture",
+        outcome: "Every homeowner stays engaged through a weeks-long decision.",
+        description: "Instant response plus a multi-week nurture sequence.",
+        capabilities: [
+          "SMS speed-to-lead",
+          "Multi-week nurture sequence",
+          "Call routing",
+          "CRM pipeline",
+        ],
+        howItHelps: "Keeps you in the running until the bid is signed.",
+      },
+      {
+        id: "bids",
+        name: "Estimate & bid follow-up",
+        outcome: "More bids signed.",
+        description: "Automated chase on unsigned estimates to a decision.",
+        capabilities: [
+          "Bid follow-up automation",
+          "Reminder and re-quote prompts",
+          "Pipeline reporting",
+          "Lost-reason tracking",
+        ],
+        howItHelps: "Recovers signed revenue from bids that would go cold.",
+      },
+      {
+        id: "claims",
+        name: "Claims guidance & reviews",
+        outcome: "Insurance jobs move, and proof compounds.",
+        description: "Claims-guidance content and a review and referral system.",
+        capabilities: [
+          "Insurance-claim guidance content",
+          "Homeowner education sequences",
+          "Review generation",
+          "Referral prompts",
+        ],
+        howItHelps: "Unsticks claim jobs and lowers future lead cost.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your roofing pipeline leaking?",
+      options: [
+        {
+          id: "campaigns",
+          label: "We only grow by door-knocking",
+          recommendation: "Your biggest opportunity is an always-on lead channel.",
+          service: "Storm & replacement campaigns",
+          review: "Whether paid demand generation exists and how it scales with weather.",
+        },
+        {
+          id: "nurture",
+          label: "We lose homeowners during the decision",
+          recommendation: "Your biggest opportunity is speed-to-lead and nurture.",
+          service: "Speed-to-lead & nurture",
+          review: "Response time and whether a multi-week sequence keeps you in front.",
+        },
+        {
+          id: "bids",
+          label: "We deliver estimates that don't get chased",
+          recommendation: "Your biggest opportunity is bid follow-up.",
+          service: "Estimate & bid follow-up",
+          review: "How unsigned bids are followed up and what your pipeline reporting shows.",
+        },
+        {
+          id: "claims",
+          label: "Insurance jobs stall out",
+          recommendation: "Your biggest opportunity is claims guidance.",
+          service: "Claims guidance & reviews",
+          review: "The content and follow-up guiding homeowners through the claims process.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full roofing growth system.",
+          service: "the full system",
+          review: "Funnel, campaigns, nurture, bid follow-up and referrals together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Book inspections while the demand is still hot.",
+      label: "Get my Roofing Growth Audit",
+    },
   },
 
   /* ------------------------------------------------------------------ HVAC */
@@ -1366,6 +2066,181 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds seasonal demand campaigns, maintenance-plan funnels, replacement follow-up and reactivation that keep HVAC crews booked year-round.",
     },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "Feast and famine by season",
+        body: "Slammed in July, quiet in April, with nothing generating work in the shoulder months.",
+        consequence: "You over-hire for peak and carry the cost in the lulls.",
+      },
+      {
+        title: "Repairs instead of replacements",
+        body: "Techs fix units that should be quoted for replacement, leaving the higher-value job on the table.",
+        consequence: "Thousands in replacement revenue walks out the door.",
+      },
+      {
+        title: "Maintenance plans are undersold",
+        body: "The recurring revenue that smooths the year is offered inconsistently and never followed up.",
+        consequence: "No stable base under a seasonal business.",
+      },
+      {
+        title: "The customer base is forgotten",
+        body: "Thousands of past service records and no system to bring them back for tune-ups or upgrades.",
+        consequence: "You re-buy customers you already served.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "calendar",
+        label: "Seasonal calendar",
+        whatHappens: "Demand swings hard by season and marketing only reacts to peak.",
+        whatHQ360Does:
+          "Cooling, heating, air-quality and tune-up campaigns mapped across the year.",
+        whyItMatters: "There's always a reason to call, not just when it breaks.",
+      },
+      {
+        id: "quotes",
+        label: "Quote pages",
+        whatHappens:
+          "A repair visit could be a replacement, but the bigger job feels like a hard sell.",
+        whatHQ360Does:
+          "Replacement and financing-friendly pages that make the bigger job an easy yes.",
+        whyItMatters: "Higher-value jobs lift revenue without more leads.",
+      },
+      {
+        id: "membership",
+        label: "Membership funnel",
+        whatHappens: "The maintenance plan is mentioned inconsistently and rarely closed.",
+        whatHQ360Does: "An offer and follow-up flow that grows maintenance-plan revenue.",
+        whyItMatters: "Recurring revenue is what stabilises a seasonal business.",
+      },
+      {
+        id: "reactivation",
+        label: "Reactivation",
+        whatHappens: "Old service records sit untouched while you buy new leads.",
+        whatHQ360Does: "Automated outreach to past customers for tune-ups and upgrades.",
+        whyItMatters: "Your database is the cheapest demand you have.",
+      },
+      {
+        id: "emergency",
+        label: "Emergency capture",
+        whatHappens: "No-cool calls in a heatwave go to whoever answered first.",
+        whatHQ360Does: "Instant response and routing for no-heat and no-cool calls.",
+        whyItMatters: "Peak-season emergencies are the highest-margin work.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "demand",
+        name: "Seasonal demand campaigns",
+        outcome: "Booked work across the whole year, not just peak.",
+        description: "Campaigns planned by season — cooling, heating, air quality, tune-ups.",
+        capabilities: [
+          "Seasonal campaign calendar",
+          "Google and Meta campaigns",
+          "Ad creative by season",
+          "Conversion tracking",
+        ],
+        howItHelps: "Fills the shoulder months instead of only the heatwave.",
+      },
+      {
+        id: "quotes",
+        name: "Replacement quote pages",
+        outcome: "More repair calls become replacement jobs.",
+        description: "HVAC website with financing-friendly replacement quote pages.",
+        capabilities: [
+          "HVAC website",
+          "Replacement and financing pages",
+          "Quote request UX",
+          "Approved financing language",
+        ],
+        howItHelps: "Raises the value of each opportunity you already have.",
+      },
+      {
+        id: "membership",
+        name: "Maintenance-plan funnel",
+        outcome: "A growing base of plan members.",
+        description: "An offer, page and follow-up flow for maintenance memberships.",
+        capabilities: [
+          "Membership offer design",
+          "Sign-up funnel",
+          "Renewal and upgrade follow-up",
+          "Member communication",
+        ],
+        howItHelps: "Builds recurring revenue that smooths the year.",
+      },
+      {
+        id: "reactivation",
+        name: "Customer reactivation",
+        outcome: "Revenue pulled from your existing service history.",
+        description: "CRM import and automated outreach to past service customers.",
+        capabilities: [
+          "Service-history import",
+          "Tune-up and upgrade campaigns",
+          "Field-service software integration",
+          "Seasonal reminders",
+        ],
+        howItHelps: "Turns a dormant database into booked jobs.",
+      },
+      {
+        id: "response",
+        name: "Speed-to-lead & reviews",
+        outcome: "Emergency calls captured, profile that competes.",
+        description: "Instant response, call routing and a review system.",
+        capabilities: [
+          "SMS text-back and routing",
+          "After-hours handling",
+          "Review generation",
+          "Google Business Profile optimisation",
+        ],
+        howItHelps: "Protects peak-season emergencies and lowers lead cost.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your HVAC revenue leaking?",
+      options: [
+        {
+          id: "demand",
+          label: "It's dead in the shoulder seasons",
+          recommendation: "Your biggest opportunity is a seasonal demand plan.",
+          service: "Seasonal demand campaigns",
+          review: "Whether campaigns are mapped across the year or only run at peak.",
+        },
+        {
+          id: "quotes",
+          label: "We do repairs that should be replacements",
+          recommendation: "Your biggest opportunity is replacement quote pages.",
+          service: "Replacement quote pages",
+          review: "How replacement and financing options are presented and followed up.",
+        },
+        {
+          id: "membership",
+          label: "Our maintenance plan barely sells",
+          recommendation: "Your biggest opportunity is the membership funnel.",
+          service: "Maintenance-plan funnel",
+          review: "The offer, sign-up path and whether it's followed up consistently.",
+        },
+        {
+          id: "reactivation",
+          label: "We ignore our past-customer list",
+          recommendation: "Your biggest opportunity is reactivation.",
+          service: "Customer reactivation",
+          review: "Whether service history is imported and worked for tune-ups and upgrades.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full HVAC growth system.",
+          service: "the full system",
+          review:
+            "Seasonal demand, quotes, memberships, reactivation and emergency capture together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Keep crews booked all year, not just the heatwave.",
+      label: "Get my HVAC Growth Audit",
+    },
   },
 
   /* ---------------------------------------------------------------- Med spas */
@@ -1488,6 +2363,178 @@ export const INDUSTRIES: Industry[] = [
       title: "Marketing Agency for Med Spas & Beauty Businesses | HQ360",
       description:
         "HQ360 builds compliant local ads, treatment booking funnels, membership growth and rebooking automation that keep a med spa's calendar full.",
+    },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "Quiet weeks between promotions",
+        body: "Discount pushes fill the book briefly, then it empties and the discounting resets the price.",
+        consequence: "You train clients to wait for the next sale.",
+      },
+      {
+        title: "First-time clients don't return",
+        body: "No rebooking prompt at checkout and no follow-up, so acquisition cost is paid again and again.",
+        consequence: "Every month starts from zero.",
+      },
+      {
+        title: "Booking is high-friction",
+        body: "Instagram to DM to phone tag — prospects lose interest before they reach a calendar.",
+        consequence: "Interested prospects never become appointments.",
+      },
+      {
+        title: "Compliance limits the ads",
+        body: "Before-and-after content and claims get accounts restricted when handled carelessly.",
+        consequence: "Your best-performing channel keeps going dark.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "funnel",
+        label: "Booking funnel",
+        whatHappens: "A prospect is interested but the path to book is a DM thread.",
+        whatHQ360Does: "A page per treatment that ends in a confirmed appointment, not a message.",
+        whyItMatters: "Friction between interest and calendar is where most demand is lost.",
+      },
+      {
+        id: "demand",
+        label: "Compliant demand",
+        whatHappens: "Ads run, then the account gets restricted over imagery or claims.",
+        whatHQ360Does: "Local campaigns built to platform rules for aesthetic and medical content.",
+        whyItMatters: "A channel that stays live beats one that spikes then stops.",
+      },
+      {
+        id: "consult",
+        label: "Consult nurture",
+        whatHappens: "A consultation is booked but doesn't convert to treatment.",
+        whatHQ360Does: "Follow-up that moves consults to booked treatments.",
+        whyItMatters: "The consult-to-treatment step is where revenue is won or lost.",
+      },
+      {
+        id: "retention",
+        label: "Retention",
+        whatHappens: "A client leaves happy and isn't prompted to come back.",
+        whatHQ360Does: "Rebooking prompts and post-treatment sequences that raise lifetime value.",
+        whyItMatters: "Retention is what lets you stop discounting to refill the book.",
+      },
+      {
+        id: "membership",
+        label: "Membership growth",
+        whatHappens: "Packages and memberships are offered inconsistently.",
+        whatHQ360Does: "An offer and funnel that build predictable recurring revenue.",
+        whyItMatters: "Recurring revenue stabilises a calendar that swings week to week.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "funnel",
+        name: "Treatment booking funnels",
+        outcome: "Prospects go from ad to confirmed appointment.",
+        description: "A booking funnel per treatment, ending in a scheduled slot.",
+        capabilities: [
+          "Treatment-specific landing pages",
+          "Online booking integration",
+          "Confirmation and reminder flows",
+          "Consult request UX",
+        ],
+        howItHelps: "Removes the DM-and-phone-tag gap that loses interested prospects.",
+      },
+      {
+        id: "ads",
+        name: "Compliant local campaigns",
+        outcome: "Ad accounts that stay live.",
+        description: "Meta and Google campaigns built to platform policy for aesthetic content.",
+        capabilities: [
+          "Policy-compliant ad creative",
+          "Local targeting",
+          "Landing pages within the rules",
+          "Account health monitoring",
+        ],
+        howItHelps: "Keeps your strongest channel from going dark.",
+      },
+      {
+        id: "consult",
+        name: "Consult-to-treatment nurture",
+        outcome: "More consultations become booked treatments.",
+        description: "Follow-up automation between consult and treatment.",
+        capabilities: [
+          "Post-consult follow-up",
+          "Objection and financing content",
+          "Reminder sequences",
+          "CRM setup",
+        ],
+        howItHelps: "Recovers revenue that stalls after the consult.",
+      },
+      {
+        id: "retention",
+        name: "Rebooking & retention",
+        outcome: "First-time clients come back.",
+        description: "Rebooking prompts, post-treatment sequences and review requests.",
+        capabilities: [
+          "Checkout rebooking prompts",
+          "Post-treatment sequences",
+          "Review generation",
+          "Win-back campaigns",
+        ],
+        howItHelps: "Cuts how often the book has to be refilled with discounts.",
+      },
+      {
+        id: "membership",
+        name: "Membership & package funnel",
+        outcome: "Predictable recurring revenue.",
+        description: "An offer and funnel for memberships and treatment packages.",
+        capabilities: [
+          "Membership and package offers",
+          "Sign-up funnel",
+          "Renewal follow-up",
+          "Member communication",
+        ],
+        howItHelps: "Steadies a calendar that swings week to week.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your calendar losing ground?",
+      options: [
+        {
+          id: "ads",
+          label: "Our ad account keeps getting restricted",
+          recommendation: "Your biggest opportunity is compliant demand.",
+          service: "Compliant local campaigns",
+          review: "The creative, claims and landing pages against platform policy.",
+        },
+        {
+          id: "funnel",
+          label: "Interested people never actually book",
+          recommendation: "Your biggest opportunity is the booking funnel.",
+          service: "Treatment booking funnels",
+          review: "The path from interest to a confirmed appointment.",
+        },
+        {
+          id: "consult",
+          label: "Consultations don't convert to treatments",
+          recommendation: "Your biggest opportunity is consult nurture.",
+          service: "Consult-to-treatment nurture",
+          review: "What follow-up happens between the consult and the treatment.",
+        },
+        {
+          id: "retention",
+          label: "First-time clients don't rebook",
+          recommendation: "Your biggest opportunity is retention.",
+          service: "Rebooking & retention",
+          review: "Rebooking prompts at checkout and post-treatment follow-up.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full med spa growth system.",
+          service: "the full system",
+          review:
+            "Booking funnel, compliant demand, consult nurture, retention and memberships together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "A full book, and clients who come back.",
+      label: "Get my Med Spa Growth Audit",
     },
   },
 
@@ -1622,6 +2669,182 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds lead generation, high-converting landing pages, GoHighLevel CRM and automated follow-up that book more appointments for real estate agents and teams.",
     },
+    visualTheme: "pipeline",
+    problems: [
+      {
+        title: "Leads go cold before the callback",
+        body: "Portal and ad leads sit for hours; by the time you call, they've spoken to three other agents.",
+        consequence: "You pay for leads that convert for someone else.",
+      },
+      {
+        title: "Follow-up stops after two attempts",
+        body: "Most deals need many touches over months, and manual follow-up runs out of steam long before that.",
+        consequence: "Deals lost to attention span, not competition.",
+      },
+      {
+        title: "No engine for seller appointments",
+        body: "Buyer leads come in, but nothing is built specifically to generate listing appointments.",
+        consequence: "The high-value side of the business is left to chance.",
+      },
+      {
+        title: "The database is dead weight",
+        body: "Thousands of past leads and clients in a CRM with no campaign touching them.",
+        consequence: "Appointments you already paid for, never booked.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "capture",
+        label: "Capture",
+        whatHappens:
+          "A buyer or seller clicks an ad and needs a reason to hand over their details.",
+        whatHQ360Does:
+          "Home-valuation and property-search landing pages built to capture and qualify.",
+        whyItMatters:
+          "A generic brokerage page converts a fraction of what a purpose-built one does.",
+      },
+      {
+        id: "attract",
+        label: "Attract",
+        whatHappens: "Ad spend runs without a cost-per-appointment target.",
+        whatHQ360Does: "Meta and Google campaigns measured on appointments, not clicks or leads.",
+        whyItMatters: "The only number that matters is booked appointments.",
+      },
+      {
+        id: "speed",
+        label: "Speed to lead",
+        whatHappens: "A lead arrives and every minute lowers the odds of a conversation.",
+        whatHQ360Does: "Instant SMS and call routing so every lead is contacted within minutes.",
+        whyItMatters: "First agent to a real conversation usually gets the client.",
+      },
+      {
+        id: "nurture",
+        label: "Nurture",
+        whatHappens: "A lead isn't ready to transact for months.",
+        whatHQ360Does: "A long email and SMS sequence that stays in front of them until they move.",
+        whyItMatters: "Real estate timelines are long — follow-up has to outlast them.",
+      },
+      {
+        id: "reactivate",
+        label: "Reactivate",
+        whatHappens: "The existing database sits idle while you buy new leads.",
+        whatHQ360Does:
+          "Structured campaigns to past leads and clients that pull appointments from the list.",
+        whyItMatters: "Reactivation books appointments at a fraction of new-lead cost.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "pages",
+        name: "Websites & landing pages",
+        outcome: "More leads captured and qualified.",
+        description:
+          "Agent or team website with IDX or search, plus seller and buyer landing pages.",
+        capabilities: [
+          "Agent / team website with IDX",
+          "Home-valuation landing pages",
+          "Buyer search landing pages",
+          "Lead capture and qualification",
+        ],
+        howItHelps: "Turns ad clicks into contacts worth following up.",
+      },
+      {
+        id: "leadgen",
+        name: "Lead generation campaigns",
+        outcome: "A predictable number of appointments per month.",
+        description: "Meta and Google campaigns to a cost-per-appointment target.",
+        capabilities: [
+          "Meta and Google campaigns",
+          "Seller and buyer targeting",
+          "Ad creative",
+          "Appointment tracking",
+        ],
+        howItHelps: "Ties spend to booked appointments, not vanity metrics.",
+      },
+      {
+        id: "crm",
+        name: "CRM & speed-to-lead",
+        outcome: "Every lead contacted within minutes.",
+        description: "GoHighLevel CRM setup, pipeline and instant SMS and call routing.",
+        capabilities: [
+          "GoHighLevel CRM setup",
+          "Pipeline and stages",
+          "Speed-to-lead SMS",
+          "Call routing and booking",
+        ],
+        howItHelps: "Wins the leads that go to whoever responds first.",
+      },
+      {
+        id: "nurture",
+        name: "Long-term nurture",
+        outcome: "Leads convert months later instead of disappearing.",
+        description: "A months-long email and SMS sequence with reminders and booking.",
+        capabilities: [
+          "Multi-month nurture sequences",
+          "Appointment reminders",
+          "Behaviour-based triggers",
+          "Review and referral prompts",
+        ],
+        howItHelps: "Keeps you in front until a lead is ready to transact.",
+      },
+      {
+        id: "reactivation",
+        name: "Database reactivation",
+        outcome: "Appointments from a list you already own.",
+        description: "Structured campaigns to past leads and clients in your CRM.",
+        capabilities: [
+          "Database import and clean-up",
+          "Reactivation campaigns",
+          "Seller-focused outreach",
+          "Segmentation",
+        ],
+        howItHelps: "Books appointments at a fraction of new-lead cost.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your pipeline breaking down?",
+      options: [
+        {
+          id: "crm",
+          label: "Leads go cold before we call them",
+          recommendation: "Your biggest opportunity is speed to lead.",
+          service: "CRM & speed-to-lead",
+          review: "How fast leads are contacted and whether routing and CRM are set up for it.",
+        },
+        {
+          id: "nurture",
+          label: "We stop following up after a couple of tries",
+          recommendation: "Your biggest opportunity is long-term nurture.",
+          service: "Long-term nurture",
+          review: "Whether a months-long sequence keeps not-yet-ready leads engaged.",
+        },
+        {
+          id: "reactivation",
+          label: "Our database just sits there",
+          recommendation: "Your biggest opportunity is database reactivation.",
+          service: "Database reactivation",
+          review: "Whether past leads and clients are being worked for appointments.",
+        },
+        {
+          id: "leadgen",
+          label: "We need more seller appointments specifically",
+          recommendation: "Your biggest opportunity is a seller-focused lead engine.",
+          service: "Lead generation campaigns",
+          review: "Whether anything generates listing appointments, not just buyer leads.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full real estate growth system.",
+          service: "the full system",
+          review: "Pages, campaigns, CRM, nurture and reactivation as one connected build.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Find the gaps between your leads and your next client.",
+      label: "Get my Real Estate Growth Audit",
+    },
   },
 
   /* -------------------------------------------------------------- Law firms */
@@ -1745,6 +2968,179 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds visibility, intake automation, nurture and reputation systems that help law firms and professional practices sign more of the right clients.",
     },
+    visualTheme: "pipeline",
+    problems: [
+      {
+        title: "Enquiries lost to slow intake",
+        body: "A prospective client calls, gets voicemail, and retains the firm that called back first.",
+        consequence: "You lose good matters before anyone reviews them.",
+      },
+      {
+        title: "Wrong-fit matters clog the calendar",
+        body: "No qualification step, so fee earners spend consultations on matters the firm won't take.",
+        consequence: "Billable time spent on work you'll decline.",
+      },
+      {
+        title: "Invisible in local and organic search",
+        body: "For the practice areas that matter, competitors own the first page and the map pack.",
+        consequence: "The firm only gets found by people who already knew the name.",
+      },
+      {
+        title: "Reputation is unmanaged",
+        body: "A few negative reviews outweigh dozens of satisfied clients who were never asked.",
+        consequence: "The profile undersells the practice to every prospect.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "visibility",
+        label: "Visibility",
+        whatHappens: "Someone searches for help in a practice area and the firm isn't on the page.",
+        whatHQ360Does:
+          "SEO and content for the practice areas and locations the firm wants to own.",
+        whyItMatters: "You can't sign a matter that never finds you.",
+      },
+      {
+        id: "intake",
+        label: "Intake",
+        whatHappens: "An enquiry arrives and sits until someone is free to handle it.",
+        whatHQ360Does: "Capture every enquiry, qualify it against firm criteria and route it fast.",
+        whyItMatters: "Speed and structure at intake decide which firm gets retained.",
+      },
+      {
+        id: "consult",
+        label: "Consultation",
+        whatHappens: "A qualified enquiry books a consultation and may not show.",
+        whatHQ360Does: "Booking, reminders and pre-consultation information that lift attendance.",
+        whyItMatters: "A consultation that doesn't happen can't become a client.",
+      },
+      {
+        id: "nurture",
+        label: "Nurture",
+        whatHappens: "A matter isn't ready to proceed today and goes quiet.",
+        whatHQ360Does:
+          "Sequences that keep not-yet-ready matters engaged until the timing is right.",
+        whyItMatters: "Professional-services timelines are long — follow-up has to persist.",
+      },
+      {
+        id: "reputation",
+        label: "Reputation",
+        whatHappens: "Satisfied clients are never asked, unhappy ones self-select to review.",
+        whatHQ360Does: "A steady review cadence and monitoring that protect the firm's standing.",
+        whyItMatters: "The review profile is read before the first call.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "seo",
+        name: "Practice-area & local SEO",
+        outcome: "Visible for the matters the firm wants.",
+        description: "SEO, practice-area pages and content for target locations.",
+        capabilities: [
+          "Practice-area and location SEO",
+          "Firm website and practice-area pages",
+          "Targeted content",
+          "Google Business Profile",
+        ],
+        howItHelps: "Puts the firm in front of the right enquiries, not just referrals.",
+      },
+      {
+        id: "intake",
+        name: "Intake & qualification",
+        outcome: "Every enquiry captured, qualified and routed fast.",
+        description: "Intake capture, qualification automation and routing against firm criteria.",
+        capabilities: [
+          "Enquiry capture across channels",
+          "Qualification logic",
+          "Routing and assignment",
+          "CRM setup",
+        ],
+        howItHelps: "Stops good matters being lost to slow or unstructured intake.",
+      },
+      {
+        id: "consult",
+        name: "Consultation flow",
+        outcome: "More booked consultations actually happen.",
+        description: "Booking, reminders and pre-consultation information.",
+        capabilities: [
+          "Online consultation booking",
+          "Reminder sequences",
+          "Pre-consultation information",
+          "No-show follow-up",
+        ],
+        howItHelps: "Protects the step where a prospect becomes a client.",
+      },
+      {
+        id: "nurture",
+        name: "Matter nurture",
+        outcome: "Slower matters stay warm instead of disappearing.",
+        description: "Matter-appropriate nurture sequences for not-yet-ready enquiries.",
+        capabilities: [
+          "Matter-type nurture sequences",
+          "Educational content",
+          "Check-in cadence",
+          "Re-engagement triggers",
+        ],
+        howItHelps: "Keeps a not-ready consultation from being a lost one.",
+      },
+      {
+        id: "reputation",
+        name: "Reviews & reputation",
+        outcome: "A profile that reflects the real client base.",
+        description: "Review generation and reputation monitoring.",
+        capabilities: [
+          "Compliant review requests",
+          "Reputation monitoring",
+          "Response templates",
+          "Profile consistency",
+        ],
+        howItHelps: "Builds the credibility that closes considered decisions.",
+      },
+    ],
+    diagnostic: {
+      question: "What's costing your firm the right clients?",
+      options: [
+        {
+          id: "intake",
+          label: "We lose enquiries to slow response",
+          recommendation: "Your biggest opportunity is intake.",
+          service: "Intake & qualification",
+          review: "How enquiries are captured, qualified and routed, and how fast.",
+        },
+        {
+          id: "intake-fit",
+          label: "We waste consultations on wrong-fit matters",
+          recommendation: "Your biggest opportunity is qualification.",
+          service: "Intake & qualification",
+          review: "Whether anything screens a matter against firm criteria before a consultation.",
+        },
+        {
+          id: "seo",
+          label: "We're invisible for our practice areas",
+          recommendation: "Your biggest opportunity is visibility.",
+          service: "Practice-area & local SEO",
+          review: "Where the firm ranks for target practice areas and locations.",
+        },
+        {
+          id: "reputation",
+          label: "Our reviews don't reflect our clients",
+          recommendation: "Your biggest opportunity is reputation.",
+          service: "Reviews & reputation",
+          review: "Whether satisfied clients are asked, and how the profile is monitored.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full firm growth system.",
+          service: "the full system",
+          review: "Visibility, intake, consultation flow, nurture and reputation together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Sign more of the right clients from the enquiries you already get.",
+      label: "Get my Firm Growth Audit",
+    },
   },
 
   /* --------------------------------------------------------------- Agencies */
@@ -1867,6 +3263,180 @@ export const INDUSTRIES: Industry[] = [
       description:
         "HQ360 builds positioning, outbound and inbound systems and white-label delivery capacity so agencies win better retainers without founder-only sales.",
     },
+    visualTheme: "pipeline",
+    problems: [
+      {
+        title: "Growth stops when the founder stops selling",
+        body: "New business depends entirely on one person's network and time.",
+        consequence: "The agency can't grow past the founder's calendar.",
+      },
+      {
+        title: "Positioning is 'full service'",
+        body: "The pitch sounds like every other agency, so it competes on price and invites scope creep.",
+        consequence: "Margins and authority both erode.",
+      },
+      {
+        title: "Feast-and-famine project revenue",
+        body: "Big projects land, then a gap, with no retainer base to smooth it.",
+        consequence: "Cash flow you can't hire or plan against.",
+      },
+      {
+        title: "Capability gaps in delivery",
+        body: "You sell strategy well but scramble to staff web builds, CRM work or paid media.",
+        consequence: "You turn down revenue you could have delivered.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "position",
+        label: "Position",
+        whatHappens: "A prospect can't tell your agency apart from the last three they spoke to.",
+        whatHQ360Does:
+          "Sharpen positioning to a category the agency can own, with an offer to match.",
+        whyItMatters: "A category you own is what ends the race to the bottom on price.",
+      },
+      {
+        id: "proof",
+        label: "Proof",
+        whatHappens: "Great work shipped, but nothing packaged to sell the next deal.",
+        whatHQ360Does: "Case-study production and a site that back the positioning.",
+        whyItMatters: "Proof is what makes the next pitch easier and the rate higher.",
+      },
+      {
+        id: "outbound",
+        label: "Outbound",
+        whatHappens: "Pipeline depends on the founder remembering to reach out.",
+        whatHQ360Does: "Targeted lists and sequences that generate pipeline without the founder.",
+        whyItMatters: "A system, not a person, should be feeding the pipeline.",
+      },
+      {
+        id: "inbound",
+        label: "Inbound",
+        whatHappens: "The positioning attracts enquiries that nothing qualifies.",
+        whatHQ360Does:
+          "A qualification funnel and CRM for the enquiries the positioning brings in.",
+        whyItMatters: "Inbound is only useful if the wrong-fit deals are filtered out.",
+      },
+      {
+        id: "delivery",
+        label: "Delivery capacity",
+        whatHappens: "A deal needs a capability the agency doesn't staff.",
+        whatHQ360Does:
+          "White-label delivery in brand, web and funnels, CRM and automation, or paid media.",
+        whyItMatters: "Capacity means you can sell the whole scope, not just your slice.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "positioning",
+        name: "Positioning & offer design",
+        outcome: "A category the agency can own.",
+        description: "Positioning work and offer design, with the proof assets to back it.",
+        capabilities: [
+          "Agency positioning",
+          "Offer and package design",
+          "Messaging and pitch narrative",
+          "Website and case-study production",
+        ],
+        howItHelps: "Stops the agency competing as another full-service option.",
+      },
+      {
+        id: "outbound",
+        name: "Outbound system",
+        outcome: "Pipeline that doesn't depend on the founder.",
+        description: "Targeted list building and outbound sequences.",
+        capabilities: [
+          "ICP and list building",
+          "Outbound sequences",
+          "Reply handling workflows",
+          "Reporting",
+        ],
+        howItHelps: "Makes new business a process instead of one person's task.",
+      },
+      {
+        id: "inbound",
+        name: "Inbound funnel & CRM",
+        outcome: "The right enquiries, qualified and tracked.",
+        description: "An inbound lead funnel and CRM for positioning-driven demand.",
+        capabilities: [
+          "Inbound lead funnel",
+          "Qualification logic",
+          "CRM and pipeline setup",
+          "Proposal workflows",
+        ],
+        howItHelps: "Filters wrong-fit deals before they cost you time.",
+      },
+      {
+        id: "whitelabel-build",
+        name: "White-label web & CRM",
+        outcome: "Deliver builds you don't staff, under your brand.",
+        description: "White-label web and funnel builds, and CRM and automation.",
+        capabilities: [
+          "White-label web and funnel builds",
+          "White-label CRM and automation",
+          "Under your brand, no HQ360 marks",
+          "Non-solicitation agreement",
+        ],
+        howItHelps: "Lets you sell and deliver the whole scope.",
+      },
+      {
+        id: "whitelabel-media",
+        name: "White-label paid media",
+        outcome: "Offer paid media without hiring for it.",
+        description: "White-label paid media management under your brand.",
+        capabilities: [
+          "Campaign strategy and setup",
+          "Ongoing management and reporting",
+          "Client-ready reporting in your brand",
+          "Non-solicitation agreement",
+        ],
+        howItHelps: "Adds a retainer line without a new hire.",
+      },
+    ],
+    diagnostic: {
+      question: "What's capping your agency's growth?",
+      options: [
+        {
+          id: "positioning",
+          label: "We sound like every other agency",
+          recommendation: "Your biggest opportunity is positioning.",
+          service: "Positioning & offer design",
+          review: "Whether the agency owns a category or competes as full-service.",
+        },
+        {
+          id: "outbound",
+          label: "Pipeline depends entirely on the founder",
+          recommendation: "Your biggest opportunity is an outbound system.",
+          service: "Outbound system",
+          review: "Whether anything generates pipeline without the founder's time.",
+        },
+        {
+          id: "inbound",
+          label: "We get enquiries but no system for them",
+          recommendation: "Your biggest opportunity is the inbound funnel.",
+          service: "Inbound funnel & CRM",
+          review: "How inbound enquiries are qualified, tracked and followed up.",
+        },
+        {
+          id: "delivery",
+          label: "We turn down work we can't staff",
+          recommendation: "Your biggest opportunity is delivery capacity.",
+          service: "White-label web & CRM",
+          review: "Which capabilities you sell but can't reliably deliver.",
+        },
+        {
+          id: "system",
+          label: "We need the whole growth system",
+          recommendation: "Start with the full agency growth system.",
+          service: "the full system",
+          review: "Positioning, proof, outbound, inbound and delivery capacity together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "A pipeline that runs without the founder doing all the selling.",
+      label: "Get my Agency Growth Audit",
+    },
   },
 
   /* --------------------------------------------------------- Local business */
@@ -1988,6 +3558,179 @@ export const INDUSTRIES: Industry[] = [
       title: "Local Business Marketing & Lead Generation | HQ360",
       description:
         "HQ360 builds Google Business Profile, local ads, offer funnels, review generation and reactivation that turn nearby searches into regulars.",
+    },
+    visualTheme: "local",
+    problems: [
+      {
+        title: "Hard to find online",
+        body: "The Google Business Profile is incomplete and the website barely ranks for the obvious searches.",
+        consequence: "You lose customers to whoever shows up first.",
+      },
+      {
+        title: "No way to capture interest",
+        body: "People discover the business and leave with nothing — no offer, no email, no reason to return.",
+        consequence: "Every visit is a one-shot chance.",
+      },
+      {
+        title: "Reviews don't reflect reality",
+        body: "Loyal customers, but a thin or dated review profile that undersells the place.",
+        consequence: "The profile makes you look smaller than you are.",
+      },
+      {
+        title: "One-time customers stay one-time",
+        body: "No list, no offers, no follow-up to bring a first visit back.",
+        consequence: "You pay to acquire the same customer twice.",
+      },
+    ],
+    systemStages: [
+      {
+        id: "found",
+        label: "Get found",
+        whatHappens:
+          "Someone nearby searches for what you sell and your listing isn't in the results.",
+        whatHQ360Does: "Google Business Profile, citations and a site tuned for local searches.",
+        whyItMatters: "Local discovery is decided in the first few results.",
+      },
+      {
+        id: "capture",
+        label: "Capture interest",
+        whatHappens: "A first-time visitor arrives and leaves without a trace.",
+        whatHQ360Does:
+          "A first-visit offer that turns a discovery into a contact you can reach again.",
+        whyItMatters: "You can't bring back a visit you never captured.",
+      },
+      {
+        id: "bring-in",
+        label: "Bring people in",
+        whatHappens: "Marketing is the occasional boosted post with no plan or tracking.",
+        whatHQ360Does: "Local paid campaigns to the offer, measured on redemptions.",
+        whyItMatters: "Measured spend is the only spend you can grow with confidence.",
+      },
+      {
+        id: "proof",
+        label: "Build proof",
+        whatHappens: "Great visits happen and nothing asks the customer to say so.",
+        whatHQ360Does: "An automated review request after each visit or purchase.",
+        whyItMatters: "The review profile brings in the next customer.",
+      },
+      {
+        id: "return",
+        label: "Bring them back",
+        whatHappens: "A happy first-timer forgets you within a week.",
+        whatHQ360Does: "An offer calendar and reactivation messages to your customer list.",
+        whyItMatters: "Repeat customers are the cheapest growth you have.",
+      },
+    ],
+    serviceExplorer: [
+      {
+        id: "localseo",
+        name: "Local visibility",
+        outcome: "Found first for the searches that matter locally.",
+        description: "Google Business Profile optimisation, local SEO and citations.",
+        capabilities: [
+          "Google Business Profile optimisation",
+          "Local SEO and citations",
+          "Local website",
+          "Map-pack optimisation",
+        ],
+        howItHelps: "Puts you in front of nearby demand as it searches.",
+      },
+      {
+        id: "offer",
+        name: "Offer funnel & capture",
+        outcome: "Interest captured instead of walking away.",
+        description: "A first-visit offer with email or SMS capture and landing pages.",
+        capabilities: [
+          "First-visit offer design",
+          "Offer landing pages",
+          "Email or SMS capture",
+          "Loyalty sign-up",
+        ],
+        howItHelps: "Turns a one-time discovery into a contact you own.",
+      },
+      {
+        id: "ads",
+        name: "Local campaigns",
+        outcome: "Marketing you can actually measure.",
+        description: "Local Meta and Google campaigns to the offer, tracked on redemptions.",
+        capabilities: [
+          "Local Meta and Google campaigns",
+          "Offer-based creative",
+          "Redemption tracking",
+          "Budget pacing",
+        ],
+        howItHelps: "Replaces random boosts with spend tied to results.",
+      },
+      {
+        id: "reviews",
+        name: "Review generation",
+        outcome: "A review profile that reflects your regulars.",
+        description: "Automated review requests after each visit or purchase.",
+        capabilities: [
+          "Post-visit review requests",
+          "Review monitoring",
+          "Response templates",
+          "Profile consistency",
+        ],
+        howItHelps: "Builds the proof that brings the next customer in.",
+      },
+      {
+        id: "retention",
+        name: "Repeat-customer offers",
+        outcome: "First-time customers who come back.",
+        description: "An offer calendar and reactivation messages to your list.",
+        capabilities: [
+          "Offer calendar",
+          "Email and SMS campaigns",
+          "Reactivation sequences",
+          "Segmentation",
+        ],
+        howItHelps: "Stops you paying to acquire the same customer twice.",
+      },
+    ],
+    diagnostic: {
+      question: "Where is your local growth stuck?",
+      options: [
+        {
+          id: "localseo",
+          label: "People can't find us online",
+          recommendation: "Your biggest opportunity is local visibility.",
+          service: "Local visibility",
+          review: "Your Google Business Profile, local ranking and citations.",
+        },
+        {
+          id: "offer",
+          label: "Visitors leave without becoming contacts",
+          recommendation: "Your biggest opportunity is capture.",
+          service: "Offer funnel & capture",
+          review: "Whether there's a first-visit offer and any way to capture details.",
+        },
+        {
+          id: "reviews",
+          label: "Our reviews undersell the place",
+          recommendation: "Your biggest opportunity is review generation.",
+          service: "Review generation",
+          review: "Whether happy customers are asked, and how the profile is maintained.",
+        },
+        {
+          id: "retention",
+          label: "First-timers never come back",
+          recommendation: "Your biggest opportunity is repeat-customer marketing.",
+          service: "Repeat-customer offers",
+          review: "Whether you have a list and an offer calendar working it.",
+        },
+        {
+          id: "system",
+          label: "We need the whole system",
+          recommendation: "Start with the full local growth system.",
+          service: "the full system",
+          review: "Visibility, capture, campaigns, reviews and repeat-customer offers together.",
+        },
+      ],
+    },
+    finalCta: {
+      line: "Be the obvious choice in your area.",
+      label: "Get my Local Growth Audit",
     },
   },
 

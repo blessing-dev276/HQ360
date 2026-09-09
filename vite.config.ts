@@ -6,9 +6,9 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 // Standalone TanStack Start + Vite config. Mirrors the plugin stack the
 // previous @lovable.dev/vite-tanstack-config assembled (Tailwind, tsconfig
-// paths, TanStack Start, React, and — build only — nitro on a Cloudflare
-// preset). Change the nitro preset below to match your deploy target
-// (e.g. "node-server", "vercel", "netlify").
+// paths, TanStack Start, React, and — build only — nitro). Deploy target is
+// Vercel; nitro's "vercel" preset emits .vercel/output (Build Output API v3),
+// which Vercel deploys directly. Change the preset for another host.
 export default defineConfig(async ({ command, mode }) => {
   // Inline VITE_-prefixed env into the client bundle (import.meta.env.*).
   const env = loadEnv(mode, process.cwd(), "VITE_");
@@ -33,7 +33,7 @@ export default defineConfig(async ({ command, mode }) => {
 
   if (command === "build") {
     const { nitro } = await import("nitro/vite");
-    plugins.push(nitro({ preset: "cloudflare-module" }));
+    plugins.push(nitro({ preset: "vercel" }));
   }
 
   return {

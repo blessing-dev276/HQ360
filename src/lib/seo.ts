@@ -1,4 +1,4 @@
-import { BRAND } from "@/config/brand";
+import { BRAND, SOCIALS } from "@/config/brand";
 
 type MetaTag = Record<string, string>;
 type LinkTag = Record<string, string>;
@@ -15,7 +15,7 @@ export type SeoInput = {
   noindex?: boolean;
 };
 
-function absolute(path: string): string {
+export function absolute(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
   return `${BRAND.siteUrl.replace(/\/$/, "")}${path.startsWith("/") ? path : `/${path}`}`;
 }
@@ -47,7 +47,7 @@ export function buildSeo(
     { name: "twitter:image", content: image },
   ];
 
-  if (input.noindex) meta.push({ name: "robots", content: "noindex, nofollow" });
+  if (input.noindex) meta.push({ name: "robots", content: "noindex, follow" });
 
   const links: LinkTag[] = [{ rel: "canonical", href: url }];
 
@@ -57,7 +57,7 @@ export function buildSeo(
     const blocks = Array.isArray(structuredData) ? structuredData : [structuredData];
     result.scripts = blocks.map((block) => ({
       type: "application/ld+json",
-      children: JSON.stringify(block),
+      children: serializeJsonLd(block),
     }));
   }
 
@@ -69,7 +69,10 @@ export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": absolute("/#organization"),
     name: BRAND.name,
+    logo: absolute("/logo-abstract.png"),
+    sameAs: SOCIALS.map((social) => social.href),
     url: BRAND.siteUrl,
     description: BRAND.positioning,
     slogan: BRAND.tagline,
@@ -78,21 +81,16 @@ export function organizationSchema() {
   };
 }
 
-/** ProfessionalService schema for an industry landing page. */
-export function professionalServiceSchema(input: {
-  name: string;
-  description: string;
-  path: string;
-}) {
+/** A service offered by HQ360, not a separate local business or office. */
+export function serviceSchema(input: { name: string; description: string; path: string }) {
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": "Service",
     name: `${BRAND.name} — ${input.name}`,
     description: input.description,
     url: absolute(input.path),
-    parentOrganization: { "@type": "Organization", name: BRAND.name, url: BRAND.siteUrl },
     areaServed: "Worldwide",
-    provider: { "@type": "Organization", name: BRAND.name },
+    provider: { "@id": absolute("/#organization") },
   };
 }
 
@@ -119,4 +117,9 @@ export function breadcrumbSchema(crumbs: { name: string; path: string }[]) {
       item: absolute(c.path),
     })),
   };
+}
+
+/** Escape HTML delimiters in managed content before embedding JSON-LD. */
+export function serializeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
 }

@@ -124,7 +124,10 @@ export const Route = createFileRoute("/api/public/inquiry")({
               console.warn("[inquiry] direct email not sent", result.error);
             }
           } catch (err) {
-            console.error("[inquiry] direct email failed", err instanceof Error ? err.message : err);
+            console.error(
+              "[inquiry] direct email failed",
+              err instanceof Error ? err.message : err,
+            );
           }
 
           return json({ ok: true, id: data.id, forwarded });

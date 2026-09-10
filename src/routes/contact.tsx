@@ -81,8 +81,7 @@ function ContactPage() {
         </div>
         <Container className="mt-12 px-0">
           <p className="text-xs tracking-wide text-muted-foreground/80 uppercase">
-            {BRAND.name} was previously {BRAND.formerlyKnownAs}. Contact address and domain shown
-            here are placeholders pending confirmation.
+            {BRAND.name} was previously {BRAND.formerlyKnownAs}.
           </p>
         </Container>
       </Section>

@@ -4,6 +4,6 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 // Capabilities (what we do) and Industries (who we help).
 export const Route = createFileRoute("/services/")({
   beforeLoad: () => {
-    throw redirect({ to: "/capabilities" });
+    throw redirect({ statusCode: 301, to: "/capabilities" });
   },
 });

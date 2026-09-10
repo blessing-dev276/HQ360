@@ -4,9 +4,11 @@ import { WorkGrid } from "@/components/site/WorkGrid";
 import { ProofStrip } from "@/components/site/ProofStrip";
 import { CtaBand } from "@/components/site/CtaBand";
 import { buildSeo, breadcrumbSchema } from "@/lib/seo";
+import { loadCaseStudies } from "@/lib/case-studies.functions";
 import { CTAS } from "@/config/brand";
 
 export const Route = createFileRoute("/work/")({
+  loader: () => loadCaseStudies({ data: {} }),
   head: () =>
     buildSeo(
       {
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/work/")({
 });
 
 function WorkPage() {
+  const { studies } = Route.useLoaderData();
   return (
     <>
       <Section>
@@ -34,7 +37,7 @@ function WorkPage() {
           intro="A growing set of projects, plus a few engagements shown as illustrative structures while the client-approved case studies are being written. Nothing here presents a number as a result unless it is real and checkable."
         />
         <div className="mt-12">
-          <WorkGrid />
+          <WorkGrid initialStudies={studies} />
         </div>
       </Section>
 

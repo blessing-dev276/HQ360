@@ -101,8 +101,8 @@ function Hero() {
               Everything your brand needs <em>to grow.</em>
             </h1>
             <p className="home-hero-lede">
-              HQ360 connects brand, websites, automation, marketing, content and visibility into one
-              focused growth system.
+              HQ360 is a growth agency for businesses and personal brands. We connect brand,
+              websites, automation, marketing, content and search visibility in one plan.
             </p>
             <div className="home-actions">
               <SmartLink to={CTAS.primary.to} className="home-button home-button-primary">
@@ -269,13 +269,12 @@ function CapabilitiesExplorer() {
               Explore this capability <ArrowRight aria-hidden="true" />
             </SmartLink>
           </div>
-          <div className="home-capability-list" role="tablist" aria-label="HQ360 capabilities">
+          <div className="home-capability-list" role="group" aria-label="HQ360 capabilities">
             {PRIMARY_CAPABILITIES.map((item, index) => (
               <button
                 key={item.slug}
                 type="button"
-                role="tab"
-                aria-selected={index === active}
+                aria-pressed={index === active}
                 onMouseEnter={() => setActive(index)}
                 onFocus={() => setActive(index)}
                 onClick={() => setActive(index)}
@@ -309,13 +308,12 @@ function IndustriesExplorer() {
           </div>
         </Reveal>
         <div className="home-industry-layout">
-          <div className="home-industry-list" role="tablist" aria-label="Featured industries">
+          <div className="home-industry-list" role="group" aria-label="Featured industries">
             {FEATURED_INDUSTRIES.map((item, index) => (
               <button
                 key={item.slug}
-                role="tab"
                 type="button"
-                aria-selected={index === active}
+                aria-pressed={index === active}
                 className={index === active ? "active" : ""}
                 onMouseEnter={() => setActive(index)}
                 onFocus={() => setActive(index)}

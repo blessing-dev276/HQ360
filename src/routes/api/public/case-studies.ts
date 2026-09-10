@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { serializeCaseStudy } from "@/lib/case-study-shape";
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -7,9 +6,7 @@ function json(body: unknown, status = 200) {
     headers: {
       "content-type": "application/json",
       "cache-control":
-        status === 200
-          ? "public, max-age=0, s-maxage=10, stale-while-revalidate=59"
-          : "no-store",
+        status === 200 ? "public, max-age=0, s-maxage=10, stale-while-revalidate=59" : "no-store",
     },
   });
 }
@@ -25,17 +22,8 @@ export const Route = createFileRoute("/api/public/case-studies")({
       GET: async ({ request }) => {
         const slug = new URL(request.url).searchParams.get("slug") ?? "";
         try {
-          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-          let query = supabaseAdmin.from("case_studies").select("*").eq("published", true);
-          if (slug) query = query.eq("slug", slug);
-
-          const { data, error } = await query
-            .order("sort_order", { ascending: true })
-            .order("created_at", { ascending: true })
-            .limit(200);
-
-          if (error) return json({ ok: false }, 503);
-          return json({ ok: true, items: (data ?? []).map(serializeCaseStudy) });
+          const { readPublishedCaseStudies } = await import("@/lib/case-studies.server");
+          return json({ ok: true, items: await readPublishedCaseStudies(slug || undefined) });
         } catch {
           return json({ ok: false }, 503);
         }

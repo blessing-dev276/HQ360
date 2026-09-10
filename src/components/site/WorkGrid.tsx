@@ -9,20 +9,20 @@ import { Reveal } from "@/components/site/Reveal";
 import { fetchPublicContent } from "@/lib/public-content";
 import { toCaseStudyShape, type SerializedCaseStudy } from "@/lib/case-study-shape";
 
-/** Managed case studies render once loaded; the bundled set covers SSR and any load failure. */
-function useCaseStudies(): CaseStudy[] {
+/** Route-provided published studies cover SSR; browser queries keep the list fresh. */
+function useCaseStudies(initialStudies?: CaseStudy[]): CaseStudy[] {
   const query = useQuery({
     queryKey: ["public", "case-studies"],
     queryFn: ({ signal }) =>
       fetchPublicContent<{ items: SerializedCaseStudy[] }>("/api/public/case-studies", signal),
   });
-  return query.data?.items.length
+  return query.data?.items
     ? query.data.items.map((r) => toCaseStudyShape(r) as CaseStudy)
-    : CASE_STUDIES;
+    : (initialStudies ?? CASE_STUDIES);
 }
 
-export function WorkGrid() {
-  const studies = useCaseStudies();
+export function WorkGrid({ initialStudies }: { initialStudies?: CaseStudy[] }) {
+  const studies = useCaseStudies(initialStudies);
   const industries = useMemo(
     () => ["All", ...Array.from(new Set(studies.map((c) => c.industry).filter(Boolean)))],
     [studies],
@@ -78,7 +78,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
         </span>
         {study.status === "sample" ? <SampleBadge /> : null}
       </div>
-      <h3 className="mt-3 font-display text-xl leading-snug">{study.title}</h3>
+      <h2 className="mt-3 font-display text-xl leading-snug">{study.title}</h2>
       <p className="mt-1 text-sm text-muted-foreground">{study.client}</p>
       <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{study.summary}</p>
       <div className="mt-6 flex flex-wrap gap-1.5">

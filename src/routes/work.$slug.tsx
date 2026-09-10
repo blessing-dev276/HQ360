@@ -1,6 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { CASE_STUDIES, getCaseStudy, type CaseStudy } from "@/data/work";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getCapability } from "@/data/capabilities";
 import {
   Container,
@@ -12,14 +10,18 @@ import {
 import { CtaBand } from "@/components/site/CtaBand";
 import { buildSeo, breadcrumbSchema } from "@/lib/seo";
 import { CTAS } from "@/config/brand";
-import { fetchPublicContent } from "@/lib/public-content";
-import { toCaseStudyShape, type SerializedCaseStudy } from "@/lib/case-study-shape";
+import { loadCaseStudies } from "@/lib/case-studies.functions";
 
 export const Route = createFileRoute("/work/$slug")({
-  loader: ({ params }): { slug: string; study: CaseStudy | null } => ({
-    slug: params.slug,
-    study: getCaseStudy(params.slug) ?? null,
-  }),
+  loader: async ({ params }) => {
+    const result = await loadCaseStudies({ data: { slug: params.slug } });
+    const study = result.studies[0];
+    if (!study) {
+      if (!result.available) throw new Error("Project temporarily unavailable. Please try again.");
+      throw notFound();
+    }
+    return { study, studies: result.studies };
+  },
   head: ({ loaderData }) =>
     loaderData?.study
       ? buildSeo(
@@ -37,58 +39,17 @@ export const Route = createFileRoute("/work/$slug")({
           ]),
         )
       : buildSeo({
-          title: "HQ360 Work",
-          description: "A project from HQ360.",
+          title: "Project unavailable | HQ360",
+          description: "This project could not be loaded.",
+          noindex: true,
           path: "/work",
         }),
   component: WorkDetail,
 });
 
 function WorkDetail() {
-  const { slug, study: fallback } = Route.useLoaderData();
-
-  const query = useQuery({
-    queryKey: ["public", "case-studies", slug],
-    queryFn: ({ signal }) =>
-      fetchPublicContent<{ items: SerializedCaseStudy[] }>(
-        `/api/public/case-studies?slug=${encodeURIComponent(slug)}`,
-        signal,
-      ),
-  });
-
-  const live = query.data?.items[0];
-  const study: CaseStudy | null = live ? (toCaseStudyShape(live) as CaseStudy) : fallback;
-  const pool = query.data?.items.length
-    ? query.data.items.map((r) => toCaseStudyShape(r) as CaseStudy)
-    : CASE_STUDIES;
-
-  if (!study) {
-    if (query.isLoading) {
-      return (
-        <Section>
-          <Container size="narrow" className="px-0">
-            <p className="text-muted-foreground">Loading…</p>
-          </Container>
-        </Section>
-      );
-    }
-    return (
-      <Section>
-        <Container size="narrow" className="px-0">
-          <h1 className="font-display text-3xl">Project not found</h1>
-          <p className="mt-4 text-muted-foreground">
-            This project could not be found.{" "}
-            <Link to="/work" className="text-brand hover:underline">
-              Back to all work
-            </Link>
-            .
-          </p>
-        </Container>
-      </Section>
-    );
-  }
-
-  const others = pool.filter((c) => c.slug !== study.slug).slice(0, 2);
+  const { study, studies } = Route.useLoaderData();
+  const others = studies.filter((c) => c.slug !== study.slug).slice(0, 2);
 
   return (
     <>

@@ -6,9 +6,7 @@ function json(body: unknown, status = 200) {
     headers: {
       "content-type": "application/json",
       "cache-control":
-        status === 200
-          ? "public, max-age=0, s-maxage=10, stale-while-revalidate=59"
-          : "no-store",
+        status === 200 ? "public, max-age=0, s-maxage=10, stale-while-revalidate=59" : "no-store",
     },
   });
 }

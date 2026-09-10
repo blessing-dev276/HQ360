@@ -31,7 +31,7 @@ function CapabilitiesPage() {
           as="h1"
           eyebrow="What we do"
           title="Eight services, run as one system"
-          intro="Most agencies sell one of these. HQ360 connects all eight so the brand, the site, the marketing and the product work together, not handed off between vendors."
+          intro="HQ360 helps businesses and personal brands connect brand, websites, marketing and product development. Start with the services your business needs, guided by an audit and a written plan."
         />
         <div className="mt-14">
           <CapabilityGrid />

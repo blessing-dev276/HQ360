@@ -1,8 +1,10 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { getCapability } from "@/data/capabilities";
 
-// Legacy per-service pages now live under Capabilities.
 export const Route = createFileRoute("/services/$slug")({
-  beforeLoad: () => {
-    throw redirect({ to: "/capabilities" });
+  beforeLoad: ({ params }) => {
+    const capability = getCapability(params.slug);
+    if (!capability) throw notFound();
+    throw redirect({ href: capability.path, statusCode: 301 });
   },
 });

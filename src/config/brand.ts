@@ -17,7 +17,9 @@ export const BRAND = {
   formerlyKnownAs: "House of Synergy",
   /** Public site URL, used for canonical + Open Graph absolute URLs. */
   // Production domain. Override per-environment with SITE_URL / VITE_SITE_URL.
-  siteUrl: ENV_SITE_URL || "https://hq360.space",
+  siteUrl: (ENV_SITE_URL || "https://www.hq360.space")
+    .replace(/^https?:\/\/(?:www\.)?hq360\.space(?=\/|$)/, "https://www.hq360.space")
+    .replace(/\/$/, ""),
   email: "ceo@hq360.space",
   tagline: "Everything your brand needs to grow.",
   /** One-paragraph positioning, reused in meta descriptions and the footer. */
@@ -138,6 +140,7 @@ export const FOOTER_NAV: { heading: string; links: { label: string; to: string }
       { label: "About", to: "/about" },
       { label: "Work", to: "/work" },
       { label: "Insights", to: "/insights" },
+      { label: "FAQs", to: "/faqs" },
       { label: "Glossary", to: "/insights/glossary" },
       { label: "Start a Project", to: "/contact" },
     ],

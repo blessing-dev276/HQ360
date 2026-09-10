@@ -31,6 +31,7 @@ function BookLaunchPage() {
 
       <Section>
         <SectionHeader
+          as="h1"
           eyebrow="Book launch"
           title="Sanman Thapa book launch"
           intro={LAUNCH.intro}

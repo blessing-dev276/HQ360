@@ -12,3 +12,10 @@
   Cache-Control: public, max-age=3600, must-revalidate
 /robots.txt
   Cache-Control: public, max-age=3600, must-revalidate
+
+/logo-text.webp
+  Cache-Control: public, max-age=86400, must-revalidate
+/logo-abstract.webp
+  Cache-Control: public, max-age=86400, must-revalidate
+/fonts/*
+  Cache-Control: public, max-age=86400, must-revalidate

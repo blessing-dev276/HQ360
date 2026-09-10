@@ -40,7 +40,7 @@ export const CAPABILITIES: Capability[] = [
     name: "Brand & Creative",
     tagline: "Look like the business you are trying to become.",
     summary:
-      "Identity, design and creative direction that make a brand recognisable on sight and consistent everywhere it shows up.",
+      "Brand identity, design and creative direction for businesses, founders and experts. We connect positioning, logos, visual guidelines and campaign assets so the brand stays consistent across its website, social channels and sales material.",
     outcomes: [
       "A brand people recognise before they read the name",
       "Every touchpoint pulling in the same direction",
@@ -166,7 +166,7 @@ export const CAPABILITIES: Capability[] = [
     name: "Digital marketing",
     tagline: "Turn new leads into booked conversations without manually chasing every enquiry.",
     summary:
-      "CRM setup, pipelines and follow-up automation so no lead goes cold while your team is busy doing the work.",
+      "Digital marketing operations for teams handling enquiries and sales. We set up CRM systems, sales pipelines and email or SMS follow-up to connect new leads with booking, nurture and reactivation workflows.",
     outcomes: [
       "Every lead answered fast, day or night",
       "One place to see where each deal stands",
@@ -221,7 +221,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     seo: {
-      title: "CRM & Automation | HQ360",
+      title: "Digital Marketing, CRM & Automation | HQ360",
       description:
         "CRM setup, pipelines and SMS and email automation that answer every lead fast and follow up until they book, without manual chasing.",
     },
@@ -233,7 +233,7 @@ export const CAPABILITIES: Capability[] = [
     name: "Social Media Marketing",
     tagline: "Build a predictable flow of qualified conversations with people ready to buy.",
     summary:
-      "Paid advertising, outreach systems and nurture that put a consistent number of the right enquiries in front of your team.",
+      "Social media marketing and lead generation for businesses seeking new enquiries. We connect paid advertising, audience and offer strategy, outreach and nurture with the landing pages and follow-up needed to handle responses.",
     outcomes: [
       "A steady pipeline instead of feast and famine",
       "Enquiries that match who you actually want to work with",
@@ -284,7 +284,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     seo: {
-      title: "Lead Generation & Growth | HQ360",
+      title: "Social Media Marketing & Lead Generation | HQ360",
       description:
         "Paid advertising, outreach and nurture systems that build a predictable flow of qualified enquiries and booked appointments.",
     },
@@ -297,7 +297,7 @@ export const CAPABILITIES: Capability[] = [
     tagline:
       "Build consistent visibility that keeps your brand in front of the people most likely to buy.",
     summary:
-      "Content strategy, short-form video and social production that turn attention into familiarity and familiarity into trust.",
+      "Content strategy, short-form video and editing for businesses and personal brands. We plan themes and publishing calendars, produce social content and repurpose material into formats that support the brand and its campaigns.",
     outcomes: [
       "A publishing rhythm you can actually sustain",
       "Content built for how each platform distributes it",
@@ -348,7 +348,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     seo: {
-      title: "Content & Social | HQ360",
+      title: "AI Video, Video Editing & Content | HQ360",
       description:
         "Content strategy, short-form video, creator campaigns and social production that build consistent visibility with the right audience.",
     },
@@ -360,7 +360,7 @@ export const CAPABILITIES: Capability[] = [
     name: "SEO",
     tagline: "Be easy to find and easy to trust the moment someone checks.",
     summary:
-      "Search presence, reviews, Google Business Profile and press so the story people find when they look you up is the right one.",
+      "SEO and reputation support for businesses that need to be found in search. The work covers website search optimisation, Google Business Profile, review workflows and press outreach, based on the business and the audience it serves.",
     outcomes: [
       "Showing up when your customers are searching",
       "A review profile that supports the sale instead of undermining it",
@@ -411,7 +411,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     seo: {
-      title: "Visibility & Reputation | HQ360",
+      title: "SEO, Local Search & Reputation | HQ360",
       description:
         "SEO, local search, Google Business Profile, review generation and PR so a business is easy to find and easy to trust.",
     },

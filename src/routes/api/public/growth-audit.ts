@@ -93,14 +93,18 @@ export const Route = createFileRoute("/api/public/growth-audit")({
                 `Source path: ${parsed.sourcePath || "N/A"}`,
                 "",
                 "Submitted details:",
-                JSON.stringify({
-                  email: parsed.email,
-                  name: parsed.name || null,
-                  website: parsed.website || null,
-                  industry: parsed.industry || null,
-                  auditFocus: parsed.auditFocus || null,
-                  sourcePath: parsed.sourcePath || null,
-                }, null, 2),
+                JSON.stringify(
+                  {
+                    email: parsed.email,
+                    name: parsed.name || null,
+                    website: parsed.website || null,
+                    industry: parsed.industry || null,
+                    auditFocus: parsed.auditFocus || null,
+                    sourcePath: parsed.sourcePath || null,
+                  },
+                  null,
+                  2,
+                ),
               ].join("\n"),
             });
             if (!result.sent) {

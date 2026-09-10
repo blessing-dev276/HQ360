@@ -15,7 +15,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { CookieBanner } from "@/components/site/CookieBanner";
 import { BRAND } from "@/config/brand";
-import { organizationSchema } from "@/lib/seo";
+import { organizationSchema, serializeJsonLd } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -55,15 +55,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: loadingCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400..700&display=swap",
+        rel: "preload",
+        href: "/fonts/inter-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: "/fonts/space-grotesk-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
-    scripts: [{ type: "application/ld+json", children: JSON.stringify(organizationSchema()) }],
+    scripts: [{ type: "application/ld+json", children: serializeJsonLd(organizationSchema()) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

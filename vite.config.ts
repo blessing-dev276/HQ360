@@ -9,7 +9,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 // paths, TanStack Start, React, and — build only — nitro). Deploy target is
 // Vercel; nitro's "vercel" preset emits .vercel/output (Build Output API v3),
 // which Vercel deploys directly. Change the preset for another host.
-export default defineConfig(async ({ command, mode }) => {
+export default defineConfig(async ({ command, mode, isPreview }) => {
   // Inline VITE_-prefixed env into the client bundle (import.meta.env.*).
   const env = loadEnv(mode, process.cwd(), "VITE_");
   const define: Record<string, string> = {};
@@ -31,14 +31,29 @@ export default defineConfig(async ({ command, mode }) => {
     viteReact(),
   ];
 
-  if (command === "build") {
+  if (command === "build" || isPreview) {
     const { nitro } = await import("nitro/vite");
-    plugins.push(nitro({ preset: "vercel" }));
+    plugins.push(
+      nitro({
+        preset: "vercel",
+        // _headers is not consumed by Vercel; emit actual CDN routing headers.
+        routeRules: {
+          "/fonts/**": { headers: { "cache-control": "public, max-age=86400, must-revalidate" } },
+          "/logo-text.webp": {
+            headers: { "cache-control": "public, max-age=86400, must-revalidate" },
+          },
+          "/logo-abstract.webp": {
+            headers: { "cache-control": "public, max-age=86400, must-revalidate" },
+          },
+          "/robots.txt": { headers: { "cache-control": "public, max-age=3600, must-revalidate" } },
+        },
+      }),
+    );
   }
 
   return {
     define,
-    css: { transformer: "lightningcss" },
+    css: { transformer: "lightningcss" as const },
     resolve: {
       alias: { "@": `${process.cwd()}/src` },
       dedupe: [

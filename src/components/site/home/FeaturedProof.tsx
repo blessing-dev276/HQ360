@@ -22,6 +22,8 @@ function LaunchPhotograph() {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
 
+  if (!photograph) return null;
+
   return (
     <figure className="home-featured-photograph">
       <div className="home-featured-image-frame" aria-busy={state === "loading"}>

@@ -54,8 +54,11 @@ function withCachePolicy(request: Request, response: Response): Response {
     response.headers.has("set-cookie") ||
     response.status >= 400;
   const isDocument = response.headers.get("content-type")?.includes("text/html");
-  if (!privateResponse && !isDocument) return response;
+  const excludeFromIndex =
+    pathname === "/admin" || pathname.startsWith("/api/") || response.status >= 400;
+  if (!privateResponse && !isDocument && !excludeFromIndex) return response;
   const headers = new Headers(response.headers);
+  if (excludeFromIndex) headers.set("x-robots-tag", "noindex");
   // Documents revalidate so a new deploy never points at stale route chunks.
   // Form actions, sessions and failures must never enter a shared cache.
   headers.set("cache-control", privateResponse ? "private, no-store" : "no-cache");

@@ -53,6 +53,64 @@ function SmartLink({
   );
 }
 
+/**
+ * Hero headline that types itself in on load. SSR / first client render show
+ * the full line (SEO + no layout shift + no hydration mismatch); after mount
+ * it retypes with a scramble-in caret. Skipped entirely under reduced motion.
+ */
+const HERO_LEAD = "Everything your brand needs ";
+const HERO_ACCENT = "to grow.";
+const HERO_FULL = HERO_LEAD + HERO_ACCENT;
+const SCRAMBLE = "ACGKNRSXZ#%*·/";
+
+function HeroTypewriter() {
+  const [phase, setPhase] = useState<"idle" | "typing" | "done">("idle");
+  const [count, setCount] = useState(HERO_FULL.length);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setPhase("typing");
+    setCount(0);
+    let i = 0;
+    const tick = () => {
+      i += 1;
+      setCount(i);
+      if (i >= HERO_FULL.length) {
+        setPhase("done");
+        window.setTimeout(() => setPhase("idle"), 1600);
+        return;
+      }
+      timer = window.setTimeout(tick, 34 + Math.random() * 46);
+    };
+    let timer = window.setTimeout(tick, 260);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (phase === "idle") {
+    return (
+      <>
+        {HERO_LEAD}
+        <em>{HERO_ACCENT}</em>
+      </>
+    );
+  }
+
+  const lead = HERO_FULL.slice(0, Math.min(count, HERO_LEAD.length));
+  const accentShown = Math.max(0, count - HERO_LEAD.length);
+  const accent = HERO_ACCENT.slice(0, accentShown);
+  const scrambleChar = count < HERO_FULL.length ? SCRAMBLE[count % SCRAMBLE.length] : "";
+
+  return (
+    <span className="home-hero-type" data-phase={phase}>
+      {lead}
+      {accentShown > 0 || count >= HERO_LEAD.length ? <em>{accent}</em> : null}
+      <span className="home-hero-caret" aria-hidden="true">
+        {scrambleChar}
+      </span>
+    </span>
+  );
+}
+
 export function HomeExperience() {
   return (
     <div className="home-experience">
@@ -89,7 +147,8 @@ function Hero() {
     visualRef.current?.style.setProperty("--orbit-y", "0px");
   }
   return (
-    <section className="home-hero">
+    <section className="home-hero" data-ambient>
+      <span className="home-hero-aurora" aria-hidden="true" />
       <div className="home-hero-grid" aria-hidden="true" />
       <Container size="wide" className="relative z-10">
         <div className="home-hero-layout">
@@ -97,8 +156,8 @@ function Hero() {
             <p className="home-eyebrow">
               <span /> Strategy · Creative · Technology · Growth
             </p>
-            <h1>
-              Everything your brand needs <em>to grow.</em>
+            <h1 aria-label={HERO_FULL}>
+              <HeroTypewriter />
             </h1>
             <p className="home-hero-lede">
               HQ360 is a growth agency for businesses and personal brands. We connect brand,

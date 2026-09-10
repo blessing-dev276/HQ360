@@ -138,6 +138,7 @@ export const FOOTER_NAV: { heading: string; links: { label: string; to: string }
       { label: "About", to: "/about" },
       { label: "Work", to: "/work" },
       { label: "Insights", to: "/insights" },
+      { label: "Glossary", to: "/insights/glossary" },
       { label: "Start a Project", to: "/contact" },
     ],
   },

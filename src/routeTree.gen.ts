@@ -41,6 +41,7 @@ import { Route as CapabilitiesIndexRouteImport } from './routes/capabilities.ind
 import { Route as CapabilitiesSlugRouteImport } from './routes/capabilities.$slug'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as InsightsGlossaryRouteImport } from './routes/insights.glossary'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as WorkIndexRouteImport } from './routes/work.index'
@@ -58,6 +59,8 @@ import { Route as ApiPublicNewsletterRouteImport } from './routes/api/public/new
 import { Route as ApiPublicPortfolioRouteImport } from './routes/api/public/portfolio'
 import { Route as ApiPublicResourceRequestRouteImport } from './routes/api/public/resource-request'
 import { Route as ApiPublicTeamRouteImport } from './routes/api/public/team'
+import { Route as InsightsAnswersSlugRouteImport } from './routes/insights.answers.$slug'
+import { Route as InsightsGuidesSlugRouteImport } from './routes/insights.guides.$slug'
 import { Route as ApiAdminCaseStudiesIdRouteImport } from './routes/api/admin/case-studies.$id'
 import { Route as ApiAdminCaseStudiesReorderRouteImport } from './routes/api/admin/case-studies.reorder'
 import { Route as ApiAdminPortfolioIdRouteImport } from './routes/api/admin/portfolio.$id'
@@ -225,6 +228,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   path: '/insights/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsGlossaryRoute = InsightsGlossaryRouteImport.update({
+  id: '/insights/glossary',
+  path: '/insights/glossary',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -311,6 +319,16 @@ const ApiPublicTeamRoute = ApiPublicTeamRouteImport.update({
   path: '/api/public/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsAnswersSlugRoute = InsightsAnswersSlugRouteImport.update({
+  id: '/insights/answers/$slug',
+  path: '/insights/answers/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsGuidesSlugRoute = InsightsGuidesSlugRouteImport.update({
+  id: '/insights/guides/$slug',
+  path: '/insights/guides/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminCaseStudiesIdRoute = ApiAdminCaseStudiesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -374,6 +392,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/capabilities/$slug': typeof CapabilitiesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/insights/glossary': typeof InsightsGlossaryRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -394,6 +413,8 @@ export interface FileRoutesByFullPath {
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
   '/api/public/team': typeof ApiPublicTeamRoute
+  '/insights/answers/$slug': typeof InsightsAnswersSlugRoute
+  '/insights/guides/$slug': typeof InsightsGuidesSlugRoute
   '/api/admin/case-studies/$id': typeof ApiAdminCaseStudiesIdRoute
   '/api/admin/case-studies/reorder': typeof ApiAdminCaseStudiesReorderRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
@@ -431,6 +452,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/capabilities/$slug': typeof CapabilitiesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/insights/glossary': typeof InsightsGlossaryRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -451,6 +473,8 @@ export interface FileRoutesByTo {
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
   '/api/public/team': typeof ApiPublicTeamRoute
+  '/insights/answers/$slug': typeof InsightsAnswersSlugRoute
+  '/insights/guides/$slug': typeof InsightsGuidesSlugRoute
   '/api/admin/case-studies/$id': typeof ApiAdminCaseStudiesIdRoute
   '/api/admin/case-studies/reorder': typeof ApiAdminCaseStudiesReorderRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
@@ -489,6 +513,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/capabilities/$slug': typeof CapabilitiesSlugRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/insights/glossary': typeof InsightsGlossaryRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/work/$slug': typeof WorkSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -509,6 +534,8 @@ export interface FileRoutesById {
   '/api/public/portfolio': typeof ApiPublicPortfolioRoute
   '/api/public/resource-request': typeof ApiPublicResourceRequestRoute
   '/api/public/team': typeof ApiPublicTeamRoute
+  '/insights/answers/$slug': typeof InsightsAnswersSlugRoute
+  '/insights/guides/$slug': typeof InsightsGuidesSlugRoute
   '/api/admin/case-studies/$id': typeof ApiAdminCaseStudiesIdRoute
   '/api/admin/case-studies/reorder': typeof ApiAdminCaseStudiesReorderRoute
   '/api/admin/portfolio/$id': typeof ApiAdminPortfolioIdRoute
@@ -548,6 +575,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/capabilities/$slug'
     | '/insights/$slug'
+    | '/insights/glossary'
     | '/services/$slug'
     | '/work/$slug'
     | '/blog/'
@@ -568,6 +596,8 @@ export interface FileRouteTypes {
     | '/api/public/portfolio'
     | '/api/public/resource-request'
     | '/api/public/team'
+    | '/insights/answers/$slug'
+    | '/insights/guides/$slug'
     | '/api/admin/case-studies/$id'
     | '/api/admin/case-studies/reorder'
     | '/api/admin/portfolio/$id'
@@ -605,6 +635,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/capabilities/$slug'
     | '/insights/$slug'
+    | '/insights/glossary'
     | '/services/$slug'
     | '/work/$slug'
     | '/blog'
@@ -625,6 +656,8 @@ export interface FileRouteTypes {
     | '/api/public/portfolio'
     | '/api/public/resource-request'
     | '/api/public/team'
+    | '/insights/answers/$slug'
+    | '/insights/guides/$slug'
     | '/api/admin/case-studies/$id'
     | '/api/admin/case-studies/reorder'
     | '/api/admin/portfolio/$id'
@@ -662,6 +695,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/capabilities/$slug'
     | '/insights/$slug'
+    | '/insights/glossary'
     | '/services/$slug'
     | '/work/$slug'
     | '/blog/'
@@ -682,6 +716,8 @@ export interface FileRouteTypes {
     | '/api/public/portfolio'
     | '/api/public/resource-request'
     | '/api/public/team'
+    | '/insights/answers/$slug'
+    | '/insights/guides/$slug'
     | '/api/admin/case-studies/$id'
     | '/api/admin/case-studies/reorder'
     | '/api/admin/portfolio/$id'
@@ -720,6 +756,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   CapabilitiesSlugRoute: typeof CapabilitiesSlugRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
+  InsightsGlossaryRoute: typeof InsightsGlossaryRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -740,6 +777,8 @@ export interface RootRouteChildren {
   ApiPublicPortfolioRoute: typeof ApiPublicPortfolioRoute
   ApiPublicResourceRequestRoute: typeof ApiPublicResourceRequestRoute
   ApiPublicTeamRoute: typeof ApiPublicTeamRoute
+  InsightsAnswersSlugRoute: typeof InsightsAnswersSlugRoute
+  InsightsGuidesSlugRoute: typeof InsightsGuidesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -968,6 +1007,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights/glossary': {
+      id: '/insights/glossary'
+      path: '/insights/glossary'
+      fullPath: '/insights/glossary'
+      preLoaderRoute: typeof InsightsGlossaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/services'
@@ -1087,6 +1133,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicTeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights/answers/$slug': {
+      id: '/insights/answers/$slug'
+      path: '/insights/answers/$slug'
+      fullPath: '/insights/answers/$slug'
+      preLoaderRoute: typeof InsightsAnswersSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights/guides/$slug': {
+      id: '/insights/guides/$slug'
+      path: '/insights/guides/$slug'
+      fullPath: '/insights/guides/$slug'
+      preLoaderRoute: typeof InsightsGuidesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin/case-studies/$id': {
       id: '/api/admin/case-studies/$id'
       path: '/$id'
@@ -1202,6 +1262,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   CapabilitiesSlugRoute: CapabilitiesSlugRoute,
   InsightsSlugRoute: InsightsSlugRoute,
+  InsightsGlossaryRoute: InsightsGlossaryRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
@@ -1222,6 +1283,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPortfolioRoute: ApiPublicPortfolioRoute,
   ApiPublicResourceRequestRoute: ApiPublicResourceRequestRoute,
   ApiPublicTeamRoute: ApiPublicTeamRoute,
+  InsightsAnswersSlugRoute: InsightsAnswersSlugRoute,
+  InsightsGuidesSlugRoute: InsightsGuidesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

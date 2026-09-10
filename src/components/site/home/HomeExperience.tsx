@@ -60,34 +60,27 @@ const HERO_LONGEST_PHRASE = HERO_PHRASES.reduce((longest, phrase) =>
   phrase.length > longest.length ? phrase : longest,
 );
 
-// Typing and deletion delays are per character; pauses happen once per phase.
-const TYPE_MS = 1500;
-const DELETE_MS = 900;
-const HOLD_MS = 1500;
-const NEXT_MS = 900;
+// Per-character while typing / deleting; once-per-phase for the pauses.
+const TYPE_MS = 500;
+const DELETE_MS = 240;
+const HOLD_MS = 3200;
+const NEXT_MS = 700;
 
 type TypeMode = "typing" | "holding" | "deleting" | "waiting";
 
 function HeroTypewriter() {
   const [ready, setReady] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [{ phrase, len, mode }, setFrame] = useState({
     phrase: 0,
     len: HERO_PHRASES[0]!.length,
     mode: "holding" as TypeMode,
   });
 
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const syncMotion = () => setReducedMotion(media.matches);
-    syncMotion();
-    setReady(true);
-    media.addEventListener("change", syncMotion);
-    return () => media.removeEventListener("change", syncMotion);
-  }, []);
+  // Start after hydration so SSR and the first client render match.
+  useEffect(() => setReady(true), []);
 
   useEffect(() => {
-    if (!ready || reducedMotion) return;
+    if (!ready) return;
     const delay = { typing: TYPE_MS, holding: HOLD_MS, deleting: DELETE_MS, waiting: NEXT_MS }[
       mode
     ];
@@ -115,9 +108,9 @@ function HeroTypewriter() {
       });
     }, delay);
     return () => window.clearTimeout(timer);
-  }, [ready, reducedMotion, mode, len, phrase]);
+  }, [ready, mode, len, phrase]);
 
-  const text = ready && !reducedMotion ? HERO_PHRASES[phrase]!.slice(0, len) : HERO_PHRASES[0]!;
+  const text = ready ? HERO_PHRASES[phrase]!.slice(0, len) : HERO_PHRASES[0]!;
 
   return (
     <span className="home-hero-type" aria-hidden="true">
@@ -128,7 +121,7 @@ function HeroTypewriter() {
           <em>{text}</em>
           <span
             className="home-hero-caret"
-            data-mode={ready && !reducedMotion ? mode : "static"}
+            data-mode={ready ? mode : "static"}
             aria-hidden="true"
           />
         </span>

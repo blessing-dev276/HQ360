@@ -1638,3 +1638,33 @@
     opacity: 0.32;
   }
 }
+
+/* The hero's signature motion — orbit, spark, caret, aurora — is kept even
+   under reduced motion, by brand direction. It is slow, ambient and does not
+   translate large amounts of the layout. Higher specificity + later position
+   than the blanket kill rule above, so these win. */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero .home-orbit-ring {
+    animation: home-spin 28s linear infinite !important;
+  }
+  .home-hero .home-orbit-ring.ring-b {
+    animation-duration: 22s !important;
+    animation-direction: reverse !important;
+  }
+  .home-hero .home-orbit-ring.ring-c {
+    animation-duration: 18s !important;
+  }
+  .home-hero .home-orbit-spark {
+    animation: home-travel 12s linear infinite !important;
+  }
+  .home-hero .home-orbit-core::after {
+    animation: home-halo 3.2s var(--ease) infinite !important;
+  }
+  .home-hero .home-hero-caret {
+    animation: home-caret-blink 600ms steps(1, end) infinite !important;
+  }
+  .home-hero .home-hero-aurora {
+    animation: home-aurora 22s ease-in-out infinite alternate !important;
+    opacity: 0.4;
+  }
+}

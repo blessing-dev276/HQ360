@@ -53,59 +53,85 @@ function SmartLink({
   );
 }
 
-/**
- * Hero headline that types itself in on load. SSR / first client render show
- * the full line (SEO + no layout shift + no hydration mismatch); after mount
- * it retypes with a scramble-in caret. Skipped entirely under reduced motion.
- */
+/** The first phrase is server-rendered; motion starts only after hydration. */
 const HERO_LEAD = "Everything your brand needs ";
-const HERO_ACCENT = "to grow.";
-const HERO_FULL = HERO_LEAD + HERO_ACCENT;
-const SCRAMBLE = "ACGKNRSXZ#%*·/";
+const HERO_PHRASES = ["to grow.", "to convert.", "to get found.", "to scale.", "to win."];
+const HERO_LONGEST_PHRASE = HERO_PHRASES.reduce((longest, phrase) =>
+  phrase.length > longest.length ? phrase : longest,
+);
+
+// Typing and deletion delays are per character; pauses happen once per phase.
+const TYPE_MS = 1500;
+const DELETE_MS = 900;
+const HOLD_MS = 1500;
+const NEXT_MS = 900;
+
+type TypeMode = "typing" | "holding" | "deleting" | "waiting";
 
 function HeroTypewriter() {
-  const [phase, setPhase] = useState<"idle" | "typing" | "done">("idle");
-  const [count, setCount] = useState(HERO_FULL.length);
+  const [ready, setReady] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [{ phrase, len, mode }, setFrame] = useState({
+    phrase: 0,
+    len: HERO_PHRASES[0]!.length,
+    mode: "holding" as TypeMode,
+  });
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setPhase("typing");
-    setCount(0);
-    let i = 0;
-    const tick = () => {
-      i += 1;
-      setCount(i);
-      if (i >= HERO_FULL.length) {
-        setPhase("done");
-        window.setTimeout(() => setPhase("idle"), 1600);
-        return;
-      }
-      timer = window.setTimeout(tick, 34 + Math.random() * 46);
-    };
-    let timer = window.setTimeout(tick, 260);
-    return () => window.clearTimeout(timer);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncMotion = () => setReducedMotion(media.matches);
+    syncMotion();
+    setReady(true);
+    media.addEventListener("change", syncMotion);
+    return () => media.removeEventListener("change", syncMotion);
   }, []);
 
-  if (phase === "idle") {
-    return (
-      <>
-        {HERO_LEAD}
-        <em>{HERO_ACCENT}</em>
-      </>
-    );
-  }
+  useEffect(() => {
+    if (!ready || reducedMotion) return;
+    const delay = { typing: TYPE_MS, holding: HOLD_MS, deleting: DELETE_MS, waiting: NEXT_MS }[
+      mode
+    ];
+    const timer = window.setTimeout(() => {
+      setFrame((frame) => {
+        const current = HERO_PHRASES[frame.phrase]!;
+        switch (frame.mode) {
+          case "holding":
+            return { ...frame, mode: "deleting" };
+          case "deleting": {
+            const nextLen = Math.max(0, frame.len - 1);
+            return { ...frame, len: nextLen, mode: nextLen === 0 ? "waiting" : "deleting" };
+          }
+          case "waiting":
+            return { phrase: (frame.phrase + 1) % HERO_PHRASES.length, len: 0, mode: "typing" };
+          case "typing": {
+            const nextLen = Math.min(current.length, frame.len + 1);
+            return {
+              ...frame,
+              len: nextLen,
+              mode: nextLen === current.length ? "holding" : "typing",
+            };
+          }
+        }
+      });
+    }, delay);
+    return () => window.clearTimeout(timer);
+  }, [ready, reducedMotion, mode, len, phrase]);
 
-  const lead = HERO_FULL.slice(0, Math.min(count, HERO_LEAD.length));
-  const accentShown = Math.max(0, count - HERO_LEAD.length);
-  const accent = HERO_ACCENT.slice(0, accentShown);
-  const scrambleChar = count < HERO_FULL.length ? SCRAMBLE[count % SCRAMBLE.length] : "";
+  const text = ready && !reducedMotion ? HERO_PHRASES[phrase]!.slice(0, len) : HERO_PHRASES[0]!;
 
   return (
-    <span className="home-hero-type" data-phase={phase}>
-      {lead}
-      {accentShown > 0 || count >= HERO_LEAD.length ? <em>{accent}</em> : null}
-      <span className="home-hero-caret" aria-hidden="true">
-        {scrambleChar}
+    <span className="home-hero-type" aria-hidden="true">
+      {HERO_LEAD}
+      <span className="home-hero-accent">
+        <span className="home-hero-phrase-size">{HERO_LONGEST_PHRASE}</span>
+        <span className="home-hero-phrase">
+          <em>{text}</em>
+          <span
+            className="home-hero-caret"
+            data-mode={ready && !reducedMotion ? mode : "static"}
+            aria-hidden="true"
+          />
+        </span>
       </span>
     </span>
   );
@@ -156,7 +182,7 @@ function Hero() {
             <p className="home-eyebrow">
               <span /> Strategy · Creative · Technology · Growth
             </p>
-            <h1 aria-label={HERO_FULL}>
+            <h1 aria-label={HERO_LEAD + HERO_PHRASES[0]}>
               <HeroTypewriter />
             </h1>
             <p className="home-hero-lede">

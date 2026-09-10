@@ -263,12 +263,12 @@
 }
 
 .hq-spin-slow {
-  animation: hq-orbit 42s linear infinite;
+  animation: hq-orbit 24s linear infinite;
   transform-origin: center;
 }
 
 .hq-spin-slower {
-  animation: hq-orbit-reverse 68s linear infinite;
+  animation: hq-orbit-reverse 40s linear infinite;
   transform-origin: center;
 }
 

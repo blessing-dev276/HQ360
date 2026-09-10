@@ -338,20 +338,34 @@
   margin: auto;
   border: 1px solid var(--line);
   border-radius: 999px;
-  animation: home-spin 48s linear infinite;
+  animation: home-spin 28s linear infinite;
+}
+
+/* A travelling dot makes rotation visible even on a solid circular ring. */
+.home-orbit-ring::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--brand);
+  pointer-events: none;
 }
 
 .home-orbit-ring.ring-b {
   inset: 15%;
   border-style: dashed;
   border-color: color-mix(in oklch, var(--brand) 42%, transparent);
-  animation-duration: 34s;
+  animation-duration: 22s;
   animation-direction: reverse;
 }
 
 .home-orbit-ring.ring-c {
   inset: 31%;
-  animation-duration: 26s;
+  animation-duration: 18s;
 }
 
 @keyframes home-spin {
@@ -437,7 +451,7 @@
   white-space: nowrap;
   animation: home-float 6s var(--ease) infinite;
   transition:
-    transform var(--base) var(--ease-emph),
+    scale var(--base) var(--ease-emph),
     border-color var(--base) var(--ease),
     box-shadow var(--base) var(--ease);
 }
@@ -450,7 +464,7 @@
 
 .home-orbit-node:hover,
 .home-orbit-node:focus-visible {
-  transform: translate(-50%, -50%) scale(1.06);
+  scale: 1.06;
   border-color: var(--brand);
   box-shadow: var(--shadow-lift);
   z-index: 2;
@@ -459,11 +473,17 @@
 @keyframes home-float {
   0%,
   100% {
-    margin-top: 0;
+    transform: translateY(0);
   }
   50% {
-    margin-top: -6px;
+    transform: translateY(-6px);
   }
+}
+
+/* Freeze the moving targets while someone chooses a service. */
+.home-orbit:is(:hover, :focus-within) *,
+.home-orbit:is(:hover, :focus-within) *::after {
+  animation-play-state: paused;
 }
 
 .home-orbit-node.node-1 {
@@ -1555,42 +1575,49 @@
   }
 }
 
-/* ------------------------------------------------- hero typewriter */
+/* ---------------------------------------- hero rotating typewriter */
 
 .home-hero-type {
   display: inline;
 }
 
+/* Reserve the longest phrase so typing never shifts the headline or hero. */
+.home-hero-accent {
+  display: inline-grid;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.home-hero-phrase-size,
+.home-hero-phrase {
+  grid-area: 1 / 1;
+}
+
+.home-hero-phrase-size {
+  visibility: hidden;
+  padding-right: 0.15em;
+}
+
+.home-hero-accent em {
+  font-style: normal;
+  color: var(--brand);
+}
+
 .home-hero-caret {
   display: inline-block;
-  width: 0.62ch;
-  margin-left: 0.04em;
-  color: var(--brand);
-  font-style: normal;
-  transform: translateY(-0.02em);
-  text-shadow: 0 0 18px color-mix(in oklch, var(--brand) 70%, transparent);
-  animation: home-caret-blink 620ms steps(1, end) infinite;
-}
-
-.home-hero-type[data-phase="typing"] .home-hero-caret {
-  animation:
-    home-caret-blink 620ms steps(1, end) infinite,
-    home-caret-jitter 90ms steps(2, end) infinite;
-}
-
-.home-hero-type[data-phase="done"] .home-hero-caret {
-  content: "";
+  width: 0.09em;
+  height: 0.92em;
+  margin-left: 0.06em;
+  translate: 0 0.1em;
+  border-radius: 1px;
+  background: var(--brand);
+  box-shadow: 0 0 20px color-mix(in oklch, var(--brand) 70%, transparent);
+  animation: home-caret-blink 600ms steps(1, end) infinite;
 }
 
 @keyframes home-caret-blink {
   50% {
     opacity: 0;
-  }
-}
-
-@keyframes home-caret-jitter {
-  50% {
-    transform: translateY(-0.02em) scaleY(1.18) skewX(-6deg);
   }
 }
 

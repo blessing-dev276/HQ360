@@ -294,20 +294,34 @@
   margin: auto;
   border: 1px solid var(--line);
   border-radius: 999px;
-  animation: ind-spin 50s linear infinite;
+  animation: ind-spin 30s linear infinite;
+}
+
+/* A travelling dot makes rotation visible even on a solid circular ring. */
+.ind-orbit-ring::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--brand);
+  pointer-events: none;
 }
 
 .ind-orbit-ring.r-b {
   inset: 16%;
   border-style: dashed;
   border-color: color-mix(in oklch, var(--brand) 42%, transparent);
-  animation-duration: 36s;
+  animation-duration: 24s;
   animation-direction: reverse;
 }
 
 .ind-orbit-ring.r-c {
   inset: 32%;
-  animation-duration: 28s;
+  animation-duration: 20s;
 }
 
 @keyframes ind-spin {
@@ -395,7 +409,7 @@
   white-space: nowrap;
   animation: ind-float 6s var(--ease) infinite;
   transition:
-    transform var(--base) var(--ease-emph),
+    scale var(--base) var(--ease-emph),
     border-color var(--base) var(--ease),
     box-shadow var(--base) var(--ease);
 }
@@ -408,7 +422,7 @@
 
 .ind-orbit-node:hover,
 .ind-orbit-node:focus-visible {
-  transform: translate(-50%, -50%) scale(1.06);
+  scale: 1.06;
   border-color: var(--brand);
   box-shadow: var(--shadow-lift);
   z-index: 2;
@@ -417,11 +431,17 @@
 @keyframes ind-float {
   0%,
   100% {
-    margin-top: 0;
+    transform: translateY(0);
   }
   50% {
-    margin-top: -6px;
+    transform: translateY(-6px);
   }
+}
+
+/* Freeze the moving targets while someone chooses a service. */
+.ind-orbit:is(:hover, :focus-within) *,
+.ind-orbit:is(:hover, :focus-within) *::after {
+  animation-play-state: paused;
 }
 
 .ind-orbit-node.n-1 {

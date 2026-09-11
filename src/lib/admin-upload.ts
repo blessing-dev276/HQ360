@@ -10,16 +10,25 @@ export type AdminBucket = "portfolio" | "team" | "work";
 export type UploadResult = { url: string; mediaType: "image" | "video" };
 
 const COMPRESSIBLE = /^image\/(png|jpe?g|webp)$/;
-const MAX_DIMENSION = 2000;
-const WEBP_QUALITY = 0.82;
+const MAX_DIMENSION = 2400;
+const WEBP_QUALITY = 0.94;
+// Below this, a file is already a reasonable size for the web — re-encoding
+// it only risks visible quality loss (especially on text-heavy screenshots)
+// for a saving nobody would notice.
+const SKIP_COMPRESSION_UNDER_BYTES = 2_000_000;
 
 async function compressImage(file: File): Promise<{ blob: Blob; type: string } | null> {
   if (typeof document === "undefined" || !COMPRESSIBLE.test(file.type)) return null;
   try {
     const bitmap = await createImageBitmap(file);
     const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
-    // Nothing to gain: already small and already webp.
-    if (scale === 1 && file.type === "image/webp") {
+    const noResizeNeeded = scale === 1;
+    // Nothing to gain: already the right size and either already webp, or
+    // small enough that re-encoding would only cost quality.
+    if (
+      noResizeNeeded &&
+      (file.type === "image/webp" || file.size < SKIP_COMPRESSION_UNDER_BYTES)
+    ) {
       bitmap.close?.();
       return null;
     }
@@ -28,6 +37,10 @@ async function compressImage(file: File): Promise<{ blob: Blob; type: string } |
     canvas.height = Math.round(bitmap.height * scale);
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
+    // Default smoothing quality is "low" in most browsers — visibly softer
+    // than "high" when downscaling a large screenshot.
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     bitmap.close?.();
     const blob = await new Promise<Blob | null>((resolve) =>

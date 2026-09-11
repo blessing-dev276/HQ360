@@ -21,6 +21,10 @@ export const BRAND = {
     .replace(/^https?:\/\/(?:www\.)?hq360\.space(?=\/|$)/, "https://www.hq360.space")
     .replace(/\/$/, ""),
   email: "ceo@hq360.space",
+  /** Display format. */
+  whatsapp: "+1 (361) 466-0223",
+  /** wa.me deep link — digits only, no "+". */
+  whatsappHref: "https://wa.me/13614660223",
   tagline: "Everything your brand needs to grow.",
   /** One-paragraph positioning, reused in meta descriptions and the footer. */
   positioning:
@@ -156,6 +160,7 @@ export const FOOTER_NAV: { heading: string; links: { label: string; to: string }
 
 /** Only real, verified profiles are listed. Add more as they go live. */
 export const SOCIALS: { label: string; href: string }[] = [
+  { label: "WhatsApp", href: BRAND.whatsappHref },
   { label: "Instagram", href: "https://www.instagram.com/official_hq360/" },
   { label: "Twitter", href: "https://twitter.com/official_hq360" },
   { label: "TikTok", href: "https://www.tiktok.com/@official_hq360" },

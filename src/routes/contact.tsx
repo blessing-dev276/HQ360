@@ -68,6 +68,17 @@ function ContactPage() {
                 {BRAND.email}
               </a>
             </p>
+            <p className="mt-2 text-sm">
+              Prefer WhatsApp?{" "}
+              <a
+                href={BRAND.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand underline underline-offset-4"
+              >
+                {BRAND.whatsapp}
+              </a>
+            </p>
           </div>
 
           <ProjectInquiryForm />

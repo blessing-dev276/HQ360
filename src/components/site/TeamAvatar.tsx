@@ -5,7 +5,10 @@ import richard from "@/assets/team-richard.jpg";
 import ebenezer from "@/assets/team-ebenezer.jpg";
 import racheal from "@/assets/team-racheal.jpg";
 
-const PHOTOS: Record<string, string> = {
+/** Bundled fallback portraits, keyed by first name lowercased. Exported so
+ * other team layouts (e.g. the homepage showcase) can render the image
+ * directly without TeamAvatar's own fixed sizing. */
+export const PHOTOS: Record<string, string> = {
   blessing: blessingPhoto,
   zainab,
   emmanuel,

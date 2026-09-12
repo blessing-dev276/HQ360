@@ -9,14 +9,18 @@ import {
   type ReactNode,
 } from "react";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Sparkles } from "lucide-react";
 import { CAPABILITIES } from "@/data/capabilities";
 import { INDUSTRIES } from "@/data/industries";
 import { GROWTH_FRAMEWORK, PROCESS } from "@/data/process";
 import { CASE_STUDIES } from "@/data/work";
+import { TEAM } from "@/data/team";
 import { CTAS } from "@/config/brand";
 import { Container } from "@/components/site/Primitives";
 import { Reveal } from "@/components/site/Reveal";
+import { PHOTOS as TEAM_PHOTOS } from "@/components/site/TeamAvatar";
+import { fetchPublicContent } from "@/lib/public-content";
 import { ProofSkeleton } from "./HomeSkeletons";
 import "./home.css";
 
@@ -142,6 +146,7 @@ export function HomeExperience() {
       <WhyHQ360 />
       <ProcessStory />
       <ProofExperience />
+      <TeamShowcase />
       <ClosingCta />
     </div>
   );
@@ -610,6 +615,135 @@ function ProofExperience() {
         )}
       </Container>
     </section>
+  );
+}
+
+/* ------------------------------------------------------------- team */
+
+type TeamPerson = {
+  key: string;
+  name: string;
+  role: string;
+  blurb: string;
+  photo?: string | undefined;
+  imageUrl?: string | undefined;
+};
+
+const FALLBACK_TEAM: TeamPerson[] = TEAM.map((m) => ({
+  key: m.name,
+  name: m.name,
+  role: m.role,
+  blurb: m.blurb,
+  photo: m.photo,
+}));
+
+function initialsFor(name: string) {
+  return name.slice(0, 1).toUpperCase();
+}
+
+function TeamShowcase() {
+  const query = useQuery({
+    queryKey: ["public", "team"],
+    queryFn: ({ signal }) =>
+      fetchPublicContent<{
+        members: { id: string; name: string; title: string; image_url: string | null }[];
+      }>("/api/public/team", signal),
+  });
+
+  const people: TeamPerson[] = query.data?.members.length
+    ? query.data.members.map((m) => {
+        const key = m.name.trim().toLowerCase().split(/\s+/)[0] ?? m.id;
+        return {
+          key: m.id,
+          name: m.name,
+          role: m.title,
+          blurb: TEAM.find((t) => t.photo === key)?.blurb ?? "",
+          photo: key,
+          imageUrl: m.image_url ?? undefined,
+        };
+      })
+    : FALLBACK_TEAM;
+
+  return (
+    <section className="home-team" data-ambient>
+      <Container size="wide">
+        <div className="home-section-intro" data-home-reveal>
+          <p className="home-eyebrow">
+            <span /> The people behind it
+          </p>
+          <h2>
+            Meet the team. <em>Tilt a card to find out what they own.</em>
+          </h2>
+        </div>
+        <ul className="home-team-grid">
+          {people.map((person, i) => (
+            <li key={person.key}>
+              <Reveal delay={i * 45} className="h-full">
+                <TeamCard person={person} />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  );
+}
+
+function TeamCard({ person }: { person: TeamPerson }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const src = person.imageUrl || (person.photo ? TEAM_PHOTOS[person.photo] : undefined);
+
+  function onPointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (
+      event.pointerType !== "mouse" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const el = cardRef.current;
+    if (!el) return;
+    const bounds = el.getBoundingClientRect();
+    const px = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const py = (event.clientY - bounds.top) / bounds.height - 0.5;
+    el.style.setProperty("--rx", `${(-py * 14).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${(px * 14).toFixed(2)}deg`);
+    el.style.setProperty("--gx", `${(px * 0.5 + 0.5) * 100}%`);
+    el.style.setProperty("--gy", `${(py * 0.5 + 0.5) * 100}%`);
+  }
+
+  function reset() {
+    const el = cardRef.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+  }
+
+  return (
+    <div
+      ref={cardRef}
+      className="home-team-card"
+      tabIndex={0}
+      onPointerMove={onPointerMove}
+      onPointerLeave={reset}
+      onBlur={reset}
+    >
+      <span className="home-team-photo">
+        {src ? (
+          <img src={src} alt={`Portrait of ${person.name}`} loading="lazy" decoding="async" />
+        ) : (
+          <span className="home-team-fallback" aria-hidden="true">
+            {initialsFor(person.name)}
+          </span>
+        )}
+        <span className="home-team-spark" aria-hidden="true">
+          <Sparkles aria-hidden="true" />
+        </span>
+      </span>
+      <span className="home-team-caption">
+        <strong>{person.name}</strong>
+        <span>{person.role}</span>
+      </span>
+      {person.blurb ? <span className="home-team-blurb">{person.blurb}</span> : null}
+    </div>
   );
 }
 

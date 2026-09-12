@@ -6,6 +6,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/site/Primitives";
 import { CtaBand } from "@/components/site/CtaBand";
 import { GROWTH_FRAMEWORK, PRINCIPLES, PROCESS } from "@/data/process";
+import { TEAM } from "@/data/team";
 import { BRAND, CTAS } from "@/config/brand";
 import blessingPhoto from "@/assets/team-blessing.png";
 import zainabPhoto from "@/assets/team-zainab.jpg";
@@ -367,44 +368,13 @@ const PHOTOS: Record<string, string> = {
   racheal: rachealPhoto,
 };
 
-const ROSTER = [
-  {
-    key: "blessing",
-    name: "Blessing",
-    role: "CEO & Mobile App Developer",
-    blurb: "Runs the studio and leads native app builds — the product end of a growth system.",
-  },
-  {
-    key: "ebenezer",
-    name: "Ebenezer",
-    role: "Brand & Creative Lead",
-    blurb: "Sets positioning and identity so everything downstream reads as one brand.",
-  },
-  {
-    key: "emmanuel",
-    name: "Emmanuel",
-    role: "Web & Funnel Development Lead",
-    blurb: "Builds the sites and funnels where attention turns into a booked conversation.",
-  },
-  {
-    key: "richard",
-    name: "Richard",
-    role: "Digital Marketing Lead",
-    blurb: "Owns paid and lifecycle — the path from spend to qualified pipeline.",
-  },
-  {
-    key: "zainab",
-    name: "Zainab",
-    role: "AI & Video Production Lead",
-    blurb: "Turns strategy into video and AI-assisted creative at production pace.",
-  },
-  {
-    key: "racheal",
-    name: "Racheal",
-    role: "Social Media Manager",
-    blurb: "Keeps the brand present and consistent across social, day to day.",
-  },
-] as const;
+// Display order for this page (not alphabetical) — team data itself lives in
+// data/team.ts, shared with the homepage team showcase.
+const ROSTER_ORDER = ["blessing", "ebenezer", "emmanuel", "richard", "zainab", "racheal"];
+const ROSTER = ROSTER_ORDER.map((key) => {
+  const m = TEAM.find((t) => t.photo === key)!;
+  return { key, name: m.name, role: m.role, blurb: m.blurb };
+});
 
 function initials(name: string) {
   return name.slice(0, 1).toUpperCase();

@@ -17,6 +17,7 @@ import { CASE_STUDIES } from "@/data/work";
 import { CTAS } from "@/config/brand";
 import { Container } from "@/components/site/Primitives";
 import { Reveal } from "@/components/site/Reveal";
+import { TrustpilotBadge, TrustpilotReviewCard } from "@/components/site/TrustpilotBadge";
 import { ProofSkeleton } from "./HomeSkeletons";
 import "./home.css";
 
@@ -592,6 +593,7 @@ function ProofExperience() {
               <span /> Verified proof
             </p>
             <h2>Real work. Real clients. No invented numbers.</h2>
+            <TrustpilotBadge className="mt-4" />
           </div>
           {verified ? (
             <SmartLink to={`/work/${verified.slug}`} className="home-text-link">
@@ -599,6 +601,7 @@ function ProofExperience() {
             </SmartLink>
           ) : null}
         </div>
+        <TrustpilotReviewCard className="mt-8 max-w-xl" />
         {near ? (
           <Suspense fallback={<ProofSkeleton />}>
             <LazyProofStrip />

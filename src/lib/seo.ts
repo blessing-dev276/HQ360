@@ -1,4 +1,5 @@
 import { BRAND, SOCIALS } from "@/config/brand";
+import { TRUSTPILOT } from "@/data/trustpilot";
 
 type MetaTag = Record<string, string>;
 type LinkTag = Record<string, string>;
@@ -78,6 +79,15 @@ export function organizationSchema() {
     slogan: BRAND.tagline,
     email: BRAND.email,
     areaServed: "Worldwide",
+    // Real figures from https://www.trustpilot.com/review/hq360.space — update
+    // src/data/trustpilot.ts by hand as reviews come in; never round up.
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: TRUSTPILOT.trustScore,
+      reviewCount: TRUSTPILOT.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
   };
 }
 

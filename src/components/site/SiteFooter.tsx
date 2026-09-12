@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Instagram, Twitter } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { TrustpilotBadge } from "@/components/site/TrustpilotBadge";
 import { BRAND, FOOTER_NAV, SOCIALS } from "@/config/brand";
 
 function TikTok(props: SVGProps<SVGSVGElement>) {
@@ -45,6 +46,7 @@ export function SiteFooter() {
             >
               {BRAND.email}
             </a>
+            <TrustpilotBadge tone="dark" className="mt-5" />
             {SOCIALS.length > 0 ? (
               <ul className="mt-6 flex gap-3">
                 {SOCIALS.map((s) => {

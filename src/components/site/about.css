@@ -910,7 +910,8 @@
 @media (min-width: 961px) {
   .ab-team-card :where(img, .ab-avatar) {
     width: 100%;
-    height: clamp(16rem, 21vw, 20rem);
+    height: auto;
+    aspect-ratio: 3 / 4;
     border-radius: var(--r-lg);
   }
 

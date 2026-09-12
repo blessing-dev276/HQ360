@@ -1,13 +1,24 @@
 /**
- * HQ360's real Trustpilot profile. There is no live API integration — these
- * figures were read directly from the public profile page and must be
- * updated by hand as new reviews come in. Never fabricate or round up.
+ * HQ360's real Trustpilot profile.
+ *
+ * The site embeds Trustpilot's own official TrustBox widget (see
+ * TrustpilotWidget.tsx), which pulls live data straight from Trustpilot's
+ * servers — the score, review count and reviews update there automatically,
+ * with no action needed here.
+ *
+ * TRUSTPILOT / TRUSTPILOT_REVIEWS below are the offline fallback shown only
+ * if that widget script fails to load (blocked script, ad blocker, no JS).
+ * They were read by hand from the public profile page and should be nudged
+ * up to date occasionally — never fabricate or round up.
  *
  * Source: https://www.trustpilot.com/review/hq360.space
  * Last checked: 12 September 2026.
  */
 
 export const TRUSTPILOT_PROFILE_URL = "https://www.trustpilot.com/review/hq360.space";
+
+/** Trustpilot's business unit ID for hq360.space — needed to embed their official live TrustBox widget. */
+export const TRUSTPILOT_BUSINESS_UNIT_ID = "6aa155fa16deb8cadeef0d15";
 
 export const TRUSTPILOT = {
   trustScore: 3.7,

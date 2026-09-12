@@ -189,9 +189,13 @@ export function ProjectInquiryForm({
               <label
                 key={opt}
                 className={cn(
-                  "flex cursor-pointer items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-sm transition-colors",
+                  // Explicit text-foreground on both states: this form can sit on a
+                  // dark section (e.g. an industry page's final CTA), and without it
+                  // the label inherits that section's light text onto a light pill —
+                  // invisible text.
+                  "flex cursor-pointer items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-sm text-foreground transition-colors",
                   helpWith.includes(opt)
-                    ? "border-brand bg-brand-soft text-foreground"
+                    ? "border-brand bg-brand-soft"
                     : "border-border bg-background hover:border-foreground/30",
                 )}
               >

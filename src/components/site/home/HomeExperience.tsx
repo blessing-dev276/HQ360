@@ -17,7 +17,6 @@ import { CASE_STUDIES } from "@/data/work";
 import { CTAS } from "@/config/brand";
 import { Container } from "@/components/site/Primitives";
 import { Reveal } from "@/components/site/Reveal";
-import { TrustpilotCard } from "@/components/site/TrustpilotBadge";
 import { ProofSkeleton } from "./HomeSkeletons";
 import "./home.css";
 
@@ -600,7 +599,6 @@ function ProofExperience() {
             </SmartLink>
           ) : null}
         </div>
-        <TrustpilotCard className="mt-8 max-w-md" />
         {near ? (
           <Suspense fallback={<ProofSkeleton />}>
             <LazyProofStrip />

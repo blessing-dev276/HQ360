@@ -875,7 +875,7 @@
   margin: clamp(2.5rem, 5vw, 4rem) 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
@@ -904,12 +904,13 @@
   object-fit: cover;
 }
 
-/* Desktop: portraits 3x larger and squared off (no circle). Mobile keeps
+/* Desktop: four columns, portraits filling the card width and tall
+   (portrait orientation, not square) with squared-off corners. Mobile keeps
    the compact circular avatar above. */
 @media (min-width: 961px) {
   .ab-team-card :where(img, .ab-avatar) {
-    width: 13.5rem;
-    height: 13.5rem;
+    width: 100%;
+    height: clamp(16rem, 21vw, 20rem);
     border-radius: var(--r-lg);
   }
 

@@ -62,11 +62,13 @@
 
 .ts-card {
   perspective: 1400px;
-  height: 100%;
+  transform-style: preserve-3d;
   transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 380ms var(--ts-ease-emph);
 }
 
+/* The flip box is exactly the portrait's 3:4 shape — the caption below it
+   (name, role) is a separate, non-flipping sibling. */
 .ts-flip {
   all: unset;
   position: relative;
@@ -78,6 +80,7 @@
   transform: rotateY(0deg);
   transition: transform 560ms var(--ts-ease-emph);
   border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-editorial);
 }
 
 .ts-card:hover .ts-flip,
@@ -103,25 +106,17 @@
 
 .ts-front {
   border: 1px solid var(--border);
-  background: var(--card);
-  box-shadow: var(--shadow-editorial);
-}
-
-.ts-photo {
-  position: relative;
-  flex: 1;
-  overflow: hidden;
   background: var(--secondary);
 }
 
-.ts-photo img {
+.ts-front img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--motion-slow, 460ms) var(--ts-ease-emph);
 }
 
-.ts-card:hover .ts-photo img {
+.ts-card:hover .ts-front img {
   transform: scale(1.05);
 }
 
@@ -135,6 +130,7 @@
   font-size: 2.25rem;
   font-weight: 600;
   color: var(--muted-foreground);
+  background: var(--secondary);
 }
 
 .ts-spark {
@@ -171,8 +167,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
-  padding: 0.85rem 1rem 1rem;
-  background: var(--card);
+  margin-top: 0.85rem;
 }
 
 .ts-caption strong {

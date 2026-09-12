@@ -131,6 +131,8 @@ function TeamCard({ person }: { person: Person }) {
     el.style.setProperty("--ry", "0deg");
   }
 
+  const firstName = person.name.split(" ")[0];
+
   return (
     <div ref={cardRef} className="ts-card" onPointerMove={onPointerMove} onPointerLeave={resetTilt}>
       <button
@@ -138,27 +140,21 @@ function TeamCard({ person }: { person: Person }) {
         className="ts-flip"
         data-flipped={flipped || undefined}
         aria-pressed={flipped}
-        aria-label={`${person.name}, ${person.role}.${person.blurb ? ` ${person.blurb}` : ""}`}
+        aria-label={flipped ? `Show ${firstName}'s photo` : `Show what ${firstName} owns`}
         onClick={() => setFlipped((f) => !f)}
       >
         <span className="ts-face ts-front" aria-hidden="true">
-          <span className="ts-photo">
-            {src ? (
-              <img src={src} alt="" loading="lazy" decoding="async" />
-            ) : (
-              <span className="ts-fallback">{initialsFor(person.name)}</span>
-            )}
-            <span className="ts-spark">
-              <Sparkles aria-hidden="true" />
-            </span>
-          </span>
-          <span className="ts-caption">
-            <strong>{person.name}</strong>
-            <span>{person.role}</span>
+          {src ? (
+            <img src={src} alt="" loading="lazy" decoding="async" />
+          ) : (
+            <span className="ts-fallback">{initialsFor(person.name)}</span>
+          )}
+          <span className="ts-spark">
+            <Sparkles aria-hidden="true" />
           </span>
         </span>
         <span className="ts-face ts-back" aria-hidden="true">
-          <span className="ts-back-eyebrow">What {person.name.split(" ")[0]} owns</span>
+          <span className="ts-back-eyebrow">What {firstName} owns</span>
           {person.blurb ? (
             <p className="ts-back-blurb">{person.blurb}</p>
           ) : (
@@ -167,6 +163,11 @@ function TeamCard({ person }: { person: Person }) {
           <span className="ts-back-name">{person.name}</span>
         </span>
       </button>
+      <span className="ts-caption">
+        <strong>{person.name}</strong>
+        <span>{person.role}</span>
+      </span>
+      {person.blurb ? <p className="sr-only">{person.blurb}</p> : null}
     </div>
   );
 }

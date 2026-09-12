@@ -211,6 +211,7 @@ export type Database = {
       };
       team_members: {
         Row: {
+          blurb: string | null;
           created_at: string;
           id: string;
           image_url: string | null;
@@ -221,6 +222,7 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
+          blurb?: string | null;
           created_at?: string;
           id?: string;
           image_url?: string | null;
@@ -231,6 +233,7 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          blurb?: string | null;
           created_at?: string;
           id?: string;
           image_url?: string | null;

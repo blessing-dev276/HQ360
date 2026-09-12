@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { fetchPublicContent } from "@/lib/public-content";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/site/Primitives";
 import { CtaBand } from "@/components/site/CtaBand";
+import { TeamShowcase } from "@/components/site/TeamShowcase";
 import { GROWTH_FRAMEWORK, PRINCIPLES, PROCESS } from "@/data/process";
-import { TEAM } from "@/data/team";
 import { BRAND, CTAS } from "@/config/brand";
-import blessingPhoto from "@/assets/team-blessing.png";
-import zainabPhoto from "@/assets/team-zainab.jpg";
-import emmanuelPhoto from "@/assets/team-emmanuel.jpg";
-import richardPhoto from "@/assets/team-richard.jpg";
-import ebenezerPhoto from "@/assets/team-ebenezer.jpg";
-import rachealPhoto from "@/assets/team-racheal.jpg";
 import "./about.css";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
@@ -359,119 +351,22 @@ function Principles() {
 
 /* -------------------------------------------------------- 5 · team */
 
-const PHOTOS: Record<string, string> = {
-  blessing: blessingPhoto,
-  zainab: zainabPhoto,
-  emmanuel: emmanuelPhoto,
-  richard: richardPhoto,
-  ebenezer: ebenezerPhoto,
-  racheal: rachealPhoto,
-};
-
-// Display order for this page (not alphabetical) — team data itself lives in
-// data/team.ts, shared with the homepage team showcase.
-const ROSTER_ORDER = ["blessing", "ebenezer", "emmanuel", "richard", "zainab", "racheal"];
-const ROSTER = ROSTER_ORDER.map((key) => {
-  const m = TEAM.find((t) => t.photo === key)!;
-  return { key, name: m.name, role: m.role, blurb: m.blurb };
-});
-
-function initials(name: string) {
-  return name.slice(0, 1).toUpperCase();
-}
-
-type TeamPerson = {
-  key: string;
-  name: string;
-  role: string;
-  blurb: string;
-  imageUrl?: string | undefined;
-};
-
-/** Admin-managed roster wins; the bundled ROSTER is the SSR / fallback view. */
-function useRoster(): TeamPerson[] {
-  const query = useQuery({
-    queryKey: ["public", "team"],
-    queryFn: ({ signal }) =>
-      fetchPublicContent<{
-        members: { id: string; name: string; title: string; image_url: string | null }[];
-      }>("/api/public/team", signal),
-  });
-
-  if (!query.data?.members.length) {
-    return ROSTER.map((m) => ({ key: m.key, name: m.name, role: m.role, blurb: m.blurb }));
-  }
-  return query.data.members.map((m) => {
-    const key = m.name.trim().toLowerCase().split(/\s+/)[0] ?? m.id;
-    const seed = ROSTER.find((r) => r.key === key);
-    return {
-      key: m.id,
-      name: m.name,
-      role: m.title,
-      blurb: seed?.blurb ?? "",
-      imageUrl: m.image_url ?? PHOTOS[key],
-    };
-  });
-}
-
 function Team() {
-  const roster = useRoster();
-  const { active, setActive, onKeyDown } = useTabs(roster.length);
-  const index = Math.min(active, roster.length - 1);
-  const person = roster[index]!;
   return (
-    <section className="ab-team">
+    <section className="ab-team" id="team">
       <Container size="wide">
-        <div className="ab-section-head">
-          <p className="ab-eyebrow">
-            <span /> The team
-          </p>
-          <h2>The people on your account</h2>
-          <p className="ab-team-line">
-            A small multidisciplinary team &mdash; <em>every discipline in-house</em>, one named
-            lead per engagement.
-          </p>
-        </div>
-
-        <ul
-          className="ab-team-grid"
-          role="tablist"
-          aria-label="Team members"
-          onMouseLeave={() => setActive(index)}
-        >
-          {roster.map((m, i) => (
-            <li key={m.key}>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={i === index}
-                tabIndex={i === index ? 0 : -1}
-                className={`ab-team-card ${i === index ? "active" : ""}`}
-                onKeyDown={(e) => onKeyDown(e, i)}
-                onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
-                onFocus={() => setActive(i)}
-                onClick={() => setActive(i)}
-              >
-                {m.imageUrl ? (
-                  <img src={m.imageUrl} alt={`Portrait of ${m.name}`} loading="lazy" />
-                ) : (
-                  <span className="ab-avatar ab-team-fallback-avatar" aria-hidden="true">
-                    {initials(m.name)}
-                  </span>
-                )}
-                <h3>{m.name}</h3>
-                <p>{m.role}</p>
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        <div className="ab-team-detail" role="tabpanel" aria-live="polite">
-          <b>{person.name}</b>
-          <p>
-            <strong>{person.role}.</strong> {person.blurb}
-          </p>
-        </div>
+        <TeamShowcase
+          eyebrow="The team"
+          title={
+            <>
+              The people on your account. <em>Tap a card to see what they own.</em>
+            </>
+          }
+        />
+        <p className="ab-team-line">
+          A small multidisciplinary team &mdash; <em>every discipline in-house</em>, one named lead
+          per engagement.
+        </p>
       </Container>
     </section>
   );

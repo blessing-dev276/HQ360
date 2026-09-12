@@ -1,0 +1,293 @@
+/*
+ * The team showcase — shared by the homepage and the About page. Uses only
+ * global design tokens (not a page-scoped variable set) so it renders
+ * identically wherever it's dropped in.
+ */
+
+.ts-wrap {
+  --ts-fast: var(--motion-fast, 160ms);
+  --ts-base: var(--motion-base, 260ms);
+  --ts-ease: var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1));
+  --ts-ease-emph: var(--ease-emphasized, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.ts-head {
+  max-width: 60ch;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.ts-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.ts-eyebrow > span {
+  width: 1.75rem;
+  height: 2px;
+  border-radius: 999px;
+  background-image: var(--gradient-brand);
+}
+
+.ts-head h2 {
+  margin: 1rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.026em;
+  color: var(--foreground);
+}
+
+.ts-head h2 em {
+  font-style: normal;
+  color: var(--brand);
+}
+
+.ts-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* --------------------------------------------------------------- card */
+
+.ts-card {
+  perspective: 1400px;
+  height: 100%;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 380ms var(--ts-ease-emph);
+}
+
+.ts-flip {
+  all: unset;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  transition: transform 560ms var(--ts-ease-emph);
+  border-radius: var(--radius-2xl);
+}
+
+.ts-card:hover .ts-flip,
+.ts-flip:focus-visible,
+.ts-flip[data-flipped] {
+  transform: rotateY(180deg);
+}
+
+.ts-flip:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.ts-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+}
+
+.ts-front {
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow-editorial);
+}
+
+.ts-photo {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--secondary);
+}
+
+.ts-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-slow, 460ms) var(--ts-ease-emph);
+}
+
+.ts-card:hover .ts-photo img {
+  transform: scale(1.05);
+}
+
+.ts-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.ts-spark {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  background-image: var(--gradient-brand);
+  color: oklch(1 0 0);
+  box-shadow: 0 8px 20px -8px color-mix(in oklch, var(--brand) 70%, transparent);
+  opacity: 0;
+  transform: rotate(-20deg) scale(0.6);
+  transition:
+    opacity var(--ts-base) var(--ts-ease),
+    transform var(--ts-base) var(--ts-ease-emph);
+}
+
+.ts-spark svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.ts-card:hover .ts-spark {
+  opacity: 1;
+  transform: rotate(8deg) scale(1);
+}
+
+.ts-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.85rem 1rem 1rem;
+  background: var(--card);
+}
+
+.ts-caption strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.ts-caption span {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+/* back face */
+
+.ts-back {
+  transform: rotateY(180deg);
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
+  background: var(--foreground);
+  color: var(--background);
+  text-align: left;
+}
+
+.ts-back-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--brand) 70%, oklch(0.9 0.006 90));
+}
+
+.ts-back-blurb {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.ts-back-blurb-muted {
+  color: color-mix(in oklch, var(--background) 75%, transparent);
+}
+
+.ts-back-name {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.78rem;
+  color: color-mix(in oklch, var(--background) 70%, transparent);
+}
+
+/* -------------------------------------------------------------- view all */
+
+.ts-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--foreground);
+  text-decoration: none;
+  background-image: linear-gradient(var(--brand), var(--brand));
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--ts-base) var(--ts-ease-emph);
+}
+
+.ts-view-all:hover {
+  background-size: 100% 2px;
+}
+
+.ts-view-all svg {
+  transition: transform var(--ts-base) var(--ts-ease-emph);
+}
+
+.ts-view-all:hover svg {
+  transform: translateX(3px);
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 980px) {
+  .ts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .ts-grid {
+    gap: 0.75rem;
+  }
+
+  .ts-caption strong {
+    font-size: 0.9rem;
+  }
+
+  .ts-back {
+    padding: 1.1rem 0.9rem;
+  }
+
+  .ts-back-blurb {
+    font-size: 0.88rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-card {
+    transform: none !important;
+  }
+
+  .ts-flip,
+  .ts-photo img {
+    transition-duration: 0.001ms !important;
+  }
+}

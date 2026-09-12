@@ -16,6 +16,7 @@ const patchSchema = z.object({
   name: z.string().min(1).max(120).optional(),
   title: z.string().min(1).max(160).optional(),
   imageUrl: z.string().max(2000).nullable().optional(),
+  blurb: z.string().max(400).nullable().optional(),
   published: z.boolean().optional(),
 });
 
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/api/admin/team/$id")({
         if (body.name !== undefined) update.name = body.name;
         if (body.title !== undefined) update.title = body.title;
         if (body.imageUrl !== undefined) update.image_url = body.imageUrl || null;
+        if (body.blurb !== undefined) update.blurb = body.blurb || null;
         if (body.published !== undefined) update.published = body.published;
 
         if (Object.keys(update).length === 0) return json({ ok: false, error: "empty" }, 400);

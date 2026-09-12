@@ -870,114 +870,8 @@
   color: var(--brand);
 }
 
-.ab-team-grid {
-  list-style: none;
-  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-}
-
-.ab-team-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  padding: clamp(1.25rem, 3vw, 2rem) 1rem;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--surface-raised);
-  text-align: center;
-  cursor: pointer;
-  transition:
-    transform var(--base) var(--ease-emph),
-    border-color var(--base) var(--ease),
-    box-shadow var(--base) var(--ease);
-}
-
-.ab-team-card :where(img, .ab-avatar) {
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 999px;
-  object-fit: cover;
-}
-
-/* Desktop: four columns, portraits filling the card width and tall
-   (portrait orientation, not square) with squared-off corners. Mobile keeps
-   the compact circular avatar above. */
-@media (min-width: 961px) {
-  .ab-team-card :where(img, .ab-avatar) {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 4;
-    border-radius: var(--r-lg);
-  }
-
-  .ab-team-card .ab-team-fallback-avatar {
-    font-size: 4rem;
-  }
-}
-
-.ab-team-card h3 {
-  margin: 0.75rem 0 0;
-  font-size: 1.05rem;
-}
-
-.ab-team-card p {
-  margin: 0.15rem 0 0;
-  font-size: 0.82rem;
-  color: var(--ink-muted);
-  line-height: 1.4;
-}
-
-.ab-team-card:hover,
-.ab-team-card.active {
-  transform: translateY(-4px);
-  border-color: color-mix(in oklch, var(--brand) 40%, var(--line));
-  box-shadow: var(--shadow-lift);
-}
-
-.ab-team-fallback-avatar {
-  display: grid;
-  place-items: center;
-  background: var(--brand-soft);
-  color: oklch(0.42 0.16 42);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.5rem;
-}
-
-.ab-team-detail {
-  margin-top: 1.25rem;
-  padding: clamp(1.25rem, 3vw, 1.75rem);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--secondary);
-  display: flex;
-  gap: 1rem;
-  align-items: baseline;
-}
-
-.ab-team-detail b {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--brand);
-  flex-shrink: 0;
-}
-
-.ab-team-detail p {
-  margin: 0;
-  line-height: 1.6;
-  color: var(--ink);
-}
-
-.ab-team-detail p strong {
-  font-family: var(--font-display);
-}
+/* The card grid + flip interaction live in the shared TeamShowcase
+   component (components/site/team-showcase.css). */
 
 /* ================================================ 6 · PROCESS ==== */
 
@@ -1352,10 +1246,6 @@
   .ab-cons {
     scale: 0.82;
   }
-
-  .ab-team-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
@@ -1389,15 +1279,6 @@
 @media (max-width: 560px) {
   .ab-cons {
     scale: 0.62;
-  }
-
-  .ab-team-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ab-team-detail {
-    flex-direction: column;
-    gap: 0.5rem;
   }
 }
 

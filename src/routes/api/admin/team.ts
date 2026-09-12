@@ -13,6 +13,7 @@ const createSchema = z.object({
   name: z.string().min(1).max(120),
   title: z.string().min(1).max(160),
   imageUrl: z.string().max(2000).optional().or(z.literal("")),
+  blurb: z.string().max(400).optional().or(z.literal("")),
   published: z.boolean().optional(),
 });
 
@@ -61,6 +62,7 @@ export const Route = createFileRoute("/api/admin/team")({
               name: body.name,
               title: body.title,
               image_url: body.imageUrl || null,
+              blurb: body.blurb || null,
               published: body.published ?? true,
               sort_order: nextOrder,
             })

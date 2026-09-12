@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/public/team")({
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           const { data, error } = await supabaseAdmin
             .from("team_members")
-            .select("id, name, title, image_url")
+            .select("id, name, title, image_url, blurb")
             .eq("published", true)
             .order("sort_order", { ascending: true })
             .order("created_at", { ascending: true })

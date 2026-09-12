@@ -839,6 +839,7 @@ type Member = {
   name: string;
   title: string;
   image_url: string | null;
+  blurb: string | null;
   sort_order: number;
   published: boolean;
 };
@@ -848,10 +849,17 @@ type MemberDraft = {
   name: string;
   title: string;
   imageUrl: string;
+  blurb: string;
   published: boolean;
 };
 
-const emptyMemberDraft: MemberDraft = { name: "", title: "", imageUrl: "", published: true };
+const emptyMemberDraft: MemberDraft = {
+  name: "",
+  title: "",
+  imageUrl: "",
+  blurb: "",
+  published: true,
+};
 
 function TeamDashboard() {
   const [members, setMembers] = useState<Member[] | null>(null);
@@ -916,6 +924,7 @@ function TeamDashboard() {
       name: draft.name,
       title: draft.title,
       imageUrl: draft.imageUrl,
+      blurb: draft.blurb,
       published: draft.published,
     };
     const { status, body } = draft.id
@@ -1048,6 +1057,7 @@ function toMemberDraft(m: Member): MemberDraft {
     name: m.name,
     title: m.title,
     imageUrl: m.image_url ?? "",
+    blurb: m.blurb ?? "",
     published: m.published,
   };
 }
@@ -1159,6 +1169,18 @@ function MemberForm({
           </div>
         </div>
       </div>
+
+      <label className="mt-4 block">
+        <span className="text-sm font-medium">What they do</span>
+        <textarea
+          rows={2}
+          maxLength={400}
+          className={cn(input, "mt-1.5 resize-y")}
+          placeholder="One line shown on the flip side of their team card, e.g. “Owns paid and lifecycle — the path from spend to qualified pipeline.”"
+          value={draft.blurb}
+          onChange={(e) => set("blurb", e.target.value)}
+        />
+      </label>
 
       <label className="mt-4 flex items-center gap-2 text-sm">
         <input

@@ -21,8 +21,8 @@ export const TRUSTPILOT_PROFILE_URL = "https://www.trustpilot.com/review/hq360.s
 export const TRUSTPILOT_BUSINESS_UNIT_ID = "6aa155fa16deb8cadeef0d15";
 
 export const TRUSTPILOT = {
-  trustScore: 3.7,
-  reviewCount: 1,
+  trustScore: 3.8,
+  reviewCount: 2,
 };
 
 export type TrustpilotReview = {
@@ -34,7 +34,16 @@ export type TrustpilotReview = {
   verified: boolean;
 };
 
+// Newest first, matching the order shown on the profile page.
 export const TRUSTPILOT_REVIEWS: TrustpilotReview[] = [
+  {
+    author: "Jessica Haertel",
+    rating: 5,
+    date: "September 3, 2026",
+    title: "I worked with HQ360 on improving my business setup",
+    body: "I worked with HQ360 on improving my business setup and the whole process was smooth from start to finish. They were easy to communicate with, understood what I was trying to achieve, and gave practical suggestions instead of overcomplicating things. What I liked most was that they looked at the bigger picture and not just one small part of the business. The final result felt professional, well thought out and actually useful.",
+    verified: false,
+  },
   {
     author: "Diksha Kumari",
     rating: 5,

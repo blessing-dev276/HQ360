@@ -46,7 +46,6 @@ export function SiteFooter() {
             >
               {BRAND.email}
             </a>
-            <TrustpilotBadge tone="dark" className="mt-5" />
             {SOCIALS.length > 0 ? (
               <ul className="mt-6 flex gap-3">
                 {SOCIALS.map((s) => {
@@ -106,10 +105,11 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-[oklch(0.62_0.008_90)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-[oklch(0.62_0.008_90)] sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {BRAND.legalName}. {BRAND.descriptor}.
           </p>
+          <TrustpilotBadge tone="dark" />
           <p>
             {BRAND.name} was previously {BRAND.formerlyKnownAs}.
           </p>

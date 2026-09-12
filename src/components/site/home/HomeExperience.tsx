@@ -484,21 +484,23 @@ function WhyHQ360() {
   return (
     <section className="home-why">
       <Container size="wide">
-        <div className="home-why-title">
-          <p className="home-eyebrow">
-            <span /> Why HQ360
-          </p>
-          <h2>Good-looking work is the starting point.</h2>
+        <div className="home-why-layout">
+          <div className="home-why-title">
+            <p className="home-eyebrow">
+              <span /> Why HQ360
+            </p>
+            <h2>Good-looking work is the starting point.</h2>
+          </div>
+          <ol>
+            {DIFFERENTIATORS.map(([number, title, body]) => (
+              <li key={number}>
+                <span>{number}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-        <ol>
-          {DIFFERENTIATORS.map(([number, title, body]) => (
-            <li key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
       </Container>
     </section>
   );

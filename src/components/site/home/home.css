@@ -1199,15 +1199,21 @@
   color: oklch(0.7 0.01 250);
 }
 
+.home-why-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: start;
+}
+
 .home-why-title {
-  max-width: 24ch;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  max-width: 20ch;
 }
 
 .home-why-title h2 {
-  font-size: clamp(2.4rem, 6.5vw, 5rem);
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
   color: oklch(0.98 0.003 95);
-  line-height: 1;
+  line-height: 1.08;
 }
 
 .home-why ol {
@@ -1221,6 +1227,17 @@
   border: 1px solid var(--line-dark);
   border-radius: var(--r-lg);
   overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .home-why-layout {
+    grid-template-columns: minmax(16rem, 22rem) 1fr;
+  }
+
+  .home-why-title {
+    position: sticky;
+    top: 6rem;
+  }
 }
 
 .home-why li {

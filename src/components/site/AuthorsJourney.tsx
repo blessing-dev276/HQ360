@@ -7,6 +7,7 @@ import {
   AUTHOR_STAGES,
   WHERE_NOW_OPTIONS,
   type AuthorStageId,
+  type ServiceAudience,
 } from "@/data/authors-journey";
 import { Container } from "@/components/site/Primitives";
 import { FaqSection } from "@/components/site/FaqSection";
@@ -229,6 +230,10 @@ function Journey({
 }) {
   const index = AUTHOR_STAGES.findIndex((s) => s.id === active);
   const stage = AUTHOR_STAGES[index]!;
+  const [audience, setAudience] = useState<"all" | ServiceAudience>("all");
+  const [openItem, setOpenItem] = useState<string | null>(null);
+  const matchesAudience = (a?: ServiceAudience) =>
+    audience === "all" || !a || a === "both" || a === audience;
 
   function onKeyDown(e: KeyboardEvent<HTMLButtonElement>, i: number) {
     const step =
@@ -295,17 +300,52 @@ function Journey({
           <h3>{stage.headline}</h3>
           <p className="aj-chapter-body">{stage.body}</p>
 
-          <div className="aj-chapter-groups">
-            {stage.serviceGroups.map((g) => (
-              <div key={g.name}>
-                <p className="aj-group-name">{g.name}</p>
-                <ul>
-                  {g.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+          <div className="aj-audience-filter" role="group" aria-label="Filter services by category">
+            {(["all", "fiction", "nonfiction"] as const).map((a) => (
+              <button
+                key={a}
+                type="button"
+                className={a === audience ? "active" : ""}
+                aria-pressed={a === audience}
+                onClick={() => setAudience(a)}
+              >
+                {a === "all" ? "All" : a === "fiction" ? "Fiction" : "Nonfiction"}
+              </button>
             ))}
+          </div>
+
+          <div className="aj-chapter-groups">
+            {stage.serviceGroups.map((g) => {
+              const items = g.items.filter((it) => matchesAudience(it.audience));
+              if (items.length === 0) return null;
+              return (
+                <div key={g.name}>
+                  <p className="aj-group-name">{g.name}</p>
+                  <ul>
+                    {items.map((item) => {
+                      const key = `${stage.id}-${g.name}-${item.name}`;
+                      const open = openItem === key;
+                      return (
+                        <li key={item.name}>
+                          <button
+                            type="button"
+                            className="aj-service-toggle"
+                            aria-expanded={open}
+                            onClick={() => setOpenItem(open ? null : key)}
+                          >
+                            <span>{item.name}</span>
+                            {item.audience && item.audience !== "both" ? (
+                              <em className="aj-service-tag">{item.audience}</em>
+                            ) : null}
+                          </button>
+                          {open ? <p className="aj-service-blurb">{item.blurb}</p> : null}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
 
           <p className="aj-chapter-outcome">

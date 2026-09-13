@@ -10,7 +10,18 @@
 export type AuthorStageId =
   "idea" | "write" | "prepare" | "publish" | "launch" | "sell" | "retain" | "scale";
 
-export type ServiceGroup = { name: string; items: string[] };
+/** "both" (the default) means the service applies regardless of category —
+ * only tag a service fiction/nonfiction when it genuinely only fits one. */
+export type ServiceAudience = "fiction" | "nonfiction" | "both";
+
+export type AuthorService = {
+  name: string;
+  /** One line: what it is / why it matters, shown when the service is opened. */
+  blurb: string;
+  audience?: ServiceAudience;
+};
+
+export type ServiceGroup = { name: string; items: AuthorService[] };
 
 export type AuthorStage = {
   id: AuthorStageId;
@@ -41,33 +52,90 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Concept",
         items: [
-          "Hook architecture",
-          "Commercial positioning blueprint",
-          "Core promise & reader transformation",
-          "Nonfiction monetization strategy",
-          "Fiction series architecture",
+          {
+            name: "Hook architecture",
+            blurb: "The single sentence that makes a stranger want to know more.",
+          },
+          {
+            name: "Commercial positioning blueprint",
+            blurb: "Where the book sits in the market, and why it wins there.",
+          },
+          {
+            name: "Core promise & reader transformation",
+            blurb: "What the reader gets by the last page.",
+          },
+          {
+            name: "Nonfiction monetization strategy",
+            blurb: "How the book supports the wider business, not just itself.",
+            audience: "nonfiction",
+          },
+          {
+            name: "Fiction series architecture",
+            blurb: "How one book sets up the next without giving too much away.",
+            audience: "fiction",
+          },
         ],
       },
       {
         name: "Research",
         items: [
-          "Comparative title analysis",
-          "Reader avatar deep dive",
-          "Market gap & demand analysis",
-          "Keyword & category mapping",
-          "Converting title formulation",
-          "Multi-book series modeling",
+          {
+            name: "Comparative title analysis",
+            blurb: "What's already working in the category, and where the gap is.",
+          },
+          {
+            name: "Reader avatar deep dive",
+            blurb: "Who actually buys this, specific enough to write for them.",
+          },
+          {
+            name: "Market gap & demand analysis",
+            blurb: "Evidence there's an audience before committing months to writing.",
+          },
+          {
+            name: "Keyword & category mapping",
+            blurb:
+              "The categories and search terms that put the book in front of the right reader.",
+          },
+          {
+            name: "Converting title formulation",
+            blurb: "A title and subtitle tested against what similar readers click.",
+          },
+          {
+            name: "Multi-book series modeling",
+            blurb: "Mapping the series arc before book one locks in the constraints.",
+          },
         ],
       },
       {
         name: "Planning",
         items: [
-          "Milestone & writing roadmaps",
-          "Book proposal preparation (nonfiction)",
-          "Scene-by-beat sheet (fiction)",
-          "Structural outline engineering",
-          "Fiction narrative & universe blueprinting",
-          "Chapter purpose & reader progression mapping",
+          {
+            name: "Milestone & writing roadmaps",
+            blurb: "A dated writing plan you can actually keep.",
+          },
+          {
+            name: "Book proposal preparation",
+            blurb: "The proposal document agents and hybrid publishers expect to see.",
+            audience: "nonfiction",
+          },
+          {
+            name: "Scene-by-beat sheet",
+            blurb: "Every scene mapped to its purpose before you draft it.",
+            audience: "fiction",
+          },
+          {
+            name: "Structural outline engineering",
+            blurb: "A chapter structure that holds together, not just a list of topics.",
+          },
+          {
+            name: "Fiction narrative & universe blueprinting",
+            blurb: "World rules, character arcs and plot logic set before the first draft.",
+            audience: "fiction",
+          },
+          {
+            name: "Chapter purpose & reader progression mapping",
+            blurb: "What each chapter has to do so the reader keeps turning pages.",
+          },
         ],
       },
     ],
@@ -85,21 +153,51 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Writing strategy",
         items: [
-          "Ghostwriting & manuscript architecture",
-          "Chapter pacing & scene optimization",
-          "Author accountability coaching & milestones",
-          "Voice & tone development",
-          "Draft review & developmental feedback",
+          {
+            name: "Ghostwriting & manuscript architecture",
+            blurb: "Full manuscript support from structure through to a finished draft.",
+          },
+          {
+            name: "Chapter pacing & scene optimization",
+            blurb: "Fixing chapters that drag or rush before an editor sees them.",
+          },
+          {
+            name: "Author accountability coaching & milestones",
+            blurb: "Regular check-ins that keep a manuscript moving to deadline.",
+          },
+          {
+            name: "Voice & tone development",
+            blurb: "A consistent voice that sounds like the author on every page.",
+          },
+          {
+            name: "Draft review & developmental feedback",
+            blurb: "An honest read on what's working and what needs another pass.",
+          },
         ],
       },
       {
         name: "Editing strategy",
         items: [
-          "Substantive & structural overhauls",
-          "Line-by-line polish & stylistic editing",
-          "Target-demographic beta testing",
-          "Final galley proofreading & compliance review",
-          "Continuity & consistency review",
+          {
+            name: "Substantive & structural overhauls",
+            blurb: "Fixing structure, pacing and argument before line editing is worth doing.",
+          },
+          {
+            name: "Line-by-line polish & stylistic editing",
+            blurb: "Sentence-level editing for clarity, rhythm and style.",
+          },
+          {
+            name: "Target-demographic beta testing",
+            blurb: "Real readers from the target audience react before the book goes to print.",
+          },
+          {
+            name: "Final galley proofreading & compliance review",
+            blurb: "The last pass for typos, formatting and platform compliance.",
+          },
+          {
+            name: "Continuity & consistency review",
+            blurb: "Catching timeline, detail and character slips across the manuscript.",
+          },
         ],
       },
     ],
@@ -117,28 +215,64 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Editorial production",
         items: [
-          "Interior book design",
-          "Digital & print format production",
-          "Algorithmic metadata & SEO asset preparation",
-          "Global print fulfillment & POD architecture",
+          {
+            name: "Interior book design",
+            blurb: "Typesetting and layout that reads as a professionally produced book.",
+          },
+          {
+            name: "Digital & print format production",
+            blurb: "Ebook, paperback and hardcover files built correctly for each format.",
+          },
+          {
+            name: "Algorithmic metadata & SEO asset preparation",
+            blurb: "The metadata retailers and search algorithms use to surface the book.",
+          },
+          {
+            name: "Global print fulfillment & POD architecture",
+            blurb: "Print-on-demand set up so copies print and ship worldwide without manual work.",
+          },
         ],
       },
       {
         name: "Creative",
         items: [
-          "Conversion-focused print & digital cover design",
-          "Multi-volume series brand architecture",
-          "Cinematic launch trailers & social motion assets",
-          "Book mockup & campaign creative suite",
+          {
+            name: "Conversion-focused print & digital cover design",
+            blurb: "A cover designed to perform as a thumbnail and on a shelf.",
+          },
+          {
+            name: "Multi-volume series brand architecture",
+            blurb: "A visual system that reads as one series across every cover.",
+          },
+          {
+            name: "Cinematic launch trailers & social motion assets",
+            blurb: "Short video built to promote the book across social and launch channels.",
+          },
+          {
+            name: "Book mockup & campaign creative suite",
+            blurb: "Mockups and graphics for the listing, ads and social promotion.",
+          },
         ],
       },
       {
         name: "Author brand",
         items: [
-          "Commercial identity & bio engineering",
-          "Author positioning & authority strategy",
-          "Digital HQ: author website architecture",
-          "Media & speaker kit development",
+          {
+            name: "Commercial identity & bio engineering",
+            blurb: "An author bio and identity written to build buyer confidence.",
+          },
+          {
+            name: "Author positioning & authority strategy",
+            blurb: "How the author is positioned relative to the category and its readers.",
+          },
+          {
+            name: "Digital HQ: author website architecture",
+            blurb: "The author's own site — not rented space on someone else's platform.",
+          },
+          {
+            name: "Media & speaker kit development",
+            blurb: "The one-sheet, bio and assets press and event organisers ask for.",
+          },
         ],
       },
     ],
@@ -156,27 +290,61 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Infrastructure",
         items: [
-          "Retail platform infrastructure deployment",
-          "Algorithmic indexing & taxonomy optimization",
-          "Global monetization & price modeling",
-          "Imprint setup & publishing registration support",
+          {
+            name: "Retail platform infrastructure deployment",
+            blurb: "Getting the book correctly set up on the platforms that sell it.",
+          },
+          {
+            name: "Algorithmic indexing & taxonomy optimization",
+            blurb: "Categories and keywords set so the book is found, not buried.",
+          },
+          {
+            name: "Global monetization & price modeling",
+            blurb: "Pricing set deliberately across formats and territories, not left at default.",
+          },
+          {
+            name: "Imprint setup & publishing registration support",
+            blurb: "Practical guidance on imprint and registration steps — not legal advice.",
+          },
         ],
       },
       {
         name: "Listing",
         items: [
-          "Conversion-engineered sales copywriting",
-          "Premium brand showcasing & A+ visual layouts",
-          "Sequential funnel & series architecture linkage",
-          "Retail page conversion optimization",
+          {
+            name: "Conversion-engineered sales copywriting",
+            blurb: "A book description written to turn a browser into a buyer.",
+          },
+          {
+            name: "Premium brand showcasing & A+ visual layouts",
+            blurb: "Enhanced visual listing content where the platform supports it.",
+          },
+          {
+            name: "Sequential funnel & series architecture linkage",
+            blurb: "Listings linked so one book leads a reader to the next.",
+          },
+          {
+            name: "Retail page conversion optimization",
+            blurb: "Ongoing tuning of the listing based on what's actually converting.",
+          },
         ],
       },
       {
         name: "Distribution",
         items: [
-          "Global retail & library syndication networks",
-          "Direct-to-reader (D2C) revenue ecosystems",
-          "Wholesale & institutional distribution strategy",
+          {
+            name: "Global retail & library syndication networks",
+            blurb:
+              "Wider distribution into retail and library channels beyond the primary platform.",
+          },
+          {
+            name: "Direct-to-reader (D2C) revenue ecosystems",
+            blurb: "A direct-sale channel the author controls, alongside retail.",
+          },
+          {
+            name: "Wholesale & institutional distribution strategy",
+            blurb: "A plan for bulk, wholesale and institutional buyers where relevant.",
+          },
         ],
       },
     ],
@@ -194,34 +362,80 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Launch strategy",
         items: [
-          "High-velocity launch strategy & marketing",
-          "Category momentum & bestseller positioning strategy",
-          "Advance review copy (ARC) campaign management",
-          "High-conversion launch asset suite",
+          {
+            name: "High-velocity launch strategy & marketing",
+            blurb: "A dated plan working backward from release so week one compounds.",
+          },
+          {
+            name: "Category momentum & bestseller positioning strategy",
+            blurb:
+              "Positioning the launch to build real category momentum — no badge is guaranteed.",
+          },
+          {
+            name: "Advance review copy (ARC) campaign management",
+            blurb: "Getting the book into reviewers' hands with enough runway before release.",
+          },
+          {
+            name: "High-conversion launch asset suite",
+            blurb: "The graphics, copy and pages a launch actually needs, ready in advance.",
+          },
         ],
       },
       {
         name: "Media & authority",
         items: [
-          "Podcast guest placement",
-          "Press & literary media outreach",
-          "Author interview placement",
-          "Book review outreach",
-          "Thought-leadership positioning",
-          "Media kit & press asset development",
+          {
+            name: "Podcast guest placement",
+            blurb: "Pitching the author onto relevant podcasts as a guest.",
+          },
+          {
+            name: "Press & literary media outreach",
+            blurb: "Direct outreach to press and literary media on the author's behalf.",
+          },
+          {
+            name: "Author interview placement",
+            blurb: "Securing interview opportunities that put the author in front of readers.",
+          },
+          {
+            name: "Book review outreach",
+            blurb:
+              "Compliant outreach to reviewers and book media — never paid or incentivised reviews.",
+          },
+          {
+            name: "Thought-leadership positioning",
+            blurb: "Positioning the author as a credible voice in their category.",
+          },
+          {
+            name: "Media kit & press asset development",
+            blurb: "The press-ready assets journalists and hosts ask for before booking.",
+          },
         ],
       },
       {
         name: "Audience & influencers",
         items: [
-          "Newsletter swaps & influencer outreach",
-          "BookTok / Bookstagram creator outreach",
-          "ARC team mobilization",
+          {
+            name: "Newsletter swaps & influencer outreach",
+            blurb: "Cross-promotion with newsletters and creators who reach the same readers.",
+          },
+          {
+            name: "BookTok / Bookstagram creator outreach",
+            blurb: "Outreach to book-content creators for genuine coverage, not paid placement.",
+          },
+          {
+            name: "ARC team mobilization",
+            blurb: "Recruiting and coordinating a launch team of early readers.",
+          },
         ],
       },
       {
         name: "Paid visibility",
-        items: ["Paid visibility & ad funnel scaling"],
+        items: [
+          {
+            name: "Paid visibility & ad funnel scaling",
+            blurb: "Paid campaigns that scale once the organic launch signal is proven.",
+          },
+        ],
       },
     ],
     transition: "The book is in motion. Next: turn attention into sales.",
@@ -238,29 +452,69 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Digital HQ & funnels",
         items: [
-          "Digital HQ: conversion-optimized author hubs",
-          "Automated reader-acquisition funnels",
-          "Direct-to-reader (D2C) high-margin stores",
-          "Book launch & campaign landing pages",
+          {
+            name: "Digital HQ: conversion-optimized author hubs",
+            blurb: "The author's central hub, built to convert visits into readers.",
+          },
+          {
+            name: "Automated reader-acquisition funnels",
+            blurb: "A funnel that turns interest into an owned reader contact automatically.",
+          },
+          {
+            name: "Direct-to-reader (D2C) high-margin stores",
+            blurb: "A direct-sale storefront with better margin than retail alone.",
+          },
+          {
+            name: "Book launch & campaign landing pages",
+            blurb: "Dedicated pages for a launch, a promotion, or a specific campaign.",
+          },
         ],
       },
       {
         name: "Discovery",
         items: [
-          "Omnichannel discovery & authority indexing",
-          "Goodreads discovery & Listopia strategy",
-          "AI search & generative discovery optimization",
-          "A/B testing & conversion rate optimization (CRO)",
+          {
+            name: "Omnichannel discovery & authority indexing",
+            blurb:
+              "Search and retail visibility across every channel a reader might search, Amazon included.",
+          },
+          {
+            name: "Goodreads discovery & Listopia strategy",
+            blurb: "Building presence and list placement on Goodreads.",
+          },
+          {
+            name: "AI search & generative discovery optimization",
+            blurb: "Positioning so the book surfaces in AI-assisted search and recommendations.",
+          },
+          {
+            name: "A/B testing & conversion rate optimization (CRO)",
+            blurb: "Testing what actually improves conversion instead of guessing.",
+          },
         ],
       },
       {
         name: "Content & acquisition",
         items: [
-          "Short-form video traffic engines",
-          "Book trailer & cinematic content distribution",
-          "Author thought-leadership content systems",
-          "Multi-platform paid acquisition campaigns",
-          "Advanced retargeting & reader retention funnels",
+          {
+            name: "Short-form video traffic engines",
+            blurb: "Repeatable short-form video systems driving traffic on BookTok and Reels.",
+          },
+          {
+            name: "Book trailer & cinematic content distribution",
+            blurb: "Getting trailer and video content in front of the right audience.",
+          },
+          {
+            name: "Author thought-leadership content systems",
+            blurb: "An ongoing content system that builds authority between releases.",
+          },
+          {
+            name: "Multi-platform paid acquisition campaigns",
+            blurb: "Paid campaigns across Meta, Google and Amazon, run as one system.",
+          },
+          {
+            name: "Advanced retargeting & reader retention funnels",
+            blurb: "Bringing back visitors who showed interest but didn't buy yet.",
+          },
         ],
       },
     ],
@@ -278,18 +532,39 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Reader network",
         items: [
-          "First-party reader network architecture",
-          "Automated reader onboarding & nurture funnels",
-          "Reader lifetime value modeling",
+          {
+            name: "First-party reader network architecture",
+            blurb: "A reader list and network the author owns outright.",
+          },
+          {
+            name: "Automated reader onboarding & nurture funnels",
+            blurb: "A welcome sequence that turns a new reader into a returning one.",
+          },
+          {
+            name: "Reader lifetime value modeling",
+            blurb: "Understanding what a reader is worth across a career, not one sale.",
+          },
         ],
       },
       {
         name: "Social proof & retention",
         items: [
-          "Automated social proof engines",
-          "Pre-launch pipeline & priority waitlist systems",
-          "Superfan ecosystem & ARC team mobilization",
-          "Reader community & ambassador programs",
+          {
+            name: "Automated social proof engines",
+            blurb: "Compliant, automated requests that grow genuine reviews over time.",
+          },
+          {
+            name: "Pre-launch pipeline & priority waitlist systems",
+            blurb: "A waitlist that gives the next release a running start.",
+          },
+          {
+            name: "Superfan ecosystem & ARC team mobilization",
+            blurb: "A recurring group of engaged readers ready for every release.",
+          },
+          {
+            name: "Reader community & ambassador programs",
+            blurb: "A space for the most engaged readers to stay connected and advocate.",
+          },
         ],
       },
     ],
@@ -307,26 +582,58 @@ export const AUTHOR_STAGES: AuthorStage[] = [
       {
         name: "Catalogue & IP",
         items: [
-          "IP & series expansion strategy",
-          "Multi-format & transmedia localization strategy",
+          {
+            name: "IP & series expansion strategy",
+            blurb: "A plan for growing the catalogue around what's already working.",
+          },
+          {
+            name: "Multi-format & transmedia localization strategy",
+            blurb: "Audiobook, translation and format expansion planned as one strategy.",
+          },
         ],
       },
       {
         name: "Business expansion",
         items: [
-          "High-ticket keynote & corporate speaking funnels",
-          "Digital product & masterclass architecture",
-          "Sub-rights & licensing pitch decks",
-          "Film / TV / adaptation pitch materials",
-          "Author partnership & sponsorship strategy",
+          {
+            name: "High-ticket keynote & corporate speaking funnels",
+            blurb: "Turning author authority into paid speaking opportunities.",
+          },
+          {
+            name: "Digital product & masterclass architecture",
+            blurb: "Courses and digital products built on the book's expertise.",
+            audience: "nonfiction",
+          },
+          {
+            name: "Sub-rights & licensing pitch decks",
+            blurb: "Pitch materials for rights and licensing conversations.",
+          },
+          {
+            name: "Film / TV / adaptation pitch materials",
+            blurb: "Materials prepared for adaptation conversations, where relevant.",
+            audience: "fiction",
+          },
+          {
+            name: "Author partnership & sponsorship strategy",
+            blurb: "Brand and partnership opportunities built on an established audience.",
+          },
         ],
       },
       {
         name: "Optimization",
         items: [
-          "Catalogue yield & reader LTV optimization",
-          "Performance analytics & growth intelligence",
-          "Omnichannel brand consolidation",
+          {
+            name: "Catalogue yield & reader LTV optimization",
+            blurb: "Improving what the existing catalogue earns per reader.",
+          },
+          {
+            name: "Performance analytics & growth intelligence",
+            blurb: "Real reporting on what's working across the whole system.",
+          },
+          {
+            name: "Omnichannel brand consolidation",
+            blurb: "Bringing a multi-book, multi-channel presence under one consistent brand.",
+          },
         ],
       },
     ],
